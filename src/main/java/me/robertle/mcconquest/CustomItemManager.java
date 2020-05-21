@@ -1038,6 +1038,22 @@ public class CustomItemManager {
         return item.asItemStack();
     }
 
+    public static ItemStack getVaultVoucher() {
+        ItemBuilder item = new ItemBuilder(Material.BOOK, 1);
+        item.displayName("§6§lVault Voucher");
+        item.lore("§eRight click to unlock a second vault.", "§eIf you have one already this will do nothing!");
+        item.setGlowing(true);
+        return item.asItemStack();
+    }
+
+    public static ItemStack getGeneratorVoucher() {
+        ItemBuilder item = new ItemBuilder(Material.BOOK, 1);
+        item.displayName("§8§lGenerator Voucher");
+        item.lore("§eRight click to get a random generator.");
+        item.setGlowing(true);
+        return item.asItemStack();
+    }
+
     public static ItemStack getEssence(boolean rare, int amount) {
         if (!rare) {
             ItemBuilder item = new ItemBuilder(Material.PRISMARINE_CRYSTALS, 1);
@@ -1089,5 +1105,51 @@ public class CustomItemManager {
         item.lore("§6Value: $" + value, "", "§eRight click to redeem the note");
         item.setGlowing(true);
         return item.asItemStack();
+    }
+
+    public static ItemStack getBlacksmithsHammer() {
+        ItemBuilder item = new ItemBuilder(Material.GOLDEN_AXE, 1);
+        item.displayName("§4§lBlacksmith's Hammer");
+        item.lore("§eHand this to the blacksmith to reroll your armor enchant.");
+        item.setGlowing(true);
+        return item.asItemStack();
+    }
+
+    public static ItemStack getBlacksmithsMagmaRod() {
+        ItemBuilder item = new ItemBuilder(Material.BLAZE_ROD, 1);
+        item.displayName("§4§lBlacksmith's Magma Rod");
+        item.lore("§eHand this to the blacksmith to reroll your sword enchant.");
+        item.setGlowing(true);
+        return item.asItemStack();
+    }
+
+    public static ItemStack getBlacksmithsMagicDust() {
+        ItemBuilder item = new ItemBuilder(Material.REDSTONE, 1);
+        item.displayName("§4§lBlacksmith's Magic Dust");
+        item.lore("§eHand this to the blacksmith to increase your enchant level.");
+        item.setGlowing(true);
+        return item.asItemStack();
+    }
+
+    public static ItemStack getGenerator(GeneratorType type) {
+        ItemBuilder item;
+        switch (type) {
+            case MONEY:
+                item = new ItemBuilder(CustomHeadManager.heads.get("moneyprinter"));
+                item.displayName("§a§lMoney Generator");
+                item.lore("§eRight click to claim this generator");
+                return item.asItemStack();
+            case INGOT:
+                item = new ItemBuilder(CustomHeadManager.heads.get("minecartchest"));
+                item.displayName("§a§lIngot Generator");
+                item.lore("§eRight click to claim this generator");
+                return item.asItemStack();
+            case ESSENCE:
+                item = new ItemBuilder(CustomHeadManager.heads.get("mobspawner"));
+                item.displayName("§a§lEssence Generator");
+                item.lore("§eRight click to claim this generator");
+                return item.asItemStack();
+        }
+        return null;
     }
 }

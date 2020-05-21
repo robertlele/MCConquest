@@ -8,7 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class Mining implements Listener {
+public class MiningManager implements Listener {
 
     @EventHandler
     public void onMine(BlockBreakEvent e) {
@@ -24,6 +24,10 @@ public class Mining implements Listener {
                     e.getPlayer().getInventory().addItem(CustomItemManager.getIngot(false, Core.generateNumber(1, 3) + 1));
                 } else {
                     e.getPlayer().getInventory().addItem(CustomItemManager.getIngot(false, Core.generateNumber(1, 3)));
+                }
+                if (Core.generateNumber(1, 200) == 199) {
+                    e.getPlayer().getInventory().addItem(CustomItemManager.getGeneratorVoucher());
+                    e.getPlayer().sendMessage(DefaultConfig.prefix + "§a§lYou found a generator voucher!");
                 }
                 new BukkitRunnable() {
                     public void run() {
@@ -48,6 +52,10 @@ public class Mining implements Listener {
                     e.getPlayer().getInventory().addItem(CustomItemManager.getIngot(false, Core.generateNumber(4, 6) + 1));
                 } else {
                     e.getPlayer().getInventory().addItem(CustomItemManager.getIngot(false, Core.generateNumber(4, 6)));
+                }
+                if (Core.generateNumber(1, 200) == 199) {
+                    e.getPlayer().getInventory().addItem(CustomItemManager.getGeneratorVoucher());
+                    e.getPlayer().sendMessage(DefaultConfig.prefix + "§a§lYou found a generator voucher!");
                 }
                 new BukkitRunnable() {
                     public void run() {
@@ -75,6 +83,10 @@ public class Mining implements Listener {
                 } else {
                     e.getPlayer().getInventory().addItem(CustomItemManager.getIngot(true, Core.generateNumber(1, 2) + goldBless));
                 }
+                if (Core.generateNumber(1, 200) == 199) {
+                    e.getPlayer().getInventory().addItem(CustomItemManager.getGeneratorVoucher());
+                    e.getPlayer().sendMessage(DefaultConfig.prefix + "§a§lYou found a generator voucher!");
+                }
                 new BukkitRunnable() {
                     public void run() {
                         e.getBlock().setType(Material.BEDROCK);
@@ -100,6 +112,10 @@ public class Mining implements Listener {
                     e.getPlayer().getInventory().addItem(CustomItemManager.getIngot(true, Core.generateNumber(3, 4) + 1 + goldBless));
                 } else {
                     e.getPlayer().getInventory().addItem(CustomItemManager.getIngot(true, Core.generateNumber(3, 4) + goldBless));
+                }
+                if (Core.generateNumber(1, 200) == 199) {
+                    e.getPlayer().getInventory().addItem(CustomItemManager.getGeneratorVoucher());
+                    e.getPlayer().sendMessage(DefaultConfig.prefix + "§a§lYou found a generator voucher!");
                 }
                 new BukkitRunnable() {
                     public void run() {

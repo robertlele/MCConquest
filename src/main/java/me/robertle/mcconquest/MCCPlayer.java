@@ -6,6 +6,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -13,6 +14,7 @@ public class MCCPlayer {
 
     //Player data
     public static HashMap<UUID, String> playerClans = new HashMap<>();
+    public static HashMap<UUID, List<Generator>> playerGenerators = new HashMap<>();
 
     public static FileConfiguration playerConfig;
     public static File playerConfigFile;

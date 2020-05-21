@@ -33,9 +33,10 @@ public final class Core extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ClanChatEvent(), this);
         getServer().getPluginManager().registerEvents(new InventoryManager(), this);
         getServer().getPluginManager().registerEvents(new MobHunting(), this);
-        getServer().getPluginManager().registerEvents(new Mining(), this);
+        getServer().getPluginManager().registerEvents(new MiningManager(), this);
         getServer().getPluginManager().registerEvents(new VoucherEvent(), this);
         getServer().getPluginManager().registerEvents(new FishingManager(), this);
+        getServer().getPluginManager().registerEvents(new MCCEvents(), this);
 
         //Config & Data
         DefaultConfig.loadDefaultConfigurations();

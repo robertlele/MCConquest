@@ -2,6 +2,7 @@ package me.robertle.mcconquest;
 
 import com.hazebyte.crate.api.util.ItemHelper;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -315,14 +316,16 @@ public class FishingManager implements Listener {
             public void run() {
                 if (!fishingPlayers.isEmpty()) {
                     for (String playerName : fishingPlayers.keySet()) {
+                        Player player = Bukkit.getPlayer(playerName);
                         if (fishingPlayers.get(playerName).state == FishingState.FISHING)
-                            Core.sendActionBar(Bukkit.getPlayer(playerName), "§f§l>>> §a§lFISHING §f§l<<<");
+                            Core.sendActionBar(player, "§f§l>>> §a§lFISHING §f§l<<<");
                         if (fishingPlayers.get(playerName).catchTime == 0) {
                             fishingPlayers.get(playerName).state = FishingState.BITE;
-                            Core.sendActionBar(Bukkit.getPlayer(playerName), "§f§l>>> §e§lBITE §f§l<<<");
+                            Core.sendActionBar(player, "§f§l>>> §e§lBITE §f§l<<<");
+                            player.playSound(player.getLocation(), Sound.ENTITY_FISHING_BOBBER_SPLASH, 1.0f, 1.0f);
                         } else if (fishingPlayers.get(playerName).catchTime == -2) {
                             fishingPlayers.get(playerName).state = FishingState.BITE_LOSS;
-                            Core.sendActionBar(Bukkit.getPlayer(playerName), "§f§l>>> §c§lBITE LOSS §f§l<<<");
+                            Core.sendActionBar(player, "§f§l>>> §c§lBITE LOSS §f§l<<<");
                             fishingPlayers.remove(playerName);
                         }
                         if (fishingPlayers.containsKey(playerName)) fishingPlayers.get(playerName).catchTime -= 1;

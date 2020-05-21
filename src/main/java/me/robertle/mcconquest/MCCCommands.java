@@ -174,6 +174,22 @@ public class MCCCommands implements CommandExecutor {
                                 player.getInventory().addItem(CustomItemManager.getArmorPiece(MCCArmor.DIAMOND_LEGGINGS));
                                 player.getInventory().addItem(CustomItemManager.getArmorPiece(MCCArmor.DIAMOND_BOOTS));
                                 break;
+                            case "blacksmith":
+                                player.getInventory().addItem(CustomItemManager.getBlacksmithsHammer());
+                                player.getInventory().addItem(CustomItemManager.getBlacksmithsMagmaRod());
+                                player.getInventory().addItem(CustomItemManager.getBlacksmithsMagicDust());
+                                break;
+                            case "generatorvoucher":
+                                player.getInventory().addItem(CustomItemManager.getGeneratorVoucher());
+                                break;
+                            case "vaultvoucher":
+                                player.getInventory().addItem(CustomItemManager.getVaultVoucher());
+                                break;
+                            case "generator":
+                                player.getInventory().addItem(CustomItemManager.getGenerator(GeneratorType.MONEY));
+                                player.getInventory().addItem(CustomItemManager.getGenerator(GeneratorType.INGOT));
+                                player.getInventory().addItem(CustomItemManager.getGenerator(GeneratorType.ESSENCE));
+                                break;
                         }
                         player.sendMessage(DefaultConfig.prefix + "Item(s) given.");
                         return true;
