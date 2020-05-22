@@ -665,9 +665,9 @@ public class CustomItemManager {
             if (r == 0) {
                 item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(3, 5) + " Lives", "", "§6Wither " + Core.generateNumber(1, 3), "§7Chance to apply wither to enemies");
             } else if (r == 1) {
-                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(3, 5) + " Lives", "", "§6Dragon's Glare " + Core.generateNumber(1, 3), "§7Chance to paralyze enemies");
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(3, 5) + " Lives", "", "§6Glare " + Core.generateNumber(1, 3), "§7Chance to paralyze enemies");
             } else if (r == 2) {
-                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(3, 5) + " Lives", "", "§6Dragon's Wrath " + Core.generateNumber(1, 3), "§7Chance to deal more damage");
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(3, 5) + " Lives", "", "§6Dragon Wrath " + Core.generateNumber(1, 3), "§7Chance to deal more damage");
             } else if (r == 3) {
                 item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(3, 5) + " Lives", "");
             }
@@ -711,9 +711,9 @@ public class CustomItemManager {
             item.unbreakable(true);
             int r = Core.generateNumber(0, 2);
             if (r == 0) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(3, 5) + " Lives", "", "§6Blind " + Core.generateNumber(1, 3), "§7Chance to blind enemies");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(3, 5) + " Lives", "", "§6Blinding Strike " + Core.generateNumber(1, 3), "§7Chance to blind enemies");
             } else if (r == 1) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(3, 5) + " Lives", "", "§6Water Boost " + Core.generateNumber(1, 3), "§7Deal increased damage in water");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(3, 5) + " Lives", "", "§6Torrent " + Core.generateNumber(1, 3), "§7Deal increased damage in water");
             } else if (r == 2) {
                 item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(3, 5) + " Lives", "");
             }
@@ -725,7 +725,7 @@ public class CustomItemManager {
             item.unbreakable(true);
             int r = Core.generateNumber(0, 2);
             if (r == 0) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(3, 5) + " Lives", "", "§6Slow " + Core.generateNumber(1, 3), "§7Chance to slow enemies");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(3, 5) + " Lives", "", "§6Icy Bit " + Core.generateNumber(1, 3), "§7Chance to slow enemies");
             } else if (r == 1) {
                 item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(3, 5) + " Lives", "", "§6Knockup " + Core.generateNumber(1, 3), "§7Chance to knockup enemies");
             } else if (r == 2) {
@@ -927,10 +927,10 @@ public class CustomItemManager {
         return item.asItemStack();
     }
 
-    public static ItemStack getCompanionVoucher() {
+    public static ItemStack getPetVoucher() {
         ItemBuilder item = new ItemBuilder(Material.BOOK, 1);
-        item.displayName("§e§lCompanion Voucher");
-        item.lore("§eRight click to get a random companion.");
+        item.displayName("§e§lPet Voucher");
+        item.lore("§eRight click to get a random pet.");
         item.setGlowing(true);
         return item.asItemStack();
     }

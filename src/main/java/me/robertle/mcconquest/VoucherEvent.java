@@ -50,13 +50,13 @@ public class VoucherEvent implements Listener {
                     e.getPlayer().getInventory().addItem(item);
                     Core.shout(DefaultConfig.prefix + "§6" + e.getPlayer().getName() + " opened " + item.getItemMeta().getDisplayName());
                     InventoryUtil.removeAnItemInHand(e.getPlayer());
-                } else if (ItemHelper.getName(e.getItem()).equalsIgnoreCase("§e§lCompanion Voucher")) {
-                    List<String> companions = new ArrayList<>();
-                    companions.add("Golem");
-                    Collections.shuffle(companions);
-                    String pick = companions.get(Core.generateNumber(0, companions.size() - 1));
+                } else if (ItemHelper.getName(e.getItem()).equalsIgnoreCase("§e§lPet Voucher")) {
+                    List<String> pets = new ArrayList<>();
+                    pets.add("Golem");
+                    Collections.shuffle(pets);
+                    String pick = pets.get(Core.generateNumber(0, pets.size() - 1));
                     Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "givecompanion " + e.getPlayer().getName() + " " + pick);
-                    Core.shout(DefaultConfig.prefix + "§6" + e.getPlayer().getName() + " opened a " + pick + " companion.");
+                    Core.shout(DefaultConfig.prefix + "§6" + e.getPlayer().getName() + " opened a " + pick + " pet.");
                     InventoryUtil.removeAnItemInHand(e.getPlayer());
                 } else if (ItemHelper.getName(e.getItem()).equalsIgnoreCase("§8§lGenerator Voucher")) {
                     int r = Core.generateNumber(0, 2);

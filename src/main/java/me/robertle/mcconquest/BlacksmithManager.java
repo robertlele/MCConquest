@@ -12,8 +12,7 @@ public class BlacksmithManager {
             if (verifyArmor(item) && ItemHelper.hasLore(item)) {
                 String lore = ItemHelper.getLore(item).get(1);
                 if (lore.contains("Lives")) {
-                    int index = lore.indexOf("l");
-                    int currentLives = Integer.parseInt(lore.substring(index + 1, index + 2));
+                    int currentLives = InventoryUtil.getItemLives(item);
                     ItemBuilder newArmor = new ItemBuilder(CustomItemManager.getArmorPiece(MCCArmor.getArmorFromItemName(item)));
                     List<String> lores = ItemHelper.getLore(newArmor.asItemStack());
                     lores.set(1, "§a§l" + currentLives + " Lives");
@@ -31,8 +30,7 @@ public class BlacksmithManager {
             if (verifyWeapon(item) && ItemHelper.hasLore(item)) {
                 String lore = ItemHelper.getLore(item).get(1);
                 if (lore.contains("Lives")) {
-                    int index = lore.indexOf("l");
-                    int currentLives = Integer.parseInt(lore.substring(index + 1, index + 2));
+                    int currentLives = InventoryUtil.getItemLives(item);
                     ItemBuilder newWeapon = new ItemBuilder(CustomItemManager.getWeapon(MCCWeapon.getWeaponFromItemName(item)));
                     List<String> lores = ItemHelper.getLore(newWeapon.asItemStack());
                     lores.set(1, "§a§l" + currentLives + " Lives");
@@ -48,10 +46,33 @@ public class BlacksmithManager {
             } else return false;
         } else if (blacksmithItem.isSimilar(CustomItemManager.getBlacksmithsMagicDust())) {
             if ((verifyWeapon(item) || verifyArmor(item)) && ItemHelper.hasLore(item)) {
-
+                if (ItemHelper.getLore(item).get(3).isEmpty()) {
+                    player.sendMessage(DefaultConfig.prefix + "§aYour item has no enchant on it.");
+                    return false;
+                }
+                if (InventoryUtil.checkMaxLevel(item)) {
+                    player.sendMessage(DefaultConfig.prefix + "§aYour enchant is already maxed level.");
+                    return false;
+                }
+                player.getInventory().addItem(InventoryUtil.increaseEnchantLevel(item));
+                player.sendMessage(DefaultConfig.prefix + "§aYour enchant's level has increased.");
+                return true;
             }
         } else if (blacksmithItem.isSimilar(CustomItemManager.getBlacksmithsLifeOrb())) {
+            if ((verifyWeapon(item) || verifyArmor(item) || verifyArtifact(item)) && ItemHelper.hasLore(item)) {
+                player.getInventory().addItem(InventoryUtil.increaseItemLives(item));
+                player.sendMessage(DefaultConfig.prefix + "§aYour item's lives has increased.");
+                return true;
+            }
+        }
+        return false;
+    }
 
+    public static boolean verifyArtifact(ItemStack item) {
+        if (ItemHelper.hasName(item)) {
+            if (ItemHelper.getName(item).contains("Knockback") || ItemHelper.getName(item).contains("Beater")) {
+                return true;
+            }
         }
         return false;
     }

@@ -229,7 +229,7 @@ public class FishingManager implements Listener {
                 player.sendMessage(DefaultConfig.prefix + "§aYou caught: Blacksmith's Life Orb");
                 break;
             case COMPANION_VOUCHER:
-                player.getInventory().addItem(CustomItemManager.getCompanionVoucher());
+                player.getInventory().addItem(CustomItemManager.getPetVoucher());
                 player.sendMessage(DefaultConfig.prefix + "§aYou caught: Companion Voucher");
                 break;
         }
@@ -315,7 +315,7 @@ public class FishingManager implements Listener {
                 player.sendMessage(DefaultConfig.prefix + "§aYou caught: Blacksmith's Life Orb");
                 break;
             case COMPANION_VOUCHER:
-                player.getInventory().addItem(CustomItemManager.getCompanionVoucher());
+                player.getInventory().addItem(CustomItemManager.getPetVoucher());
                 player.sendMessage(DefaultConfig.prefix + "§aYou caught: Companion Voucher");
                 break;
         }
@@ -345,7 +345,7 @@ public class FishingManager implements Listener {
         }.runTaskTimer(Core.instance, 0L, 20L);
     }
 
-    public class FishingTimer {
+    public static class FishingTimer {
         public FishingState state;
         public int catchTime;
 

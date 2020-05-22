@@ -36,10 +36,9 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.ow2.asm:asm-commons:8.0.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.ow2.asm:asm-tree:8.0.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.ow2.asm:asm-analysis:8.0.1" level="project" />
-    <orderEntry type="library" name="CombatLogX" level="project" />
-    <orderEntry type="library" name="Vault" level="project" />
-    <orderEntry type="library" name="worldguard-bukkit-7.0.2" level="project" />
-    <orderEntry type="library" name="PlaceholderAPI-2.10.6" level="project" />
-    <orderEntry type="library" name="EliteLootbox-2.0.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="CombatLogX" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Vault" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="worldguard-bukkit-7.0.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="PlaceholderAPI-2.10.6" level="project" />
   </component>
 </module>

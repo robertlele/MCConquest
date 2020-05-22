@@ -46,6 +46,7 @@ public final class Core extends JavaPlugin {
         Clan.loadClans();
         MCCPlayer.loadPlayers();
         CustomHeadManager.loadHeads();
+        InventoryUtil.addLevelOneEnchants();
 
         //Timers
         FishingManager.runFishTimers();
