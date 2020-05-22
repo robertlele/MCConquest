@@ -1,6 +1,5 @@
 package me.robertle.mcconquest;
 
-import com.hazebyte.crate.api.util.ItemHelper;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -54,6 +53,15 @@ public class MCCEvents implements Listener {
             }
         }
         e.getEntity().getInventory().setArmorContents(armorContents);
+    }
+
+    @EventHandler
+    public void onDeathTax(PlayerDeathEvent e) {
+        double tax = Core.econ.getBalance(e.getEntity()) * .15;
+        Core.econ.withdrawPlayer(e.getEntity(), (int) tax);
+        if (e.getEntity().getKiller() != null) {
+            Core.econ.depositPlayer(e.getEntity().getKiller(), tax);
+        }
     }
 
 }

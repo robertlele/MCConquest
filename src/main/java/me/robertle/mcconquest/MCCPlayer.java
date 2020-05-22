@@ -5,10 +5,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 public class MCCPlayer {
 
@@ -27,8 +24,16 @@ public class MCCPlayer {
         Set<String> paths = playerConfig.getConfigurationSection("Players").getKeys(false);
         for (String uuid : paths) {
             String path = "Players." + uuid;
-            Core.logToConsole(UUID.fromString(uuid) + " ---- " + playerConfig.getString(path));
-            playerClans.put(UUID.fromString(uuid), playerConfig.getString(path));
+            if (playerConfig.getString(path + ".Clan") != null)
+                playerClans.put(UUID.fromString(uuid), playerConfig.getString(path + ".Clan"));
+            if (playerConfig.get(path + ".Generator") != null) {
+                Set<String> generatorPaths = playerConfig.getConfigurationSection(path + ".Generator").getKeys(false);
+                List<Generator> generators = new ArrayList<>();
+                for (String generatorNumber : generatorPaths) {
+                    generators.add(new Generator(GeneratorType.valueOf(playerConfig.getString(path + ".Generator." + generatorNumber + ".type")), playerConfig.getInt(path + ".Generator." + generatorNumber + ".level"), playerConfig.getDouble(path + ".Generator." + generatorNumber + ".produced")));
+                }
+                playerGenerators.put(UUID.fromString(uuid), generators);
+            }
         }
 
         playerConfig.set("Players", "");
@@ -39,11 +44,19 @@ public class MCCPlayer {
         if (playerClans.isEmpty()) return;
         for (UUID uuid : playerClans.keySet()) {
             String path = "Players." + uuid.toString();
-            playerConfig.set(path, playerClans.get(uuid));
+            playerConfig.set(path + ".Clan", playerClans.get(uuid));
+        }
+        for (UUID uuid : playerGenerators.keySet()) {
+            String path = "Players." + uuid.toString();
+            for (int i = 0; i < playerGenerators.get(uuid).size(); i++) {
+                playerConfig.set(path + ".Generator." + i + ".type", playerGenerators.get(uuid).get(i).type.toString());
+                playerConfig.set(path + ".Generator." + i + ".level", playerGenerators.get(uuid).get(i).level);
+                playerConfig.set(path + ".Generator." + i + ".produced", playerGenerators.get(uuid).get(i).produced);
+            }
         }
         try {
             playerConfig.save(playerConfigFile);
-            Core.logToConsole("Player data has been loaded.");
+            Core.logToConsole("Player data has been saved.");
         } catch (IOException io) {
             io.printStackTrace();
         }

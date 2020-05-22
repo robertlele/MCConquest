@@ -1,9 +1,8 @@
 package me.robertle.mcconquest;
 
-import com.hazebyte.crate.api.util.ItemBuilder;
-import com.hazebyte.crate.api.util.ItemHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
@@ -112,6 +111,69 @@ public class InventoryManager implements Listener {
                             } else {
                                 e.getWhoClicked().sendMessage(DefaultConfig.prefix + "§cInsufficient balance, use §f/clan deposit <amount> §cto deposit more.");
                                 e.getWhoClicked().closeInventory();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public static Inventory getGeneratorGui(Player player) {
+        Inventory inv = Bukkit.createInventory(player, 9, "§e§lGenerators");
+
+        inv.setItem(0, new ItemBuilder(Material.WHITE_STAINED_GLASS_PANE).displayName("§8§lMC§c§lConquest").asItemStack());
+        inv.setItem(1, new ItemBuilder(Material.WHITE_STAINED_GLASS_PANE).displayName("§8§lMC§c§lConquest").asItemStack());
+        inv.setItem(6, new ItemBuilder(Material.WHITE_STAINED_GLASS_PANE).displayName("§8§lMC§c§lConquest").asItemStack());
+        inv.setItem(8, new ItemBuilder(Material.WHITE_STAINED_GLASS_PANE).displayName("§8§lMC§c§lConquest").asItemStack());
+
+        if (MCCPlayer.playerGenerators.containsKey(player.getUniqueId())) {
+            if (MCCPlayer.playerGenerators.get(player.getUniqueId()).size() >= 1) {
+                inv.setItem(2, Generator.getGeneratorItem(player, 0));
+            }
+            if (MCCPlayer.playerGenerators.get(player.getUniqueId()).size() >= 2) {
+                inv.setItem(3, Generator.getGeneratorItem(player, 1));
+            }
+            if (MCCPlayer.playerGenerators.get(player.getUniqueId()).size() >= 3) {
+                inv.setItem(4, Generator.getGeneratorItem(player, 2));
+            }
+            if (MCCPlayer.playerGenerators.get(player.getUniqueId()).size() >= 4) {
+                inv.setItem(5, Generator.getGeneratorItem(player, 3));
+            }
+        }
+
+        for (int i = 2; i < 6; i++) {
+            if (inv.getItem(i) == null) {
+                inv.setItem(i, new ItemBuilder(Material.RED_STAINED_GLASS_PANE).displayName("§fEmpty").lore("§eFind a generator to place it here.").asItemStack());
+            }
+        }
+
+        inv.setItem(7, new ItemBuilder(Material.GREEN_STAINED_GLASS_PANE).displayName("§a§lCollect").asItemStack());
+
+        return inv;
+    }
+
+    @EventHandler
+    public void generatorGui(InventoryClickEvent e) {
+        if (e.getView().getTitle().contains("Generators")) {
+            e.setCancelled(true);
+            if (e.getClick() == ClickType.LEFT) {
+                if (ItemHelper.hasName(e.getCurrentItem())) {
+                    String itemName = ItemHelper.getName(e.getCurrentItem());
+                    Player player = (Player) e.getWhoClicked();
+                    if (itemName.equalsIgnoreCase("§a§lCollect")) {
+                        Generator.collectGenerators(player);
+                        player.closeInventory();
+                    } else if (itemName.contains("Generator")) {
+                        if (ItemHelper.hasLore(e.getCurrentItem())) {
+                            if (Generator.upgradeGenerator(player, e.getSlot() - 2)) {
+                                player.openInventory(getGeneratorGui(player));
+                                player.sendMessage(DefaultConfig.prefix + "§aGenerator successfully upgraded.");
+                            } else {
+                                if (!ItemHelper.getLore(e.getCurrentItem()).get(2).substring(11).equalsIgnoreCase("5")) {
+                                    player.sendMessage(DefaultConfig.prefix + "§cInsufficient funds to upgrade.");
+                                    player.closeInventory();
+                                }
                             }
                         }
                     }

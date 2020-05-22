@@ -1,6 +1,5 @@
 package me.robertle.mcconquest;
 
-import com.hazebyte.crate.api.util.ItemHelper;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;

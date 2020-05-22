@@ -2,7 +2,7 @@ name: MCConquest
 version: ${project.version}
 main: me.robertle.mcconquest.Core
 api-version: 1.13
-depend: [Vault, CrateReloaded, CombatLogX, WorldGuard]
+depend: [Vault, PlaceholderAPI, CombatLogX, WorldGuard]
 authors: [E65]
 description: Core plugin for MC Conquest
 commands:
@@ -12,3 +12,6 @@ commands:
     description: Send message to online clan members.
   mcc:
     description: Base command for MC Conquest.
+  generator:
+    description: Base command for MC Conquest.
+    aliases: [gen, generators]

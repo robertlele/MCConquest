@@ -14,9 +14,7 @@ public class MCCCommands implements CommandExecutor {
             // /mcc give <item>
             if (args.length == 2) {
                 if (args[0].equalsIgnoreCase("give")) {
-                    if (!(sender instanceof Player)) {
-                        return false;
-                    }
+                    if (!(sender instanceof Player)) return false;
                     Player player = (Player) sender;
                     if (player.hasPermission("mcc.admin")) {
                         switch (args[1]) {
@@ -34,9 +32,6 @@ public class MCCCommands implements CommandExecutor {
                                 break;
                             case "randomartifact":
                                 player.getInventory().addItem(CustomItemManager.getRandomArtifact());
-                                break;
-                            case "specialrandomartifact":
-                                player.getInventory().addItem(CustomItemManager.getSpecialRandomArtifact());
                                 break;
                             case "armorvoucher":
                                 player.getInventory().addItem(CustomItemManager.getArmorVoucher(false));
@@ -136,34 +131,19 @@ public class MCCCommands implements CommandExecutor {
                                 break;
                             case "witherset":
                                 player.getInventory().addItem(CustomItemManager.getArtifact(MCCArtifact.WITHER_PICKAXE));
-                                player.getInventory().addItem(CustomItemManager.getArtifact(MCCArtifact.WITHER_SKELETON_BONE));
-                                break;
-                            case "endermanset":
-                                player.getInventory().addItem(CustomItemManager.getArtifact(MCCArtifact.ENDERMAN_EYE));
-                                break;
-                            case "skeletonhorseset":
-                                player.getInventory().addItem(CustomItemManager.getArtifact(MCCArtifact.SKELETON_HORSE_LEG));
                                 break;
                             case "zombieset":
                                 player.getInventory().addItem(CustomItemManager.getArtifact(MCCArtifact.ZOMBIE_GRINDER));
                                 break;
-                            case "horseset":
-                                player.getInventory().addItem(CustomItemManager.getArtifact(MCCArtifact.HORSE_LEG));
-                                break;
-                            case "witchset":
-                                player.getInventory().addItem(CustomItemManager.getArtifact(MCCArtifact.GOLDEN_APPLE));
-                                break;
-                            case "cowset":
-                                player.getInventory().addItem(CustomItemManager.getArtifact(MCCArtifact.COWS_MILK));
-                                break;
-                            case "cavespiderset":
-                                player.getInventory().addItem(CustomItemManager.getArtifact(MCCArtifact.CAVE_SPIDER_VENOM));
-                                break;
-                            case "blazeset":
-                                player.getInventory().addItem(CustomItemManager.getArtifact(MCCArtifact.BLAZE_SOUL));
-                                break;
                             case "pigmanset":
                                 player.getInventory().addItem(CustomItemManager.getArtifact(MCCArtifact.PIGMAN_PICKAXE));
+                                break;
+                            case "knockbackset":
+                                player.getInventory().addItem(CustomItemManager.getArtifact(MCCArtifact.EXTREME_KNOCKBACK_STICK));
+                                player.getInventory().addItem(CustomItemManager.getArtifact(MCCArtifact.KNOCKBACK_STICK));
+                                break;
+                            case "crystalbeater":
+                                player.getInventory().addItem(CustomItemManager.getArtifact(MCCArtifact.CRYSTAL_BEATER));
                                 break;
                             case "starter":
                                 player.getInventory().addItem(CustomItemManager.getWeapon(MCCWeapon.IRON_SWORD));
@@ -178,17 +158,23 @@ public class MCCCommands implements CommandExecutor {
                                 player.getInventory().addItem(CustomItemManager.getBlacksmithsHammer());
                                 player.getInventory().addItem(CustomItemManager.getBlacksmithsMagmaRod());
                                 player.getInventory().addItem(CustomItemManager.getBlacksmithsMagicDust());
+                                player.getInventory().addItem(CustomItemManager.getBlacksmithsLifeOrb());
                                 break;
                             case "generatorvoucher":
                                 player.getInventory().addItem(CustomItemManager.getGeneratorVoucher());
-                                break;
-                            case "vaultvoucher":
-                                player.getInventory().addItem(CustomItemManager.getVaultVoucher());
                                 break;
                             case "generator":
                                 player.getInventory().addItem(CustomItemManager.getGenerator(GeneratorType.MONEY));
                                 player.getInventory().addItem(CustomItemManager.getGenerator(GeneratorType.INGOT));
                                 player.getInventory().addItem(CustomItemManager.getGenerator(GeneratorType.ESSENCE));
+                                break;
+                            case "ingot":
+                                player.getInventory().addItem(CustomItemManager.getIngot(false, 64));
+                                player.getInventory().addItem(CustomItemManager.getIngot(true, 64));
+                                break;
+                            case "essence":
+                                player.getInventory().addItem(CustomItemManager.getEssence(false, 64));
+                                player.getInventory().addItem(CustomItemManager.getEssence(true, 64));
                                 break;
                         }
                         player.sendMessage(DefaultConfig.prefix + "Item(s) given.");
@@ -206,6 +192,13 @@ public class MCCCommands implements CommandExecutor {
                         gifted.getInventory().addItem(note);
                     }
                 }
+            }
+        }
+
+        if (command.getLabel().equalsIgnoreCase("generator")) {
+            if (sender instanceof Player) {
+                Player player = (Player) sender;
+                player.openInventory(InventoryManager.getGeneratorGui(player));
             }
         }
         return false;

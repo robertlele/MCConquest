@@ -1,6 +1,5 @@
 package me.robertle.mcconquest;
 
-import com.hazebyte.crate.api.util.ItemHelper;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -23,7 +22,16 @@ public class InventoryUtil {
         return false;
     }
 
-    public static boolean hasCustomEnchant(Player player, String enchantment) {
+    public static void removeAnItemInHand(Player player) {
+        if (player.getInventory().getItemInMainHand().getAmount() != 1) {
+            player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
+        } else {
+            player.getInventory().removeItem(player.getInventory().getItemInMainHand());
+        }
+
+    }
+
+    public static boolean hasCustomArmorEnchant(Player player, String enchantment) {
         if (player.getInventory().getArmorContents().length > 0) {
             for (ItemStack itemStack : player.getInventory().getArmorContents()) {
                 if (ItemHelper.hasLore(itemStack)) {
@@ -37,7 +45,7 @@ public class InventoryUtil {
         return false;
     }
 
-    public static int getEnchantLevel(Player player, String enchantment) {
+    public static int getArmorEnchantLevel(Player player, String enchantment) {
         int level = 0;
         if (player.getInventory().getArmorContents().length > 0) {
             for (ItemStack itemStack : player.getInventory().getArmorContents()) {
@@ -51,6 +59,35 @@ public class InventoryUtil {
             }
         }
         return level;
+    }
+
+    public static ItemStack increaseEnchantLevel(ItemStack itemStack) {
+        if (ItemHelper.hasLore(itemStack)) {
+            List<String> lores = ItemHelper.getLore(itemStack);
+            if (lores.size() > 3 && !lores.get(3).isEmpty()) {
+                int currentLevel = Integer.parseInt(lores.get(3).substring(lores.get(3).length() - 1));
+                ItemBuilder newItem = new ItemBuilder(itemStack);
+                lores.set(3, lores.get(3).replace(currentLevel + "", "" + currentLevel + 1));
+            }
+        }
+        return null;
+    }
+
+    public static void removeItems(Player player, ItemStack item, int amount) {
+        for (int i = 0; i < player.getInventory().getContents().length; i++) {
+            if (player.getInventory().getContents()[i] != null) {
+                ItemStack itemStack = player.getInventory().getContents()[i];
+                if (amount <= 0) return;
+                if (itemStack.isSimilar(item)) {
+                    if (amount < itemStack.getAmount()) {
+                        itemStack.setAmount(itemStack.getAmount() - amount);
+                        return;
+                    }
+                    player.getInventory().clear(i);
+                    amount -= itemStack.getAmount();
+                }
+            }
+        }
     }
 
 }

@@ -1,8 +1,16 @@
 package me.robertle.mcconquest;
 
+import org.bukkit.inventory.ItemStack;
+
 public enum MCCArtifact {
-    GUARDIAN_ROD, WITHER_PICKAXE, GIANT_GRINDER, SKELETON_HORSE_LEG,
-    SQUID_ROD, PIGMAN_PICKAXE, ZOMBIE_GRINDER, HORSE_LEG, ENDERMAN_EYE,
-    WITHER_SKELETON_BONE, COWS_MILK, CAVE_SPIDER_VENOM, BLAZE_SOUL, GOLDEN_APPLE,
-    FISHING_ROD, IRON_PICKAXE
+    GUARDIAN_ROD, WITHER_PICKAXE, GIANT_GRINDER, EXTREME_KNOCKBACK_STICK,
+    CRYSTAL_BEATER, SQUID_ROD, PIGMAN_PICKAXE, ZOMBIE_GRINDER, KNOCKBACK_STICK,
+    FISHING_ROD, IRON_PICKAXE;
+
+    public static MCCArtifact getArtifactFromItemName(ItemStack itemStack) {
+        if (ItemHelper.hasName(itemStack)) {
+            return MCCArtifact.valueOf(ItemHelper.getName(itemStack).substring(4).replaceAll(" ", "_").toUpperCase());
+        }
+        return null;
+    }
 }

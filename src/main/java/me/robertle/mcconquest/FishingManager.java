@@ -1,6 +1,5 @@
 package me.robertle.mcconquest;
 
-import com.hazebyte.crate.api.util.ItemHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
@@ -161,19 +160,20 @@ public class FishingManager implements Listener {
                 pot.add(FishingReward.RARE_ESSENCE);
                 pot.add(FishingReward.MONEY_NOTE);
             }
-            if (i < 4) {
+            if (i < 5) {
                 pot.add(FishingReward.BASIC_CRATE);
+            }
+            if (i < 4) {
+                pot.add(FishingReward.SUPER_CRATE);
             }
             if (i < 3) {
                 pot.add(FishingReward.ARTIFACT_VOUCHER);
-                pot.add(FishingReward.SPECIAL_ARTIFACT_VOUCHER);
-                pot.add(FishingReward.SUPER_CRATE);
-            }
-            if (i < 2) {
                 pot.add(FishingReward.BLACKSMITHS_MAGIC_DUST);
+                pot.add(FishingReward.BLACKSMITHS_LIFE_ORB);
             }
             if (i < 1) {
                 pot.add(FishingReward.ULTRA_CRATE);
+                pot.add(FishingReward.COMPANION_VOUCHER);
             }
         }
         Collections.shuffle(pot);
@@ -208,10 +208,6 @@ public class FishingManager implements Listener {
                 player.getInventory().addItem(CustomItemManager.getArtifactVoucher(false));
                 player.sendMessage(DefaultConfig.prefix + "§aYou caught: Artifact Voucher");
                 break;
-            case SPECIAL_ARTIFACT_VOUCHER:
-                player.getInventory().addItem(CustomItemManager.getArtifactVoucher(true));
-                player.sendMessage(DefaultConfig.prefix + "§aYou caught: Special Artifact Voucher");
-                break;
             case BASIC_CRATE:
                 //player.getInventory().addItem(CustomItemManager.getCrate(Crate.BASIC_CRATE));
                 player.sendMessage(DefaultConfig.prefix + "§aYou caught: Basic Crate");
@@ -225,8 +221,16 @@ public class FishingManager implements Listener {
                 player.sendMessage(DefaultConfig.prefix + "§aYou caught: Ultra Crate");
                 break;
             case BLACKSMITHS_MAGIC_DUST:
-                //give player
+                player.getInventory().addItem(CustomItemManager.getBlacksmithsMagicDust());
                 player.sendMessage(DefaultConfig.prefix + "§aYou caught: Blacksmith's Magic Dust");
+                break;
+            case BLACKSMITHS_LIFE_ORB:
+                player.getInventory().addItem(CustomItemManager.getBlacksmithsLifeOrb());
+                player.sendMessage(DefaultConfig.prefix + "§aYou caught: Blacksmith's Life Orb");
+                break;
+            case COMPANION_VOUCHER:
+                player.getInventory().addItem(CustomItemManager.getCompanionVoucher());
+                player.sendMessage(DefaultConfig.prefix + "§aYou caught: Companion Voucher");
                 break;
         }
     }
@@ -244,16 +248,18 @@ public class FishingManager implements Listener {
             if (i < 5) {
                 pot.add(FishingReward.BASIC_CRATE);
             }
+            if (i < 4) {
+                pot.add(FishingReward.SUPER_CRATE);
+            }
             if (i < 3) {
                 pot.add(FishingReward.ARTIFACT_VOUCHER);
             }
             if (i < 2) {
                 pot.add(FishingReward.BLACKSMITHS_MAGIC_DUST);
-                pot.add(FishingReward.SPECIAL_ARTIFACT_VOUCHER);
-                pot.add(FishingReward.SUPER_CRATE);
+                pot.add(FishingReward.BLACKSMITHS_LIFE_ORB);
             }
             if (i < 1) {
-                pot.add(FishingReward.BLACKSMITHS_MAGIC_DUST);
+                pot.add(FishingReward.COMPANION_VOUCHER);
             }
         }
         Collections.shuffle(pot);
@@ -288,10 +294,6 @@ public class FishingManager implements Listener {
                 player.getInventory().addItem(CustomItemManager.getArtifactVoucher(false));
                 player.sendMessage(DefaultConfig.prefix + "§aYou caught: Artifact Voucher");
                 break;
-            case SPECIAL_ARTIFACT_VOUCHER:
-                player.getInventory().addItem(CustomItemManager.getArtifactVoucher(true));
-                player.sendMessage(DefaultConfig.prefix + "§aYou caught: Special Artifact Voucher");
-                break;
             case BASIC_CRATE:
                 //player.getInventory().addItem(CustomItemManager.getCrate(Crate.BASIC_CRATE));
                 player.sendMessage(DefaultConfig.prefix + "§aYou caught: Basic Crate");
@@ -305,8 +307,16 @@ public class FishingManager implements Listener {
                 player.sendMessage(DefaultConfig.prefix + "§aYou caught: Ultra Crate");
                 break;
             case BLACKSMITHS_MAGIC_DUST:
-                //give player
+                player.getInventory().addItem(CustomItemManager.getBlacksmithsMagicDust());
                 player.sendMessage(DefaultConfig.prefix + "§aYou caught: Blacksmith's Magic Dust");
+                break;
+            case BLACKSMITHS_LIFE_ORB:
+                player.getInventory().addItem(CustomItemManager.getBlacksmithsLifeOrb());
+                player.sendMessage(DefaultConfig.prefix + "§aYou caught: Blacksmith's Life Orb");
+                break;
+            case COMPANION_VOUCHER:
+                player.getInventory().addItem(CustomItemManager.getCompanionVoucher());
+                player.sendMessage(DefaultConfig.prefix + "§aYou caught: Companion Voucher");
                 break;
         }
     }
@@ -352,8 +362,9 @@ public class FishingManager implements Listener {
 
     private enum FishingReward {
         IRON_INGOT, GOLD_INGOT, ESSENCE, RARE_ESSENCE,
-        MONEY_NOTE, BASIC_CRATE, ARTIFACT_VOUCHER, SPECIAL_ARTIFACT_VOUCHER,
-        SUPER_CRATE, ULTRA_CRATE, BLACKSMITHS_MAGIC_DUST
+        MONEY_NOTE, BASIC_CRATE, ARTIFACT_VOUCHER,
+        SUPER_CRATE, ULTRA_CRATE, BLACKSMITHS_MAGIC_DUST,
+        BLACKSMITHS_LIFE_ORB, COMPANION_VOUCHER
     }
 
 }

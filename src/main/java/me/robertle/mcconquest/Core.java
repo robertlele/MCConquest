@@ -28,15 +28,18 @@ public final class Core extends JavaPlugin {
         getCommand("clan").setExecutor(new ClanCommands());
         getCommand("cc").setExecutor(new ClanCommands());
         getCommand("mcc").setExecutor(new MCCCommands());
+        getCommand("generator").setExecutor(new MCCCommands());
 
         //Events
-        getServer().getPluginManager().registerEvents(new ClanChatEvent(), this);
         getServer().getPluginManager().registerEvents(new InventoryManager(), this);
         getServer().getPluginManager().registerEvents(new MobHunting(), this);
         getServer().getPluginManager().registerEvents(new MiningManager(), this);
         getServer().getPluginManager().registerEvents(new VoucherEvent(), this);
         getServer().getPluginManager().registerEvents(new FishingManager(), this);
         getServer().getPluginManager().registerEvents(new MCCEvents(), this);
+
+        //Placeholder
+        new MCCPlaceholder(this).register();
 
         //Config & Data
         DefaultConfig.loadDefaultConfigurations();
@@ -46,6 +49,7 @@ public final class Core extends JavaPlugin {
 
         //Timers
         FishingManager.runFishTimers();
+        Generator.runGenerators();
 
     }
 

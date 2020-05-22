@@ -1,6 +1,5 @@
 package me.robertle.mcconquest;
 
-import com.hazebyte.crate.api.util.ItemHelper;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -74,14 +73,12 @@ public class MiningManager implements Listener {
                 String itemName = ItemHelper.getName(e.getPlayer().getInventory().getItemInMainHand());
                 e.setDropItems(false);
                 e.setExpToDrop(0);
-                int goldBless = 0;
-                if (InventoryUtil.hasCustomEnchant(e.getPlayer(), "Gold Bless")) goldBless++;
                 if (itemName.equalsIgnoreCase("§8Wither Pickaxe")) {
-                    e.getPlayer().getInventory().addItem(CustomItemManager.getIngot(true, Core.generateNumber(1, 2) + 2 + goldBless));
+                    e.getPlayer().getInventory().addItem(CustomItemManager.getIngot(true, Core.generateNumber(1, 2) + 2));
                 } else if (itemName.equalsIgnoreCase("§cPigman Pickaxe")) {
-                    e.getPlayer().getInventory().addItem(CustomItemManager.getIngot(true, Core.generateNumber(1, 2) + 1 + goldBless));
+                    e.getPlayer().getInventory().addItem(CustomItemManager.getIngot(true, Core.generateNumber(1, 2) + 1));
                 } else {
-                    e.getPlayer().getInventory().addItem(CustomItemManager.getIngot(true, Core.generateNumber(1, 2) + goldBless));
+                    e.getPlayer().getInventory().addItem(CustomItemManager.getIngot(true, Core.generateNumber(1, 2)));
                 }
                 if (Core.generateNumber(1, 200) == 199) {
                     e.getPlayer().getInventory().addItem(CustomItemManager.getGeneratorVoucher());
@@ -104,14 +101,12 @@ public class MiningManager implements Listener {
                 String itemName = ItemHelper.getName(e.getPlayer().getInventory().getItemInMainHand());
                 e.setDropItems(false);
                 e.setExpToDrop(0);
-                int goldBless = 0;
-                if (InventoryUtil.hasCustomEnchant(e.getPlayer(), "Gold Bless")) goldBless++;
                 if (itemName.equalsIgnoreCase("§8Wither Pickaxe")) {
-                    e.getPlayer().getInventory().addItem(CustomItemManager.getIngot(true, Core.generateNumber(3, 4) + 2 + goldBless));
+                    e.getPlayer().getInventory().addItem(CustomItemManager.getIngot(true, Core.generateNumber(3, 4) + 2));
                 } else if (itemName.equalsIgnoreCase("§cPigman Pickaxe")) {
-                    e.getPlayer().getInventory().addItem(CustomItemManager.getIngot(true, Core.generateNumber(3, 4) + 1 + goldBless));
+                    e.getPlayer().getInventory().addItem(CustomItemManager.getIngot(true, Core.generateNumber(3, 4) + 1));
                 } else {
-                    e.getPlayer().getInventory().addItem(CustomItemManager.getIngot(true, Core.generateNumber(3, 4) + goldBless));
+                    e.getPlayer().getInventory().addItem(CustomItemManager.getIngot(true, Core.generateNumber(3, 4)));
                 }
                 if (Core.generateNumber(1, 200) == 199) {
                     e.getPlayer().getInventory().addItem(CustomItemManager.getGeneratorVoucher());
