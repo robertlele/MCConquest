@@ -8,7 +8,7 @@ import java.util.List;
 public class BlacksmithManager {
 
     public static boolean forgeBlacksmithItem(ItemStack blacksmithItem, ItemStack item, Player player) {
-        if (blacksmithItem.isSimilar(CustomItemManager.getBlacksmithsHammer())) {
+        if (blacksmithItem.isSimilar(CustomItemManager.getBlacksmithsCoal())) {
             if (InventoryUtil.verifyArmor(item) && ItemHelper.hasLore(item)) {
                 String lore = ItemHelper.getLore(item).get(1);
                 if (lore.contains("Lives")) {

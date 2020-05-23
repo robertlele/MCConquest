@@ -46,10 +46,7 @@ public class MCCCommands implements CommandExecutor {
                                 player.getInventory().addItem(CustomItemManager.getWeaponVoucher(true));
                                 break;
                             case "artifactvoucher":
-                                player.getInventory().addItem(CustomItemManager.getArtifactVoucher(false));
-                                break;
-                            case "specialartifactvoucher":
-                                player.getInventory().addItem(CustomItemManager.getArtifactVoucher(true));
+                                player.getInventory().addItem(CustomItemManager.getArtifactVoucher());
                                 break;
                             case "votecrate":
                                 player.getInventory().addItem(CustomItemManager.getCrate(Crate.VOTE_CRATE));
@@ -155,7 +152,7 @@ public class MCCCommands implements CommandExecutor {
                                 player.getInventory().addItem(CustomItemManager.getArmorPiece(MCCArmor.DIAMOND_BOOTS));
                                 break;
                             case "blacksmith":
-                                player.getInventory().addItem(CustomItemManager.getBlacksmithsHammer());
+                                player.getInventory().addItem(CustomItemManager.getBlacksmithsCoal());
                                 player.getInventory().addItem(CustomItemManager.getBlacksmithsMagmaRod());
                                 player.getInventory().addItem(CustomItemManager.getBlacksmithsMagicDust());
                                 player.getInventory().addItem(CustomItemManager.getBlacksmithsLifeOrb());
@@ -175,6 +172,11 @@ public class MCCCommands implements CommandExecutor {
                             case "essence":
                                 player.getInventory().addItem(CustomItemManager.getEssence(false, 64));
                                 player.getInventory().addItem(CustomItemManager.getEssence(true, 64));
+                                break;
+                            case "pets":
+                                for (Pet p : Pet.values()) {
+                                    player.getInventory().addItem(CustomItemManager.getPetVoucher(p));
+                                }
                                 break;
                         }
                         player.sendMessage(DefaultConfig.prefix + "Item(s) given.");
@@ -202,6 +204,12 @@ public class MCCCommands implements CommandExecutor {
                     if (sender.hasPermission("mcc.admin")) {
                         if (Bukkit.getPlayer(args[1]) != null) {
                             Bukkit.getPlayer(args[1]).openInventory(InventoryManager.getPotionMerchant());
+                        }
+                    }
+                } else if (args[0].equalsIgnoreCase("special")) {
+                    if (sender.hasPermission("mcc.admin")) {
+                        if (Bukkit.getPlayer(args[1]) != null) {
+                            Bukkit.getPlayer(args[1]).openInventory(InventoryManager.getSpecialMerchant());
                         }
                     }
                 }

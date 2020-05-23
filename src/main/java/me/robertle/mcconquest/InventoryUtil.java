@@ -197,7 +197,7 @@ public class InventoryUtil {
     }
 
     public static boolean verifyBlacksmithItem(ItemStack item) {
-        if (item.isSimilar(CustomItemManager.getBlacksmithsHammer()) || item.isSimilar(CustomItemManager.getBlacksmithsMagmaRod()) || item.isSimilar(CustomItemManager.getBlacksmithsMagicDust()) || item.isSimilar(CustomItemManager.getBlacksmithsLifeOrb())) {
+        if (item.isSimilar(CustomItemManager.getBlacksmithsCoal()) || item.isSimilar(CustomItemManager.getBlacksmithsMagmaRod()) || item.isSimilar(CustomItemManager.getBlacksmithsMagicDust()) || item.isSimilar(CustomItemManager.getBlacksmithsLifeOrb())) {
             return true;
         }
         return false;

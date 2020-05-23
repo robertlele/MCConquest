@@ -302,7 +302,7 @@ public class Clan {
                     this.clanBalance -= 800000;
                     this.clanPerk++;
                     for (UUID uuid : this.clanMembers.keySet()) {
-                        this.clanStorage.addItem(CustomItemManager.getArtifactVoucher(true));
+                        this.clanStorage.addItem(CustomItemManager.getArtifactVoucher());
                     }
                     return true;
                 }

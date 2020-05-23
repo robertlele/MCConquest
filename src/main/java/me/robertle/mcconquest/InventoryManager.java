@@ -258,17 +258,23 @@ public class InventoryManager implements Listener {
         inv.setItem(0, new ItemBuilder(Material.WHITE_STAINED_GLASS_PANE).displayName("§8§lMC§c§lConquest").asItemStack());
         inv.setItem(8, new ItemBuilder(Material.WHITE_STAINED_GLASS_PANE).displayName("§8§lMC§c§lConquest").asItemStack());
         ItemBuilder weaponVoucher = new ItemBuilder(CustomItemManager.getWeaponVoucher(false));
-        weaponVoucher.lore("§aCost: 500 Iron Ingot", "", "§eLeft click to buy");
+        weaponVoucher.lore("§aCost: 448 Iron Ingot", "", "§eLeft click to buy");
         ItemBuilder specialWeaponVoucher = new ItemBuilder(CustomItemManager.getWeaponVoucher(true));
-        specialWeaponVoucher.lore("§aCost: 400 Gold Ingot", "", "§eLeft click to buy");
-        ItemBuilder armorVoucher = new ItemBuilder(CustomItemManager.getArtifactVoucher(false));
-        armorVoucher.lore("§aCost: 300 Iron Ingot", "", "§eLeft click to buy");
+        specialWeaponVoucher.lore("§aCost: 320 Gold Ingot", "", "§eLeft click to buy");
+        ItemBuilder armorVoucher = new ItemBuilder(CustomItemManager.getArmorVoucher(false));
+        armorVoucher.lore("§aCost: 256 Iron Ingot", "", "§eLeft click to buy");
         ItemBuilder specialArmorVoucher = new ItemBuilder(CustomItemManager.getArmorVoucher(true));
-        specialArmorVoucher.lore("§aCost: 200 Gold Ingot", "", "§eLeft click to buy");
+        specialArmorVoucher.lore("§aCost: 192 Gold Ingot", "", "§eLeft click to buy");
+        ItemBuilder blacksmithsCoal = new ItemBuilder(CustomItemManager.getBlacksmithsCoal());
+        blacksmithsCoal.lore("§aCost: 128 Rare Essence", "", "§eLeft click to buy");
+        ItemBuilder blacksmithsMagmaRod = new ItemBuilder(CustomItemManager.getBlacksmithsMagmaRod());
+        blacksmithsMagmaRod.lore("§aCost: 192 Rare Essence", "", "§eLeft click to buy");
         inv.setItem(1, armorVoucher.asItemStack());
         inv.setItem(2, specialArmorVoucher.asItemStack());
         inv.setItem(3, weaponVoucher.asItemStack());
         inv.setItem(4, specialWeaponVoucher.asItemStack());
+        inv.setItem(5, blacksmithsCoal.asItemStack());
+        inv.setItem(6, blacksmithsMagmaRod.asItemStack());
         return inv;
     }
 
@@ -278,17 +284,21 @@ public class InventoryManager implements Listener {
             e.setCancelled(true);
             if (e.isLeftClick()) {
                 ItemBuilder weaponVoucher = new ItemBuilder(CustomItemManager.getWeaponVoucher(false));
-                weaponVoucher.lore("§aCost: 500 Iron Ingot", "", "§eLeft click to buy");
+                weaponVoucher.lore("§aCost: 448 Iron Ingot", "", "§eLeft click to buy");
                 ItemBuilder specialWeaponVoucher = new ItemBuilder(CustomItemManager.getWeaponVoucher(true));
-                specialWeaponVoucher.lore("§aCost: 400 Gold Ingot", "", "§eLeft click to buy");
-                ItemBuilder armorVoucher = new ItemBuilder(CustomItemManager.getArtifactVoucher(false));
-                armorVoucher.lore("§aCost: 300 Iron Ingot", "", "§eLeft click to buy");
+                specialWeaponVoucher.lore("§aCost: 320 Gold Ingot", "", "§eLeft click to buy");
+                ItemBuilder armorVoucher = new ItemBuilder(CustomItemManager.getArmorVoucher(false));
+                armorVoucher.lore("§aCost: 256 Iron Ingot", "", "§eLeft click to buy");
                 ItemBuilder specialArmorVoucher = new ItemBuilder(CustomItemManager.getArmorVoucher(true));
-                specialArmorVoucher.lore("§aCost: 200 Gold Ingot", "", "§eLeft click to buy");
+                specialArmorVoucher.lore("§aCost: 192 Gold Ingot", "", "§eLeft click to buy");
+                ItemBuilder blacksmithsCoal = new ItemBuilder(CustomItemManager.getBlacksmithsCoal());
+                blacksmithsCoal.lore("§aCost: 128 Rare Essence", "", "§eLeft click to buy");
+                ItemBuilder blacksmithsMagmaRod = new ItemBuilder(CustomItemManager.getBlacksmithsMagmaRod());
+                blacksmithsMagmaRod.lore("§aCost: 192 Rare Essence", "", "§eLeft click to buy");
                 Player player = (Player) e.getWhoClicked();
                 if (e.getCurrentItem().isSimilar(weaponVoucher.asItemStack())) {
-                    if (player.getInventory().containsAtLeast(CustomItemManager.getIngot(false, 1), 500)) {
-                        InventoryUtil.removeItems(player, CustomItemManager.getIngot(false, 1), 500);
+                    if (player.getInventory().containsAtLeast(CustomItemManager.getIngot(false, 1), 448)) {
+                        InventoryUtil.removeItems(player, CustomItemManager.getIngot(false, 1), 448);
                         player.getInventory().addItem(CustomItemManager.getWeaponVoucher(false));
                         player.sendMessage("§4§lCombat Merchant §f> §aBest of luck!");
                         player.closeInventory();
@@ -297,8 +307,8 @@ public class InventoryManager implements Listener {
                         player.closeInventory();
                     }
                 } else if (e.getCurrentItem().isSimilar(specialWeaponVoucher.asItemStack())) {
-                    if (player.getInventory().containsAtLeast(CustomItemManager.getIngot(true, 1), 400)) {
-                        InventoryUtil.removeItems(player, CustomItemManager.getIngot(true, 1), 400);
+                    if (player.getInventory().containsAtLeast(CustomItemManager.getIngot(true, 1), 320)) {
+                        InventoryUtil.removeItems(player, CustomItemManager.getIngot(true, 1), 320);
                         player.getInventory().addItem(CustomItemManager.getWeaponVoucher(true));
                         player.sendMessage("§4§lCombat Merchant §f> §aBest of luck!");
                         player.closeInventory();
@@ -307,8 +317,8 @@ public class InventoryManager implements Listener {
                         player.closeInventory();
                     }
                 } else if (e.getCurrentItem().isSimilar(armorVoucher.asItemStack())) {
-                    if (player.getInventory().containsAtLeast(CustomItemManager.getIngot(false, 1), 300)) {
-                        InventoryUtil.removeItems(player, CustomItemManager.getIngot(false, 1), 300);
+                    if (player.getInventory().containsAtLeast(CustomItemManager.getIngot(false, 1), 256)) {
+                        InventoryUtil.removeItems(player, CustomItemManager.getIngot(false, 1), 256);
                         player.getInventory().addItem(CustomItemManager.getArmorVoucher(false));
                         player.sendMessage("§4§lCombat Merchant §f> §aBest of luck!");
                         player.closeInventory();
@@ -317,9 +327,29 @@ public class InventoryManager implements Listener {
                         player.closeInventory();
                     }
                 } else if (e.getCurrentItem().isSimilar(specialArmorVoucher.asItemStack())) {
-                    if (player.getInventory().containsAtLeast(CustomItemManager.getIngot(true, 1), 200)) {
-                        InventoryUtil.removeItems(player, CustomItemManager.getIngot(true, 1), 200);
+                    if (player.getInventory().containsAtLeast(CustomItemManager.getIngot(true, 1), 192)) {
+                        InventoryUtil.removeItems(player, CustomItemManager.getIngot(true, 1), 192);
                         player.getInventory().addItem(CustomItemManager.getArmorVoucher(true));
+                        player.sendMessage("§4§lCombat Merchant §f> §aBest of luck!");
+                        player.closeInventory();
+                    } else {
+                        player.sendMessage("§4§lCombat Merchant §f> §cYou don't have enough for this.");
+                        player.closeInventory();
+                    }
+                } else if (e.getCurrentItem().isSimilar(blacksmithsCoal.asItemStack())) {
+                    if (player.getInventory().containsAtLeast(CustomItemManager.getEssence(true, 1), 128)) {
+                        InventoryUtil.removeItems(player, CustomItemManager.getEssence(true, 1), 128);
+                        player.getInventory().addItem(CustomItemManager.getBlacksmithsCoal());
+                        player.sendMessage("§4§lCombat Merchant §f> §aBest of luck!");
+                        player.closeInventory();
+                    } else {
+                        player.sendMessage("§4§lCombat Merchant §f> §cYou don't have enough for this.");
+                        player.closeInventory();
+                    }
+                } else if (e.getCurrentItem().isSimilar(blacksmithsMagmaRod.asItemStack())) {
+                    if (player.getInventory().containsAtLeast(CustomItemManager.getEssence(true, 1), 192)) {
+                        InventoryUtil.removeItems(player, CustomItemManager.getEssence(true, 1), 192);
+                        player.getInventory().addItem(CustomItemManager.getBlacksmithsMagmaRod());
                         player.sendMessage("§4§lCombat Merchant §f> §aBest of luck!");
                         player.closeInventory();
                     } else {
@@ -489,10 +519,18 @@ public class InventoryManager implements Listener {
         ItemBuilder rod = new ItemBuilder(CustomItemManager.getArtifact(MCCArtifact.FISHING_ROD));
         rod.lore("§aCost: $5000", "", "§eLeft click to buy 1");
 
+        ItemBuilder artifactVoucher = new ItemBuilder(CustomItemManager.getArtifactVoucher());
+        artifactVoucher.lore("§aCost: 256 Essence", "", "§eLeft click to buy 1");
+
+        ItemBuilder petCrate = new ItemBuilder(CustomItemManager.getCrate(Crate.PET_CRATE));
+        petCrate.lore("§aCost: 384 Essence", "", "§eLeft click to buy 1");
+
         inv.setItem(1, enderpearl.asItemStack());
         inv.setItem(2, gapple.asItemStack());
         inv.setItem(3, pickaxe.asItemStack());
         inv.setItem(4, rod.asItemStack());
+        inv.setItem(5, artifactVoucher.asItemStack());
+        inv.setItem(6, petCrate.asItemStack());
 
         return inv;
     }
@@ -514,6 +552,13 @@ public class InventoryManager implements Listener {
 
             ItemBuilder rod = new ItemBuilder(CustomItemManager.getArtifact(MCCArtifact.FISHING_ROD));
             rod.lore("§aCost: $5000", "", "§eLeft click to buy 1");
+
+            ItemBuilder artifactVoucher = new ItemBuilder(CustomItemManager.getArtifactVoucher());
+            artifactVoucher.lore("§aCost: 256 Essence", "", "§eLeft click to buy 1");
+
+            ItemBuilder petCrate = new ItemBuilder(CustomItemManager.getCrate(Crate.PET_CRATE));
+            petCrate.lore("§aCost: 384 Essence", "", "§eLeft click to buy 1");
+
             Player player = (Player) e.getWhoClicked();
 
             if (e.isLeftClick()) {
@@ -537,6 +582,26 @@ public class InventoryManager implements Listener {
                         rod.lore("§a§l✸B-TIER", "", "");
                         player.getInventory().addItem(rod.asItemStack());
                     }
+                } else if (e.getCurrentItem().isSimilar(artifactVoucher.asItemStack())) {
+                    if (player.getInventory().containsAtLeast(CustomItemManager.getEssence(false, 1), 256)) {
+                        InventoryUtil.removeItems(player, CustomItemManager.getEssence(false, 1), 256);
+                        player.getInventory().addItem(CustomItemManager.getArtifactVoucher());
+                        player.sendMessage("§6§lSpecial Merchant §f> §aBest of luck!");
+                        player.closeInventory();
+                    } else {
+                        player.sendMessage("§6§lSpecial Merchant §f> §cYou don't have enough for this.");
+                        player.closeInventory();
+                    }
+                } else if (e.getCurrentItem().isSimilar(petCrate.asItemStack())) {
+                    if (player.getInventory().containsAtLeast(CustomItemManager.getEssence(true, 1), 384)) {
+                        InventoryUtil.removeItems(player, CustomItemManager.getEssence(true, 1), 384);
+                        player.getInventory().addItem(CustomItemManager.getCrate(Crate.PET_CRATE));
+                        player.sendMessage("§6§lSpecial Merchant §f> §aBest of luck!");
+                        player.closeInventory();
+                    } else {
+                        player.sendMessage("§6§lSpecial Merchant §f> §cYou don't have enough for this.");
+                        player.closeInventory();
+                    }
                 }
             } else if (e.getClick() == ClickType.MIDDLE) {
                 if (e.getCurrentItem().isSimilar(enderpearl.asItemStack())) {
@@ -551,6 +616,13 @@ public class InventoryManager implements Listener {
                     }
                 }
             }
+        }
+    }
+
+    @EventHandler
+    public void closeSpecialMerchantGui(InventoryCloseEvent e) {
+        if (e.getView().getTitle().contains("Special Merchant")) {
+            e.getPlayer().sendMessage("§6§lSpecial Merchant §f> §aThanks for your business.");
         }
     }
 

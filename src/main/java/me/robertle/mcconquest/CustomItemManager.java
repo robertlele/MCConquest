@@ -855,6 +855,149 @@ public class CustomItemManager {
         return null;
     }
 
+    public static ItemStack getPetVoucher(Pet pet) {
+        ItemBuilder item;
+        switch (pet) {
+            case GIANT:
+                item = new ItemBuilder(CustomHeadManager.getHead(pet));
+                item.displayName("§9Giant Pet");
+                item.lore("§f§lABILITY: §eGain permanent health boost 2", "", "§eRight click to claim this pet.");
+                return item.asItemStack();
+            case DRAGON:
+                item = new ItemBuilder(CustomHeadManager.getHead(pet));
+                item.displayName("§9Dragon Pet");
+                item.lore("§f§lABILITY: §eSmall chance to gain strength 2 when hit", "", "§eRight click to claim this pet.");
+                return item.asItemStack();
+            case HORSE:
+                item = new ItemBuilder(CustomHeadManager.getHead(pet));
+                item.displayName("§9Horse Pet");
+                item.lore("§f§lABILITY: §eGain permanent speed 1", "", "§eRight click to claim this pet.");
+                return item.asItemStack();
+            case SKELETON_HORSE:
+                item = new ItemBuilder(CustomHeadManager.getHead(pet));
+                item.displayName("§9Skeleton Horse Pet");
+                item.lore("§f§lABILITY: §eGain permanent speed 1,", "§eSmall chance to gain speed 2 when hit", "§eRight click to claim this pet.");
+                return item.asItemStack();
+            case GOLEM:
+                item = new ItemBuilder(CustomHeadManager.getHead(pet));
+                item.displayName("§9Golem Pet");
+                item.lore("§f§lABILITY: §eSmall chance to gain resistance 1 when hit", "", "§eRight click to claim this pet.");
+                return item.asItemStack();
+            case MOOSHROOM:
+                item = new ItemBuilder(CustomHeadManager.getHead(pet));
+                item.displayName("§9Mooshroom Pet");
+                item.lore("§f§lABILITY: §eSmall chance to gain regneration 2 when hit", "", "§eRight click to claim this pet.");
+                return item.asItemStack();
+            case SQUID:
+                item = new ItemBuilder(CustomHeadManager.getHead(pet));
+                item.displayName("§9Squid Pet");
+                item.lore("§f§lABILITY: §eGain permanent water breathing 1", "", "§eRight click to claim this pet.");
+                return item.asItemStack();
+            case PIGMAN:
+                item = new ItemBuilder(CustomHeadManager.getHead(pet));
+                item.displayName("§9Pigman Pet");
+                item.lore("§f§lABILITY: §eSmall chance to gain speed 1 & strength 1", "", "§eRight click to claim this pet.");
+                return item.asItemStack();
+            case BLAZE:
+                item = new ItemBuilder(CustomHeadManager.getHead(pet));
+                item.displayName("§9Blaze Pet");
+                item.lore("§f§lABILITY: §eGain permanent fire resistance 1", "", "§eRight click to claim this pet.");
+                return item.asItemStack();
+            case POLAR_BEAR:
+                item = new ItemBuilder(CustomHeadManager.getHead(pet));
+                item.displayName("§9Polar Bear Pet");
+                item.lore("§f§lABILITY: §eWhen slowed, gain resistance 2", "", "§eRight click to claim this pet.");
+                return item.asItemStack();
+            case SLIME:
+                item = new ItemBuilder(CustomHeadManager.getHead(pet));
+                item.displayName("§9Slime Pet");
+                item.lore("§f§lABILITY: §eHigh chance to not be slowed", "", "§eRight click to claim this pet.");
+                return item.asItemStack();
+            case PIG:
+                item = new ItemBuilder(CustomHeadManager.getHead(pet));
+                item.displayName("§9Pig Pet");
+                item.lore("§f§lABILITY: §eGain an extra ingot when mining", "", "§eRight click to claim this pet.");
+                return item.asItemStack();
+            case OCELOT:
+                item = new ItemBuilder(CustomHeadManager.getHead(pet));
+                item.displayName("§9Ocelot Pet");
+                item.lore("§f§lABILITY: §eFishing times are shorter", "", "§eRight click to claim this pet.");
+                return item.asItemStack();
+            case SILVERFISH:
+                item = new ItemBuilder(CustomHeadManager.getHead(pet));
+                item.displayName("§9Silverfish Pet");
+                item.lore("§f§lABILITY: §eGain permanent haste 1", "", "§eRight click to claim this pet.");
+                return item.asItemStack();
+            case SKELETON:
+                item = new ItemBuilder(CustomHeadManager.getHead(pet));
+                item.displayName("§9Skeleton Pet");
+                item.lore("§f§lABILITY: §eChance to dodge bow shots", "", "§eRight click to claim this pet.");
+                return item.asItemStack();
+            case ENDERMAN:
+                item = new ItemBuilder(CustomHeadManager.getHead(pet));
+                item.displayName("§9Enderman Pet");
+                item.lore("§f§lABILITY: §eChance to teleport to targets hit with bow shots", "", "§eRight click to claim this pet.");
+                return item.asItemStack();
+            case SPIDER:
+                item = new ItemBuilder(CustomHeadManager.getHead(pet));
+                item.displayName("§9Spider Pet");
+                item.lore("§f§lABILITY: §eSmall chance to give slowness", "", "§eRight click to claim this pet.");
+                return item.asItemStack();
+            case BAT:
+                item = new ItemBuilder(CustomHeadManager.getHead(pet));
+                item.displayName("§9Bat Pet");
+                item.lore("§f§lABILITY: §eSmall chance to give blindness", "", "§eRight click to claim this pet.");
+                return item.asItemStack();
+            case RABBIT:
+                item = new ItemBuilder(CustomHeadManager.getHead(pet));
+                item.displayName("§9Rabbit Pet");
+                item.lore("§f§lABILITY: §eGain permanent jump boost 1", "", "§eRight click to claim this pet.");
+                return item.asItemStack();
+            case CHICKEN:
+                item = new ItemBuilder(CustomHeadManager.getHead(pet));
+                item.displayName("§9Chicken Pet");
+                item.lore("§f§lABILITY: §eGain permanent slow falling 1", "", "§eRight click to claim this pet.");
+                return item.asItemStack();
+            case WOLF:
+                item = new ItemBuilder(CustomHeadManager.getHead(pet));
+                item.displayName("§9Wolf Pet");
+                item.lore("§f§lABILITY: §eSmall chance to spawn a wolf", "", "§eRight click to claim this pet.");
+                return item.asItemStack();
+            case GHAST:
+                item = new ItemBuilder(CustomHeadManager.getHead(pet));
+                item.displayName("§9Ghast Pet");
+                item.lore("§f§lABILITY: §eSmall chance to apply wither with bow shots", "", "§eRight click to claim this pet.");
+                return item.asItemStack();
+            case MAGMA_CUBE:
+                item = new ItemBuilder(CustomHeadManager.getHead(pet));
+                item.displayName("§9Magma Cube Pet");
+                item.lore("§f§lABILITY: §eSmall chance to remove fire", "§eresistance and ignite enemy", "§eRight click to claim this pet.");
+                return item.asItemStack();
+            case GUARDIAN:
+                item = new ItemBuilder(CustomHeadManager.getHead(pet));
+                item.displayName("§9Guardian Pet");
+                item.lore("§f§lABILITY: §eIncrease chances of fishing up crates", "", "§eRight click to claim this pet.");
+                return item.asItemStack();
+            case WITCH:
+                item = new ItemBuilder(CustomHeadManager.getHead(pet));
+                item.displayName("§9Witch Pet");
+                item.lore("§f§lABILITY: §eSmall chance to give poison", "", "§eRight click to claim this pet.");
+                return item.asItemStack();
+            case SHEEP:
+                item = new ItemBuilder(CustomHeadManager.getHead(pet));
+                item.displayName("§9Sheep Pet");
+                item.lore("§f§lABILITY: §eGain extra money from money vouchers", "", "§eRight click to claim this pet.");
+                return item.asItemStack();
+            case ZOMBIE:
+                item = new ItemBuilder(CustomHeadManager.getHead(pet));
+                item.displayName("§9Zombie Pet");
+                item.lore("§f§lABILITY: §eGain permanent saturation 1", "", "§eRight click to claim this pet.");
+                return item.asItemStack();
+
+        }
+        return null;
+    }
+
     public static ItemStack getArmorVoucher(boolean special) {
         if (special) {
             ItemBuilder item = new ItemBuilder(Material.BOOK, 1);
@@ -887,20 +1030,12 @@ public class CustomItemManager {
         }
     }
 
-    public static ItemStack getArtifactVoucher(boolean special) {
-        if (special) {
-            ItemBuilder item = new ItemBuilder(Material.BOOK, 1);
-            item.displayName("§6§lSpecial Artifact Voucher");
-            item.lore("§eRight click to get a random artifact.");
-            item.setGlowing(true);
-            return item.asItemStack();
-        } else {
-            ItemBuilder item = new ItemBuilder(Material.BOOK, 1);
-            item.displayName("§6§lArtifact Voucher");
-            item.lore("§eRight click to get a random artifact.");
-            item.setGlowing(true);
-            return item.asItemStack();
-        }
+    public static ItemStack getArtifactVoucher() {
+        ItemBuilder item = new ItemBuilder(Material.BOOK, 1);
+        item.displayName("§6§lArtifact Voucher");
+        item.lore("§eRight click to get a random artifact.");
+        item.setGlowing(true);
+        return item.asItemStack();
     }
 
     public static ItemStack getSTierVoucher() {
@@ -923,14 +1058,6 @@ public class CustomItemManager {
         ItemBuilder item = new ItemBuilder(Material.BOOK, 1);
         item.displayName("§8§lGenerator Voucher");
         item.lore("§eRight click to get a random generator.");
-        item.setGlowing(true);
-        return item.asItemStack();
-    }
-
-    public static ItemStack getPetVoucher() {
-        ItemBuilder item = new ItemBuilder(Material.BOOK, 1);
-        item.displayName("§e§lPet Voucher");
-        item.lore("§eRight click to get a random pet.");
         item.setGlowing(true);
         return item.asItemStack();
     }
@@ -974,7 +1101,8 @@ public class CustomItemManager {
             case ULTRA_CRATE:
                 return null;
             case GODLY_CRATE:
-
+                return null;
+            case PET_CRATE:
                 return null;
         }
         return null;
@@ -989,9 +1117,9 @@ public class CustomItemManager {
         return item.asItemStack();
     }
 
-    public static ItemStack getBlacksmithsHammer() {
-        ItemBuilder item = new ItemBuilder(Material.STICK, 1);
-        item.displayName("§4§lBlacksmith's Hammer");
+    public static ItemStack getBlacksmithsCoal() {
+        ItemBuilder item = new ItemBuilder(Material.COAL, 1);
+        item.displayName("§4§lBlacksmith's Coal");
         item.lore("§eForge this to reroll an armor enchant.");
         item.setGlowing(true);
         return item.asItemStack();

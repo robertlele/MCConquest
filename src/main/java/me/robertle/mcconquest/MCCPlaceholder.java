@@ -101,7 +101,7 @@ public class MCCPlaceholder extends PlaceholderExpansion {
             if (MCCPlayer.playerClans.containsKey(player.getUniqueId())) {
                 return MCCPlayer.playerClans.get(player.getUniqueId());
             } else
-                return "";
+                return "None";
         }
 
         return null;

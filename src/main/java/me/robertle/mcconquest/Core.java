@@ -51,6 +51,7 @@ public final class Core extends JavaPlugin {
         //Timers
         FishingManager.runFishTimers();
         Generator.runGenerators();
+        ClanEvents.runEventTimers();
 
     }
 
@@ -59,6 +60,7 @@ public final class Core extends JavaPlugin {
         //Data
         Clan.saveClans();
         MCCPlayer.savePlayers();
+        DefaultConfig.saveDefaultConfigurations();
     }
 
     public static void logToConsole(String message) {
@@ -68,6 +70,12 @@ public final class Core extends JavaPlugin {
     public static void shout(String message) {
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.sendMessage(message);
+        }
+    }
+
+    public static void shoutCenter(String message) {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            StringUtil.sendCenteredMessage(player, message);
         }
     }
 

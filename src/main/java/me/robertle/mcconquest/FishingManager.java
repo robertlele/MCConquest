@@ -136,7 +136,7 @@ public class FishingManager implements Listener {
                 player.sendMessage(DefaultConfig.prefix + "§aYou caught: Money Note");
                 break;
             case ARTIFACT_VOUCHER:
-                player.getInventory().addItem(CustomItemManager.getArtifactVoucher(false));
+                player.getInventory().addItem(CustomItemManager.getArtifactVoucher());
                 player.sendMessage(DefaultConfig.prefix + "§aYou caught: Artifact Voucher");
                 break;
             case BASIC_CRATE:
@@ -173,7 +173,7 @@ public class FishingManager implements Listener {
             }
             if (i < 1) {
                 pot.add(FishingReward.ULTRA_CRATE);
-                pot.add(FishingReward.COMPANION_VOUCHER);
+                pot.add(FishingReward.PET_CRATE);
             }
         }
         Collections.shuffle(pot);
@@ -205,7 +205,7 @@ public class FishingManager implements Listener {
                 player.sendMessage(DefaultConfig.prefix + "§aYou caught: Money Note");
                 break;
             case ARTIFACT_VOUCHER:
-                player.getInventory().addItem(CustomItemManager.getArtifactVoucher(false));
+                player.getInventory().addItem(CustomItemManager.getArtifactVoucher());
                 player.sendMessage(DefaultConfig.prefix + "§aYou caught: Artifact Voucher");
                 break;
             case BASIC_CRATE:
@@ -228,9 +228,9 @@ public class FishingManager implements Listener {
                 player.getInventory().addItem(CustomItemManager.getBlacksmithsLifeOrb());
                 player.sendMessage(DefaultConfig.prefix + "§aYou caught: Blacksmith's Life Orb");
                 break;
-            case COMPANION_VOUCHER:
-                player.getInventory().addItem(CustomItemManager.getPetVoucher());
-                player.sendMessage(DefaultConfig.prefix + "§aYou caught: Companion Voucher");
+            case PET_CRATE:
+                //player.getInventory().addItem(CustomItemManager.getCrate(Crate.PET_CRATE));
+                player.sendMessage(DefaultConfig.prefix + "§aYou caught: Pet Crate");
                 break;
         }
     }
@@ -259,7 +259,7 @@ public class FishingManager implements Listener {
                 pot.add(FishingReward.BLACKSMITHS_LIFE_ORB);
             }
             if (i < 1) {
-                pot.add(FishingReward.COMPANION_VOUCHER);
+                pot.add(FishingReward.PET_CRATE);
             }
         }
         Collections.shuffle(pot);
@@ -291,7 +291,7 @@ public class FishingManager implements Listener {
                 player.sendMessage(DefaultConfig.prefix + "§aYou caught: Money Note");
                 break;
             case ARTIFACT_VOUCHER:
-                player.getInventory().addItem(CustomItemManager.getArtifactVoucher(false));
+                player.getInventory().addItem(CustomItemManager.getArtifactVoucher());
                 player.sendMessage(DefaultConfig.prefix + "§aYou caught: Artifact Voucher");
                 break;
             case BASIC_CRATE:
@@ -314,9 +314,9 @@ public class FishingManager implements Listener {
                 player.getInventory().addItem(CustomItemManager.getBlacksmithsLifeOrb());
                 player.sendMessage(DefaultConfig.prefix + "§aYou caught: Blacksmith's Life Orb");
                 break;
-            case COMPANION_VOUCHER:
-                player.getInventory().addItem(CustomItemManager.getPetVoucher());
-                player.sendMessage(DefaultConfig.prefix + "§aYou caught: Companion Voucher");
+            case PET_CRATE:
+                //player.getInventory().addItem(CustomItemManager.getCrate(Crate.PET_CRATE));
+                player.sendMessage(DefaultConfig.prefix + "§aYou caught: Pet Crate");
                 break;
         }
     }
@@ -364,7 +364,7 @@ public class FishingManager implements Listener {
         IRON_INGOT, GOLD_INGOT, ESSENCE, RARE_ESSENCE,
         MONEY_NOTE, BASIC_CRATE, ARTIFACT_VOUCHER,
         SUPER_CRATE, ULTRA_CRATE, BLACKSMITHS_MAGIC_DUST,
-        BLACKSMITHS_LIFE_ORB, COMPANION_VOUCHER
+        BLACKSMITHS_LIFE_ORB, PET_CRATE
     }
 
 }

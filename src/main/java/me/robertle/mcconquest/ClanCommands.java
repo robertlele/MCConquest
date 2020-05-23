@@ -41,7 +41,7 @@ public class ClanCommands implements CommandExecutor {
             Player player = (Player) sender;
 
             if (args.length == 0) {
-                player.sendMessage("§f---------- §aClans Help §f----------");
+                StringUtil.sendCenteredMessage(player, "§f———————————————— §aClans Help §f————————————————");
                 player.sendMessage("§f/clan create <clan> §eCreate a clan for $50k.");
                 player.sendMessage("§f/clan show <clan/player> §eView a clan.");
                 player.sendMessage("§f/clan join §eJoin a clan that you've been invited to.");
@@ -57,6 +57,7 @@ public class ClanCommands implements CommandExecutor {
                 player.sendMessage("§f/clan deposit <amount> §eDeposit money to your clan to purchase clan perks.");
                 player.sendMessage("§f/clan storage §eOpen up the clan's storage. (Officers+ Only)");
                 player.sendMessage("§f/clan perks §eView your clan's perks.");
+                StringUtil.sendCenteredMessage(player, "§f———————————————— §aClans Help §f————————————————");
                 return false;
             }
 
@@ -178,7 +179,7 @@ public class ClanCommands implements CommandExecutor {
                 if (args.length == 1) {
                     int page = 1;
                     List<Clan> clans = Clan.sortClans();
-                    player.sendMessage("§f---------- §aClans List [" + page + "/" + (clans.size() / 10 + 1) + "] §f----------");
+                    StringUtil.sendCenteredMessage(player, "§f———————————————— §aClans List [" + page + "/" + (clans.size() / 10 + 1) + "] §f————————————————");
                     String list = "";
                     for (int i = 10 * (page - 1); i < 10 * (page); i++) {
                         if (i < clans.size()) {
@@ -186,6 +187,7 @@ public class ClanCommands implements CommandExecutor {
                         }
                     }
                     player.sendMessage(list);
+                    StringUtil.sendCenteredMessage(player, "§f———————————————— §aClans List [" + page + "/" + (clans.size() / 10 + 1) + "] §f————————————————");
                     return false;
                 }
                 int page;
@@ -201,7 +203,7 @@ public class ClanCommands implements CommandExecutor {
                     return false;
                 }
                 List<Clan> clans = Clan.sortClans();
-                player.sendMessage("§f---------- §aClans List [" + page + "/" + (clans.size() / 10 + 1) + "] §f----------");
+                StringUtil.sendCenteredMessage(player, "§f———————————————— §aClans List [" + page + "/" + (clans.size() / 10 + 1) + "] §f————————————————");
                 String list = "";
                 for (int i = 10 * (page - 1); i < 10 * (page); i++) {
                     if (i < clans.size()) {
@@ -209,10 +211,11 @@ public class ClanCommands implements CommandExecutor {
                     }
                 }
                 player.sendMessage(list);
+                StringUtil.sendCenteredMessage(player, "§f———————————————— §aClans List [" + page + "/" + (clans.size() / 10 + 1) + "] §f————————————————");
             } else if (args[0].equalsIgnoreCase("help")) {
-                player.sendMessage("§f---------- §aClans Help §f----------");
+                StringUtil.sendCenteredMessage(player, "§f———————————————— §aClans Help §f————————————————");
                 player.sendMessage("§f/clan create <clan> §eCreate a clan for $50k.");
-                player.sendMessage("§f/clan show <clan> §eView a clan's details.");
+                player.sendMessage("§f/clan show <clan/player> §eView a clan.");
                 player.sendMessage("§f/clan join §eJoin a clan that you've been invited to.");
                 player.sendMessage("§f/clan leave §eLeave a clan.");
                 player.sendMessage("§f/clan list <page> §eView all clans.");
@@ -226,6 +229,7 @@ public class ClanCommands implements CommandExecutor {
                 player.sendMessage("§f/clan deposit <amount> §eDeposit money to your clan to purchase clan perks.");
                 player.sendMessage("§f/clan storage §eOpen up the clan's storage. (Officers+ Only)");
                 player.sendMessage("§f/clan perks §eView your clan's perks.");
+                StringUtil.sendCenteredMessage(player, "§f———————————————— §aClans Help §f————————————————");
             } else if (args[0].equalsIgnoreCase("deposit") || args[0].equalsIgnoreCase("d")) {
                 if (args.length != 2) {
                     player.sendMessage(prefix + "§cUsage: /clan deposit <amount>");
@@ -269,8 +273,9 @@ public class ClanCommands implements CommandExecutor {
                             player.sendMessage(prefix + "§cInvalid page.");
                             return false;
                         }
-                        player.sendMessage("§f---------- §aClan Logs [" + page + "/" + clan.getLogPages() + "] §f----------");
+                        StringUtil.sendCenteredMessage(player, "§f———————————————— §aClan Logs [" + page + "/" + clan.getLogPages() + "] §f————————————————");
                         player.sendMessage(clan.getLogString(page - 1));
+                        StringUtil.sendCenteredMessage(player, "§f———————————————— §aClan Logs [" + page + "/" + clan.getLogPages() + "] §f————————————————");
                     } else {
                         player.sendMessage(prefix + "§cYou cannot view the clan logs.");
                     }
@@ -281,7 +286,7 @@ public class ClanCommands implements CommandExecutor {
                 if (args.length == 2) {
                     if (Clan.clanExist(args[1])) {
                         Clan clan = Clan.getClan(args[1]);
-                        player.sendMessage("§f---------- §6" + clan.clanName + " §f----------");
+                        player.sendMessage("§f———————————————— §6" + clan.clanName + " §f————————————————");
                         player.sendMessage("§eClan Perk Progress: §f" + clan.clanPerk + "/10");
                         player.sendMessage("§eClan Balance: §f$" + clan.clanBalance);
                         List<String> players = new ArrayList<>();
@@ -320,36 +325,36 @@ public class ClanCommands implements CommandExecutor {
                         player.sendMessage(memberList);
                     } else if (MCCPlayer.playerClans.containsKey(Core.getPlayerUUID(args[1]))) {
                         Clan clan = Clan.clans.get(MCCPlayer.playerClans.get(Core.getPlayerUUID(args[1])));
-                        player.sendMessage("§f---------- §6" + clan.clanName + " §f----------");
+                        StringUtil.sendCenteredMessage(player, "§f———————————————— §6" + clan.clanName + " §f————————————————");
                         player.sendMessage("§eClan Perk Progress: §f" + clan.clanPerk + "/10");
                         player.sendMessage("§eClan Balance: §f$" + clan.clanBalance);
                         List<String> players = new ArrayList<>();
                         for (UUID uuid : clan.clanMembers.keySet()) {
                             if (clan.clanMembers.get(uuid) == ClanRole.LEADER) {
                                 if (Bukkit.getOfflinePlayer(uuid).isOnline())
-                                    players.add("§a***" + Bukkit.getOfflinePlayer(uuid));
-                                else players.add("§7***" + Bukkit.getOfflinePlayer(uuid));
+                                    players.add("§a***" + Bukkit.getOfflinePlayer(uuid).getName());
+                                else players.add("§7***" + Bukkit.getOfflinePlayer(uuid).getName());
                             }
                         }
                         for (UUID uuid : clan.clanMembers.keySet()) {
                             if (clan.clanMembers.get(uuid) == ClanRole.COLEADER) {
                                 if (Bukkit.getOfflinePlayer(uuid).isOnline())
-                                    players.add("§a**" + Bukkit.getOfflinePlayer(uuid));
-                                else players.add("§7**" + Bukkit.getOfflinePlayer(uuid));
+                                    players.add("§a**" + Bukkit.getOfflinePlayer(uuid).getName());
+                                else players.add("§7**" + Bukkit.getOfflinePlayer(uuid).getName());
                             }
                         }
                         for (UUID uuid : clan.clanMembers.keySet()) {
                             if (clan.clanMembers.get(uuid) == ClanRole.OFFICER) {
                                 if (Bukkit.getOfflinePlayer(uuid).isOnline())
-                                    players.add("§a*" + Bukkit.getOfflinePlayer(uuid));
-                                else players.add("§7*" + Bukkit.getOfflinePlayer(uuid));
+                                    players.add("§a*" + Bukkit.getOfflinePlayer(uuid).getName());
+                                else players.add("§7*" + Bukkit.getOfflinePlayer(uuid).getName());
                             }
                         }
                         for (UUID uuid : clan.clanMembers.keySet()) {
                             if (clan.clanMembers.get(uuid) == ClanRole.MEMBER) {
                                 if (Bukkit.getOfflinePlayer(uuid).isOnline())
-                                    players.add("§a-" + Bukkit.getOfflinePlayer(uuid));
-                                else players.add("§7-" + Bukkit.getOfflinePlayer(uuid));
+                                    players.add("§a-" + Bukkit.getOfflinePlayer(uuid).getName());
+                                else players.add("§7-" + Bukkit.getOfflinePlayer(uuid).getName());
                             }
                         }
                         String memberList = "§eMembers: §f";
@@ -357,49 +362,51 @@ public class ClanCommands implements CommandExecutor {
                             memberList += string + ", ";
                         }
                         player.sendMessage(memberList);
+                        StringUtil.sendCenteredMessage(player, "§f———————————————— §6" + clan.clanName + " §f————————————————");
                     } else {
                         player.sendMessage(prefix + "§cThat clan doesn't exist.");
                     }
                 } else {
                     if (!Clan.getPlayerClan(player).equalsIgnoreCase("None")) {
                         Clan clan = Clan.clans.get(Clan.getPlayerClan(player));
-                        player.sendMessage("§f---------- §6" + clan.clanName + " §f----------");
+                        StringUtil.sendCenteredMessage(player, "§f———————————————— §6" + clan.clanName + " §f————————————————");
                         player.sendMessage("§eClan Perk Progress: §f" + clan.clanPerk + "/10");
                         player.sendMessage("§eClan Balance: §f$" + clan.clanBalance);
-                        for (UUID uuid : clan.clanMembers.keySet()) {
-                            if (clan.clanMembers.get(uuid) == ClanRole.LEADER) {
-                                player.sendMessage("§eLeader: §f" + Bukkit.getOfflinePlayer(uuid).getName());
-                            }
-                        }
                         List<String> players = new ArrayList<>();
                         for (UUID uuid : clan.clanMembers.keySet()) {
                             if (clan.clanMembers.get(uuid) == ClanRole.LEADER) {
                                 if (Bukkit.getOfflinePlayer(uuid).isOnline())
-                                    players.add("§a***" + Bukkit.getOfflinePlayer(uuid));
-                                else players.add("§7***" + Bukkit.getOfflinePlayer(uuid));
+                                    players.add("§a***" + Bukkit.getOfflinePlayer(uuid).getName());
+                                else players.add("§7***" + Bukkit.getOfflinePlayer(uuid).getName());
                             }
                         }
                         for (UUID uuid : clan.clanMembers.keySet()) {
                             if (clan.clanMembers.get(uuid) == ClanRole.COLEADER) {
                                 if (Bukkit.getOfflinePlayer(uuid).isOnline())
-                                    players.add("§a**" + Bukkit.getOfflinePlayer(uuid));
-                                else players.add("§7**" + Bukkit.getOfflinePlayer(uuid));
+                                    players.add("§a**" + Bukkit.getOfflinePlayer(uuid).getName());
+                                else players.add("§7**" + Bukkit.getOfflinePlayer(uuid).getName());
                             }
                         }
                         for (UUID uuid : clan.clanMembers.keySet()) {
                             if (clan.clanMembers.get(uuid) == ClanRole.OFFICER) {
                                 if (Bukkit.getOfflinePlayer(uuid).isOnline())
-                                    players.add("§a*" + Bukkit.getOfflinePlayer(uuid));
-                                else players.add("§7*" + Bukkit.getOfflinePlayer(uuid));
+                                    players.add("§a*" + Bukkit.getOfflinePlayer(uuid).getName());
+                                else players.add("§7*" + Bukkit.getOfflinePlayer(uuid).getName());
                             }
                         }
                         for (UUID uuid : clan.clanMembers.keySet()) {
                             if (clan.clanMembers.get(uuid) == ClanRole.MEMBER) {
                                 if (Bukkit.getOfflinePlayer(uuid).isOnline())
-                                    players.add("§a-" + Bukkit.getOfflinePlayer(uuid));
-                                else players.add("§7-" + Bukkit.getOfflinePlayer(uuid));
+                                    players.add("§a-" + Bukkit.getOfflinePlayer(uuid).getName());
+                                else players.add("§7-" + Bukkit.getOfflinePlayer(uuid).getName());
                             }
                         }
+                        String memberList = "§eMembers: §f";
+                        for (String string : players) {
+                            memberList += string + ", ";
+                        }
+                        player.sendMessage(memberList);
+                        StringUtil.sendCenteredMessage(player, "§f———————————————— §6" + clan.clanName + " §f————————————————");
                     } else {
                         player.sendMessage(prefix + "§cYou aren't in a clan.");
                     }
@@ -469,7 +476,7 @@ public class ClanCommands implements CommandExecutor {
                     player.sendMessage(prefix + "§cYou aren't in a clan.");
                 }
             } else {
-                player.sendMessage("§f---------- §aClans Help §f----------");
+                StringUtil.sendCenteredMessage(player, "§f———————————————— §aClans Help §f————————————————");
                 player.sendMessage("§f/clan create <clan> §eCreate a clan for $50k.");
                 player.sendMessage("§f/clan show <clan/player> §eView a clan.");
                 player.sendMessage("§f/clan join §eJoin a clan that you've been invited to.");
@@ -485,6 +492,7 @@ public class ClanCommands implements CommandExecutor {
                 player.sendMessage("§f/clan deposit <amount> §eDeposit money to your clan to purchase clan perks.");
                 player.sendMessage("§f/clan storage §eOpen up the clan's storage. (Officers+ Only)");
                 player.sendMessage("§f/clan perks §eView your clan's perks.");
+                StringUtil.sendCenteredMessage(player, "§f———————————————— §aClans Help §f————————————————");
             }
         }
         return false;

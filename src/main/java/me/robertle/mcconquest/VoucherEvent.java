@@ -1,16 +1,13 @@
 package me.robertle.mcconquest;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class VoucherEvent implements Listener {
 
@@ -49,14 +46,6 @@ public class VoucherEvent implements Listener {
                     ItemStack item = CustomItemManager.getRandomArtifact();
                     e.getPlayer().getInventory().addItem(item);
                     Core.shout(DefaultConfig.prefix + "§6" + e.getPlayer().getName() + " opened " + item.getItemMeta().getDisplayName());
-                    InventoryUtil.removeAnItemInHand(e.getPlayer());
-                } else if (ItemHelper.getName(e.getItem()).equalsIgnoreCase("§e§lPet Voucher")) {
-                    List<String> pets = new ArrayList<>();
-                    pets.add("Golem");
-                    Collections.shuffle(pets);
-                    String pick = pets.get(Core.generateNumber(0, pets.size() - 1));
-                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "givecompanion " + e.getPlayer().getName() + " " + pick);
-                    Core.shout(DefaultConfig.prefix + "§6" + e.getPlayer().getName() + " opened a " + pick + " pet.");
                     InventoryUtil.removeAnItemInHand(e.getPlayer());
                 } else if (ItemHelper.getName(e.getItem()).equalsIgnoreCase("§8§lGenerator Voucher")) {
                     int r = Core.generateNumber(0, 2);
@@ -102,6 +91,11 @@ public class VoucherEvent implements Listener {
                     } else {
                         e.getPlayer().sendMessage(DefaultConfig.prefix + "§cYour generator limit has already been reached.");
                     }
+                } else if (ItemHelper.getName(e.getItem()).contains("Pet") && e.getItem().getType() == Material.PLAYER_HEAD) {
+                    String petName = ItemHelper.getName(e.getItem()).substring(2).replace(" Pet", "").replaceAll(" ", "_");
+                    String command = "givec " + e.getPlayer().getName() + " " + petName.toLowerCase();
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
+                    InventoryUtil.removeAnItemInHand(e.getPlayer());
                 }
             }
         }
