@@ -328,11 +328,11 @@ public class Clan {
                 }
                 return false;
             case 8:
-                if (this.clanBalance >= 1600000) {
-                    this.clanBalance -= 1600000;
+                if (this.clanBalance >= 1200000) {
+                    this.clanBalance -= 1200000;
                     this.clanPerk++;
                     for (UUID uuid : this.clanMembers.keySet()) {
-                        this.clanStorage.addItem(CustomItemManager.getArtifactVoucher(true));
+                        this.clanStorage.addItem(CustomItemManager.getCrate(Crate.SUPER_CRATE));
                     }
                     return true;
                 }

@@ -92,6 +92,7 @@ public class InventoryUtil {
                 ItemBuilder newItem = new ItemBuilder(itemStack);
                 if (!checkMaxLevel(newItem.asItemStack()))
                     lores.set(3, lores.get(3).replace(currentLevel + "", "" + currentLevel + 1));
+                newItem.lore(lores);
                 return newItem.asItemStack();
             }
         }
@@ -104,9 +105,9 @@ public class InventoryUtil {
             if (lores.size() > 3 && !lores.get(3).isEmpty()) {
                 int currentLevel = Integer.parseInt(lores.get(3).substring(lores.get(3).length() - 1));
                 for (String enchants : levelOneEnchants) {
-                    if (ItemHelper.getName(itemStack).contains(enchants)) return true;
-                    if (currentLevel < 3) return false;
+                    if (ItemHelper.getLore(itemStack).get(3).contains(enchants)) return true;
                 }
+                if (currentLevel < 3) return false;
             }
         }
         return true;
@@ -123,13 +124,28 @@ public class InventoryUtil {
         return 0;
     }
 
+    public static String getItemTier(ItemStack itemStack) {
+        if (ItemHelper.hasLore(itemStack)) {
+            String lore = ItemHelper.getLore(itemStack).get(0);
+            if (lore.contains("S-TIER")) {
+                return "S-TIER";
+            } else if (lore.contains("A-TIER")) {
+                return "A-TIER";
+            } else if (lore.contains("B-TIER")) {
+                return "B-TIER";
+            }
+        }
+        return "";
+    }
+
     public static ItemStack increaseItemLives(ItemStack itemStack) {
         if (ItemHelper.hasLore(itemStack)) {
             List<String> lores = ItemHelper.getLore(itemStack);
             if (lores.size() > 1) {
-                int currentLives = getItemLives(itemStack);
+                int newLives = getItemLives(itemStack) + 1;
                 ItemBuilder newItem = new ItemBuilder(itemStack);
-                lores.set(1, "§a§l" + currentLives+1 + " Lives");
+                lores.set(1, "§a§l" + newLives + " Lives");
+                newItem.lore(lores);
                 return newItem.asItemStack();
             }
         }
@@ -153,4 +169,37 @@ public class InventoryUtil {
         }
     }
 
+    public static boolean verifyArtifact(ItemStack item) {
+        if (ItemHelper.hasName(item)) {
+            if (ItemHelper.getName(item).contains("Knockback") || ItemHelper.getName(item).contains("Beater")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean verifyWeapon(ItemStack item) {
+        if (ItemHelper.hasName(item)) {
+            if (ItemHelper.getName(item).contains("Sword") || ItemHelper.getName(item).contains("Axe") || ItemHelper.getName(item).contains("Bow")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean verifyArmor(ItemStack item) {
+        if (ItemHelper.hasName(item)) {
+            if (ItemHelper.getName(item).contains("Helmet") || ItemHelper.getName(item).contains("Chestplate") || ItemHelper.getName(item).contains("Leggings") || ItemHelper.getName(item).contains("Boots")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean verifyBlacksmithItem(ItemStack item) {
+        if (item.isSimilar(CustomItemManager.getBlacksmithsHammer()) || item.isSimilar(CustomItemManager.getBlacksmithsMagmaRod()) || item.isSimilar(CustomItemManager.getBlacksmithsMagicDust()) || item.isSimilar(CustomItemManager.getBlacksmithsLifeOrb())) {
+            return true;
+        }
+        return false;
+    }
 }

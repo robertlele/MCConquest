@@ -6,6 +6,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.material.Wool;
 
@@ -174,6 +175,14 @@ public class ItemBuilder {
 
     public ItemBuilder skull(SkullMeta var1) {
         if (this.itemStack != null && this.itemStack.getType() == Material.PLAYER_HEAD) {
+            this.itemStack.setItemMeta(var1);
+        }
+
+        return this;
+    }
+
+    public ItemBuilder potion(PotionMeta var1) {
+        if (this.itemStack != null && (this.itemStack.getType() == Material.POTION || this.itemStack.getType() == Material.SPLASH_POTION)) {
             this.itemStack.setItemMeta(var1);
         }
 

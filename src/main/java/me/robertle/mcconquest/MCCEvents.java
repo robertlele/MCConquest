@@ -1,9 +1,11 @@
 package me.robertle.mcconquest;
 
+import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -60,7 +62,17 @@ public class MCCEvents implements Listener {
         double tax = Core.econ.getBalance(e.getEntity()) * .15;
         Core.econ.withdrawPlayer(e.getEntity(), (int) tax);
         if (e.getEntity().getKiller() != null) {
-            Core.econ.depositPlayer(e.getEntity().getKiller(), tax);
+            Core.econ.depositPlayer(e.getEntity().getKiller(), (int) tax);
+            e.getEntity().sendMessage(DefaultConfig.prefix + "§fYou gained §a$" + ((int) tax) + " for killing §6" + e.getEntity().getName() + "§f.");
+        }
+    }
+
+    @EventHandler
+    public void onDrinkMilk(PlayerItemConsumeEvent e) {
+        if (e.getItem().getType() == Material.MILK_BUCKET) {
+            if (e.getItem().getAmount() <= 1) {
+                e.setReplacement(new ItemStack(Material.AIR));
+            }
         }
     }
 

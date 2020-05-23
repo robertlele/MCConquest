@@ -11,7 +11,7 @@ public class MCCCommands implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (command.getLabel().equalsIgnoreCase("mcc")) {
-            // /mcc give <item>
+            // /mcc give <item> /mcc bs <player>
             if (args.length == 2) {
                 if (args[0].equalsIgnoreCase("give")) {
                     if (!(sender instanceof Player)) return false;
@@ -179,6 +179,30 @@ public class MCCCommands implements CommandExecutor {
                         }
                         player.sendMessage(DefaultConfig.prefix + "Item(s) given.");
                         return true;
+                    }
+                } else if (args[0].equalsIgnoreCase("bs")) {
+                    if (sender.hasPermission("mcc.admin")) {
+                        if (Bukkit.getPlayer(args[1]) != null) {
+                            Bukkit.getPlayer(args[1]).openInventory(InventoryManager.getBlacksmithGui());
+                        }
+                    }
+                } else if (args[0].equalsIgnoreCase("sal")) {
+                    if (sender.hasPermission("mcc.admin")) {
+                        if (Bukkit.getPlayer(args[1]) != null) {
+                            SalvagerManager.salvageItem(Bukkit.getPlayer(args[1]));
+                        }
+                    }
+                } else if (args[0].equalsIgnoreCase("combat")) {
+                    if (sender.hasPermission("mcc.admin")) {
+                        if (Bukkit.getPlayer(args[1]) != null) {
+                            Bukkit.getPlayer(args[1]).openInventory(InventoryManager.getCombatMerchantGui());
+                        }
+                    }
+                } else if (args[0].equalsIgnoreCase("potion")) {
+                    if (sender.hasPermission("mcc.admin")) {
+                        if (Bukkit.getPlayer(args[1]) != null) {
+                            Bukkit.getPlayer(args[1]).openInventory(InventoryManager.getPotionMerchant());
+                        }
                     }
                 }
             }
