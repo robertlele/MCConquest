@@ -40,5 +40,6 @@
     <orderEntry type="library" scope="PROVIDED" name="Vault" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="worldguard-bukkit-7.0.2" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="PlaceholderAPI-2.10.6" level="project" />
+    <orderEntry type="library" name="Companions-1.7.7" level="project" />
   </component>
 </module>
