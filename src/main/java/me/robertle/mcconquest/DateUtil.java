@@ -13,6 +13,14 @@ public class DateUtil {
         return format.format(now);
     }
 
+    public static String getTimerFormat(int seconds) {
+
+        if (seconds/60 < 10 && seconds%60 < 10) return "0"+seconds/60 + ":" + "0" + seconds%60;
+        if (seconds/60 < 10) return "0"+seconds/60 + ":" + seconds%60;
+        if (seconds%60 < 10) return seconds/60 + ":" + "0" + seconds%60;
+        return "";
+    }
+
     public static int getHour() {
         Date now = new Date();
         Calendar calendar = GregorianCalendar.getInstance();

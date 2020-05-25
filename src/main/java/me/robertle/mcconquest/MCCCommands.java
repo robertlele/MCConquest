@@ -182,6 +182,13 @@ public class MCCCommands implements CommandExecutor {
                         player.sendMessage(DefaultConfig.prefix + "Item(s) given.");
                         return true;
                     }
+                }
+                else if (args[0].equalsIgnoreCase("location")) {
+                    if (sender.hasPermission("mcc.admin")) {
+                        if (!(sender instanceof Player)) return false;
+                        Player player = (Player) sender;
+                        DefaultConfig.locations.put(args[1], player.getLocation());
+                    }
                 } else if (args[0].equalsIgnoreCase("bs")) {
                     if (sender.hasPermission("mcc.admin")) {
                         if (Bukkit.getPlayer(args[1]) != null) {

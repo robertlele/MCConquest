@@ -104,6 +104,21 @@ public class MCCPlaceholder extends PlaceholderExpansion {
                 return "None";
         }
 
+        else if (identifier.equals("event")) {
+            if (ClanEvents.eventActive) {
+                return Event.stringFromEvent(ClanEvents.currentEvent);
+            } else {
+                return "None";
+            }
+        }
+
+        else if (identifier.equals("status")) {
+            if (ClanEvents.eventActive) {
+                return ClanEvents.winner;
+            }
+            return "";
+        }
+
         return null;
     }
 }

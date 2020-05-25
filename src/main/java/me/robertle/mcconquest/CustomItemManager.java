@@ -813,7 +813,7 @@ public class CustomItemManager {
             return item.asItemStack();
         } else if (artifact == MCCArtifact.CRYSTAL_BEATER) {
             ItemBuilder item = new ItemBuilder(Material.GOLDEN_SWORD, 1);
-            item.displayName("§5§lCrystal Beater");
+            item.displayName("§d§lCrystal Beater");
             item.setGlowing(true);
             item.unbreakable(true);
             item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(3, 5) + " Lives", "");

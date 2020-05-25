@@ -40,7 +40,9 @@ public class Clan {
             for (ItemStack i : InventoryUtil.loadItemStackList(path + "Storage", storageSize)) {
                 if (i != null) storage.addItem(i);
             }
-            clans.put(name, new Clan(members, name, balance, logs, storage, perk, storageSize));
+            int eventWins = clanConfig.getInt(path + "Event Wins");
+            int battleWins = clanConfig.getInt(path + "Clan Battle Wins");
+            clans.put(name, new Clan(members, name, balance, logs, storage, perk, storageSize, eventWins, battleWins));
         }
 
         clanConfig.set("Clans", "");
@@ -54,6 +56,8 @@ public class Clan {
             clanConfig.set(path + "Name", clan.clanName);
             clanConfig.set(path + "Balance", clan.clanBalance);
             clanConfig.set(path + "Perk", clan.clanPerk);
+            clanConfig.set(path + "Event Wins", clan.eventWins);
+            clanConfig.set(path + "Clan Battle Wins", clan.battleWins);
             clanConfig.set(path + "Storage Size", clan.clanStorageSize);
             clanConfig.set(path + "Logs", clan.clanLogs);
             for (UUID uuid : clan.clanMembers.keySet()) {
@@ -139,7 +143,10 @@ public class Clan {
     public int clanPerk = 0;
     public int clanStorageSize = 18;
 
-    public Clan(HashMap<UUID, ClanRole> clanMembers, String clanName, int clanBalance, List<String> clanLogs, Inventory clanStorage, int clanPerk, int clanStorageSize) {
+    public int eventWins = 0;
+    public int battleWins = 0;
+
+    public Clan(HashMap<UUID, ClanRole> clanMembers, String clanName, int clanBalance, List<String> clanLogs, Inventory clanStorage, int clanPerk, int clanStorageSize, int eventWins, int battleWins) {
         this.clanMembers = clanMembers;
         this.clanName = clanName;
         this.clanBalance = clanBalance;
@@ -147,6 +154,8 @@ public class Clan {
         this.clanStorage = clanStorage;
         this.clanPerk = clanPerk;
         this.clanStorageSize = clanStorageSize;
+        this.eventWins = eventWins;
+        this.battleWins = battleWins;
         clans.put(clanName, this);
     }
 
@@ -215,6 +224,14 @@ public class Clan {
         Core.econ.withdrawPlayer(player, amount);
         this.clanBalance += amount;
         this.log(player.getName() + " deposited $" + amount + " to the clan.");
+    }
+
+    public boolean checkOnline(ClanRole role ) {
+        if (getOnlinePlayers().isEmpty()) return false;
+        for (Player player : getOnlinePlayers()) {
+            if (clanMembers.get(player.getUniqueId()) == role) return true;
+        }
+        return false;
     }
 
     public String getLogString(int page) {

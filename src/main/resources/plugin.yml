@@ -15,3 +15,6 @@ commands:
   generator:
     description: Base command for MC Conquest.
     aliases: [gen, generators]
+  event:
+    description: Base command for MC Conquest.
+    aliases: [events]

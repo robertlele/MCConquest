@@ -4,6 +4,7 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -29,6 +30,7 @@ public final class Core extends JavaPlugin {
         getCommand("cc").setExecutor(new ClanCommands());
         getCommand("mcc").setExecutor(new MCCCommands());
         getCommand("generator").setExecutor(new MCCCommands());
+        getCommand("event").setExecutor(new MCCCommands());
 
         //Events
         getServer().getPluginManager().registerEvents(new InventoryManager(), this);
@@ -37,6 +39,7 @@ public final class Core extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new VoucherEvent(), this);
         getServer().getPluginManager().registerEvents(new FishingManager(), this);
         getServer().getPluginManager().registerEvents(new MCCEvents(), this);
+        getServer().getPluginManager().registerEvents(new ClanEvents(), this);
 
         //Placeholder
         new MCCPlaceholder(this).register();
@@ -105,11 +108,27 @@ public final class Core extends JavaPlugin {
         return r;
     }
 
+    public static int rollNegative() {
+        if (chance(50)) return -1;
+        return 1;
+    }
+
     public static UUID getPlayerUUID(String player) {
         if (Bukkit.getOfflinePlayer(player).hasPlayedBefore()) {
             return Bukkit.getOfflinePlayer(player).getUniqueId();
         }
         return null;
+    }
+
+    public static Location getRandomLocationAtHighestBlock(Location center, int xMin, int xMax, int zMin, int zMax) {
+        int x = center.getBlockX() + (rollNegative()*Core.generateNumber(xMin,xMax));
+        int z = center.getBlockZ() + (rollNegative()*Core.generateNumber(zMin,zMax));
+        int y = Bukkit.getWorld("world").getHighestBlockYAt(x, z);
+        return new Location(Bukkit.getWorld("world"), x, y, z);
+    }
+
+    public static String getStringFromLocation(Location location) {
+        return location.getBlockX() + ", " + location.getBlockY() + ", " + location.getBlockZ();
     }
 
     public static void sendActionBar(Player player, String message) {

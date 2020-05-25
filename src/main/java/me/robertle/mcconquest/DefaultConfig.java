@@ -1,12 +1,17 @@
 package me.robertle.mcconquest;
 
+import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
+
+import java.util.HashMap;
 
 public class DefaultConfig {
 
     public static FileConfiguration config = Core.instance.getConfig();
 
     public static String prefix;
+
+    public static HashMap<String, Location> locations = new HashMap<>();
 
     public static void loadDefaultConfigurations() {
 
@@ -29,6 +34,12 @@ public class DefaultConfig {
             config.set("Clan Events.24", "TREASURE_HUNT");
         }
 
+        if (config.get("Locations") != null) {
+            for (String locationName : config.getConfigurationSection("Locations").getKeys(false)) {
+                locations.put(locationName, config.getLocation("Locations." + locationName));
+            }
+        }
+
         Core.instance.getConfig().options().copyDefaults(true);
         Core.instance.saveConfig();
         Core.logToConsole("Default config has been loaded.");
@@ -38,6 +49,11 @@ public class DefaultConfig {
         for (int time : ClanEvents.eventTimes.keySet()) {
             config.set("Clan Events." + time, ClanEvents.eventTimes.get(time).toString());
         }
+
+        if (!locations.isEmpty())
+            for (String locationName : locations.keySet()) {
+                config.set("Locations." + locationName, locations.get(locationName));
+            }
 
         Core.instance.saveConfig();
         Core.logToConsole("Default config has been saved.");

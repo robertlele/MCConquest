@@ -19,6 +19,16 @@ public class MCCEvents implements Listener {
         e.setShouldDropExperience(false);
         e.setKeepLevel(false);
         //Add if statements here to check if lives should be deducted
+        if (Challenge.activeChallenge.team1Participants.contains(e.getEntity())) {
+            Challenge.activeChallenge.team1Participants.remove(e.getEntity());
+            e.getEntity().sendMessage(DefaultConfig.prefix + "§cYou've been eliminated from the clan battle.");
+            return;
+        }
+        else if (Challenge.activeChallenge.team2Participants.contains(e.getEntity())) {
+            Challenge.activeChallenge.team2Participants.remove(e.getEntity());
+            e.getEntity().sendMessage(DefaultConfig.prefix + "§cYou've been eliminated from the clan battle.");
+            return;
+        }
         for (ItemStack itemStack : e.getEntity().getInventory().getStorageContents()) {
             if (ItemHelper.hasLore(itemStack) && ItemHelper.getLore(itemStack).size() > 1) {
                 String lore = ItemHelper.getLore(itemStack).get(1);

@@ -10,6 +10,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
 
@@ -623,6 +624,107 @@ public class InventoryManager implements Listener {
     public void closeSpecialMerchantGui(InventoryCloseEvent e) {
         if (e.getView().getTitle().contains("Special Merchant")) {
             e.getPlayer().sendMessage("§6§lSpecial Merchant §f> §aThanks for your business.");
+        }
+    }
+
+    //Member Picker
+    public static Inventory getMemberPicker(Clan clan) {
+        Inventory inv = Bukkit.createInventory(null, 9, "§6§lMember Picker");
+
+        int i = 0;
+        for (Player player : clan.getOnlinePlayers()) {
+            ItemBuilder head = new ItemBuilder(CustomHeadManager.getPlayerHead(player));
+            head.displayName("§f" + player.getName());
+            head.lore("§eLeft click to add player", "§eRight click to remove player");
+            inv.setItem(i, head.asItemStack());
+            i++;
+        }
+
+        ItemBuilder confirm = new ItemBuilder(Material.GREEN_STAINED_GLASS_PANE);
+        confirm.displayName("§aConfirm");
+        inv.setItem(8, confirm.asItemStack());
+
+        return inv;
+    }
+
+    @EventHandler
+    public void memberPickerGui(InventoryClickEvent e) {
+        if (e.getView().getTitle().contains("Member Picker")) {
+            e.setCancelled(true);
+            Player player = (Player) e.getWhoClicked();
+            if (e.getCurrentItem().getType() == Material.PLAYER_HEAD) {
+                Clan clan = Clan.getClan(Clan.getPlayerClan(player));
+                if (e.getClick() == ClickType.LEFT) {
+                    if (!e.getCurrentItem().getItemMeta().hasEnchants()) {
+                        SkullMeta skull = (SkullMeta) e.getCurrentItem().getItemMeta();
+                        if (skull.getOwningPlayer().isOnline()) {
+                            Player skullPlayer = skull.getOwningPlayer().getPlayer();
+                            ItemBuilder item = new ItemBuilder(e.getCurrentItem());
+                            item.setGlowing(true);
+                            e.setCurrentItem(item.asItemStack());
+                            Challenge challenge = Challenge.pendingChallenges.get(clan);
+                            if (challenge.clan1 == clan) {
+                                if (!challenge.team1Participants.contains(skullPlayer)) challenge.team1Participants.add(skullPlayer);
+                            }
+                            else if (challenge.clan2 == clan) {
+                                if (!challenge.team2Participants.contains(skullPlayer)) challenge.team2Participants.add(skullPlayer);
+                            }
+                        }
+                    }
+                }
+                else if (e.getClick() == ClickType.RIGHT) {
+                    if (e.getCurrentItem().getItemMeta().hasEnchants()) {
+                        SkullMeta skull = (SkullMeta) e.getCurrentItem().getItemMeta();
+                        if (skull.getOwningPlayer().isOnline()) {
+                            Player skullPlayer = skull.getOwningPlayer().getPlayer();
+                            ItemBuilder item = new ItemBuilder(e.getCurrentItem());
+                            item.setGlowing(false);
+                            e.setCurrentItem(item.asItemStack());
+                            Challenge challenge = Challenge.pendingChallenges.get(clan);
+                            if (challenge.clan1 == clan) {
+                                if (challenge.team1Participants.contains(skullPlayer)) challenge.team1Participants.remove(skullPlayer);
+                            }
+                            else if (challenge.clan2 == clan) {
+                                if (challenge.team2Participants.contains(skullPlayer)) challenge.team2Participants.remove(skullPlayer);
+                            }
+                        }
+                    }
+                }
+            }
+            if (e.isLeftClick() && ItemHelper.getName(e.getCurrentItem()).equalsIgnoreCase("§aConfirm")) {
+                Clan clan = Clan.getClan(Clan.getPlayerClan(player));
+                Challenge challenge = Challenge.pendingChallenges.get(clan);
+                if (challenge.clan1 == clan) {
+                    if (!challenge.team1Participants.isEmpty()) {
+                        player.closeInventory();
+                        challenge.confirm1 = true;
+                        if (challenge.confirm2) {
+                            player.sendMessage(DefaultConfig.prefix + "§aBoth clans have confirmed, now placing in queue.");
+                            Challenge.challengeQueue.add(challenge);
+                        }
+                    }
+                }
+                else if (challenge.clan2 == clan) {
+                    if (!challenge.team1Participants.isEmpty()) {
+                        player.closeInventory();
+                        challenge.confirm2 = true;
+                        if (challenge.confirm1) {
+                            player.sendMessage(DefaultConfig.prefix + "§aBoth clans have confirmed, now placing in queue.");
+                            Challenge.challengeQueue.add(challenge);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void closeMemberPickerGui(InventoryCloseEvent e) {
+        if (e.getView().getTitle().contains("Member Picker")) {
+            if (e.getReason() != InventoryCloseEvent.Reason.PLUGIN) {
+                Player player = (Player) e.getPlayer();
+                e.getPlayer().openInventory(getMemberPicker(Clan.getClan(Clan.getPlayerClan(player))));
+            }
         }
     }
 

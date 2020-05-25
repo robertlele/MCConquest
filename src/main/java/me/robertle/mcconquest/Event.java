@@ -1,5 +1,19 @@
 package me.robertle.mcconquest;
 
 public enum Event {
-    BEAT_DOWN, KOTH, LUCKY_PIT, TREASURE_HUNT
+    BEAT_DOWN, KOTH, LUCKY_PIT, TREASURE_HUNT;
+
+    public static String stringFromEvent(Event event) {
+        switch (event) {
+            case BEAT_DOWN:
+                return "Beat Down";
+            case KOTH:
+                return "KOTH";
+            case LUCKY_PIT:
+                return "Lucky Pit";
+            case TREASURE_HUNT:
+                return "Treasure Hunt";
+        }
+        return null;
+    }
 }

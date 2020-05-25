@@ -2,7 +2,9 @@ package me.robertle.mcconquest;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -55,6 +57,14 @@ public class CustomHeadManager {
         return Bukkit.getUnsafe().modifyItemStack(skull,
                 "{SkullOwner:{Id:\"" + hashAsId + "\",Properties:{textures:[{Value:\"" + value + "\"}]}}}"
         );
+    }
+
+    public static ItemStack getPlayerHead(Player player) {
+        ItemStack item = new ItemStack(Material.PLAYER_HEAD, 1 , (short) 3);
+        SkullMeta meta = (SkullMeta) item.getItemMeta();
+        meta.setOwningPlayer(player);
+        item.setItemMeta(meta);
+        return item;
     }
 
     public static ItemStack getHead(Pet pet) {
