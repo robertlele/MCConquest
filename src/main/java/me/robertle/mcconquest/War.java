@@ -60,11 +60,11 @@ public class War implements Listener, CommandExecutor {
                         }
                         return true;
                     } else if (args[0].equalsIgnoreCase("list")) {
-                        StringUtil.sendCenteredMessage(player, "§f──────── §aClan Wars List §f────────");
+                        StringUtil.sendCenteredMessage(player, "§f§m────────§aClan Wars List §f────────");
                         for (int i = 0; i < warClans.size(); i++) {
                             player.sendMessage("§f" + (i + 1) + ". §6" + warClans.get(i));
                         }
-                        StringUtil.sendCenteredMessage(player, "§f───────────────────────────────");
+                        StringUtil.sendCenteredMessage(player, "§f§m───────────────────────────────");
                         return true;
                     } else if (args[0].equalsIgnoreCase("toggle")) {
                         if (!player.hasPermission("mcc.admin")) {
@@ -153,7 +153,7 @@ public class War implements Listener, CommandExecutor {
                     player.sendMessage("§f/war apply §eApply to join the clan war.");
                     player.sendMessage("§f/war list §eView clans currently in the clan war.");
                     player.sendMessage("§f/warp spectate §eTeleport to the war's spectate area.");
-                    StringUtil.sendCenteredMessage(player, "§f───────────────────────────────");
+                    StringUtil.sendCenteredMessage(player, "§f§m───────────────────────────────");
                     return false;
                 }
             }
@@ -170,11 +170,11 @@ public class War implements Listener, CommandExecutor {
 
     public static void startWar() {
         warActive = true;
-        Core.shoutCenter("§f──────── §6Clan War §f────────");
+        Core.shoutCenter("§f§m────────§6Clan War §f────────");
         Core.shoutCenter("§eA clan war is starting.");
         Core.shoutCenter("§6" + clan1.clanName + " §f§lVS §6" + clan2.clanName);
         Core.shoutCenter("§eDo §f/warp spectate §eto watch!");
-        Core.shoutCenter("───────────────────────────────");
+        Core.shoutCenter("§m───────────────────────────────");
 
         for (Player player : clan1.getOnlinePlayers()) {
             player.teleport(DefaultConfig.locations.get("warteam1"));
@@ -187,10 +187,11 @@ public class War implements Listener, CommandExecutor {
         }
 
         new BukkitRunnable() {
+            HashMap<String, Integer> kothTimes = new HashMap<>();
+            Player holder = null;
+
             public void run() {
                 if (warActive) {
-                    HashMap<String, Integer> kothTimes = new HashMap<>();
-                    Player holder = null;
                     if (holder != null && WGRegionManager.inRegion(holder, "warkoth")) {
                         Clan clan = Clan.getClan(Clan.getPlayerClan(holder));
                         if (kothTimes.containsKey(clan.clanName)) {
@@ -213,10 +214,10 @@ public class War implements Listener, CommandExecutor {
 
                     for (String clans : kothTimes.keySet()) {
                         if (kothTimes.get(clans) == 300) {
-                            Core.shoutCenter("§f──────── §6Clan War §f────────");
+                            Core.shoutCenter("§f§m────────§6Clan War §f────────");
                             Core.shoutCenter("§eThe clan war has ended.");
                             Core.shoutCenter("§eThe winner of the war is: §6" + clans);
-                            Core.shoutCenter("───────────────────────────────");
+                            Core.shoutCenter("§m───────────────────────────────");
                         }
                         stopWar();
                         this.cancel();
@@ -255,16 +256,16 @@ public class War implements Listener, CommandExecutor {
             clan2Players.remove(e.getEntity());
         }
         if (clan1Players.isEmpty()) {
-            Core.shoutCenter("§f──────── §6Clan War §f────────");
+            Core.shoutCenter("§f§m────────§6Clan War §f────────");
             Core.shoutCenter("§eThe clan war has ended.");
             Core.shoutCenter("§eThe winner of the war is: §6" + clan2.clanName);
-            Core.shoutCenter("───────────────────────────────");
+            Core.shoutCenter("§m───────────────────────────────");
             stopWar();
         } else if (clan2Players.isEmpty()) {
-            Core.shoutCenter("§f──────── §6Clan War §f────────");
+            Core.shoutCenter("§f§m────────§6Clan War §f────────");
             Core.shoutCenter("§eThe clan war has ended.");
             Core.shoutCenter("§eThe winner of the war is: §6" + clan1.clanName);
-            Core.shoutCenter("───────────────────────────────");
+            Core.shoutCenter("§m───────────────────────────────");
             stopWar();
         }
     }
@@ -279,16 +280,16 @@ public class War implements Listener, CommandExecutor {
             clan2Players.remove(e.getPlayer());
         }
         if (clan1Players.isEmpty()) {
-            Core.shoutCenter("§f──────── §6Clan War §f────────");
+            Core.shoutCenter("§f§m────────§6Clan War §f────────");
             Core.shoutCenter("§eThe clan war has ended.");
             Core.shoutCenter("§eThe winner of the war is: §6" + clan2.clanName);
-            Core.shoutCenter("───────────────────────────────");
+            Core.shoutCenter("§m───────────────────────────────");
             stopWar();
         } else if (clan2Players.isEmpty()) {
-            Core.shoutCenter("§f──────── §6Clan War §f────────");
+            Core.shoutCenter("§f§m────────§6Clan War §f────────");
             Core.shoutCenter("§eThe clan war has ended.");
             Core.shoutCenter("§eThe winner of the war is: §6" + clan1.clanName);
-            Core.shoutCenter("───────────────────────────────");
+            Core.shoutCenter("§m───────────────────────────────");
             stopWar();
         }
     }

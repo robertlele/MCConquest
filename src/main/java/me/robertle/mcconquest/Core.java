@@ -71,6 +71,9 @@ public final class Core extends JavaPlugin {
         Clan.saveClans();
         MCCPlayer.savePlayers();
         DefaultConfig.saveDefaultConfigurations();
+
+        //Events
+        ClanEvents.stopCurretEvent();
     }
 
     public static void logToConsole(String message) {

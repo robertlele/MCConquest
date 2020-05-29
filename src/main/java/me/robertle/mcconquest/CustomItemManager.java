@@ -1,5 +1,6 @@
 package me.robertle.mcconquest;
 
+import net.splodgebox.elitelootbox.EliteLootbox;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
@@ -809,14 +810,14 @@ public class CustomItemManager {
             item.displayName("§4§lExtreme Knockback Stick");
             item.enchant(Enchantment.KNOCKBACK, 2);
             item.flag(ItemFlag.HIDE_ENCHANTS);
-            item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
+            item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§eDeal extreme knockback with this stick");
             return item.asItemStack();
         } else if (artifact == MCCArtifact.CRYSTAL_BEATER) {
             ItemBuilder item = new ItemBuilder(Material.GOLDEN_SWORD, 1);
             item.displayName("§d§lCrystal Beater");
             item.setGlowing(true);
             item.unbreakable(true);
-            item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
+            item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§eDeal extra damage to crystals");
             return item.asItemStack();
         } else if (artifact == MCCArtifact.SQUID_ROD) {
             ItemBuilder item = new ItemBuilder(Material.FISHING_ROD, 1);
@@ -849,7 +850,7 @@ public class CustomItemManager {
             item.displayName("§c§lKnockback Stick");
             item.enchant(Enchantment.KNOCKBACK, 1);
             item.flag(ItemFlag.HIDE_ENCHANTS);
-            item.lore("§a§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
+            item.lore("§a§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§eDeal knockback with this stick");
             return item.asItemStack();
         }
         return null;
@@ -1093,17 +1094,17 @@ public class CustomItemManager {
     public static ItemStack getCrate(Crate crate) {
         switch (crate) {
             case VOTE_CRATE:
-                return null;
+                return EliteLootbox.getLootboxes().get("vote").getItemStack();
             case BASIC_CRATE:
-                return null;
+                return EliteLootbox.getLootboxes().get("basic").getItemStack();
             case SUPER_CRATE:
-                return null;
+                return EliteLootbox.getLootboxes().get("super").getItemStack();
             case ULTRA_CRATE:
-                return null;
+                return EliteLootbox.getLootboxes().get("ultra").getItemStack();
             case GODLY_CRATE:
-                return null;
+                return EliteLootbox.getLootboxes().get("godly").getItemStack();
             case PET_CRATE:
-                return null;
+                return EliteLootbox.getLootboxes().get("pet").getItemStack();
         }
         return null;
     }
@@ -1151,7 +1152,7 @@ public class CustomItemManager {
 
     public static ItemStack getTag(Tag tag) {
         ItemBuilder item = new ItemBuilder((Material.NAME_TAG));
-        item.displayName(tag.getTagString() + "Tag Voucher");
+        item.displayName(tag.getTagString() + " Tag Voucher");
         item.lore("", "§eRight click to claim the tag.");
         item.setGlowing(true);
         return item.asItemStack();

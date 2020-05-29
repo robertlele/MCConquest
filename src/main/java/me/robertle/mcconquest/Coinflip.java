@@ -1,8 +1,6 @@
 package me.robertle.mcconquest;
 
 import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -78,6 +76,10 @@ public class Coinflip implements Listener, CommandExecutor {
                         }
                         if (Bukkit.getOfflinePlayer(Core.getPlayerUUID(args[0])).isOnline()) {
                             UUID receiver = Core.getPlayerUUID(args[0]);
+                            if (!player.getNearbyEntities(30, 30, 30).contains(Bukkit.getPlayer(receiver))) {
+                                player.sendMessage(DefaultConfig.prefix + "§cThe player must be within §f30 §cblocks.");
+                                return false;
+                            }
                             pendingCoinflips.put(receiver, player.getName() + "'s Coinflip");
                             player.sendMessage(DefaultConfig.prefix + "§aCoinflip has been sent to §6" + Bukkit.getOfflinePlayer(receiver).getName());
                             player.sendMessage(DefaultConfig.prefix + "§aThey have §f30 seconds §ato accept the request.");
@@ -104,12 +106,12 @@ public class Coinflip implements Listener, CommandExecutor {
                         }
                     }
                 } else {
-                    StringUtil.sendCenteredMessage(player, "§f──────── §aCoinflip Help §f────────");
+                    StringUtil.sendCenteredMessage(player, "§f§m──────── §aCoinflip Help §f§m────────");
                     player.sendMessage("§e/cf <player> §fSend a coinflip to a player.");
                     player.sendMessage("§e/cf accept §fAccept a coinflip.");
                     player.sendMessage("§e/cf decline §fDecline a coinflip");
                     player.sendMessage("§e/cf collect §fCollect winnings from coinflips.");
-                    StringUtil.sendCenteredMessage(player, "§f────────────────────────");
+                    StringUtil.sendCenteredMessage(player, "§f§m────────────────────────");
                 }
             }
         }

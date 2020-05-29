@@ -41,6 +41,5 @@
     <orderEntry type="library" scope="PROVIDED" name="PlaceholderAPI-2.10.6" level="project" />
     <orderEntry type="library" name="EliteLootbox-2.0.0" level="project" />
     <orderEntry type="library" name="worldedit-bukkit-7.1.0" level="project" />
-    <orderEntry type="library" name="CombatLogX" level="project" />
   </component>
 </module>

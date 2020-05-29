@@ -27,55 +27,55 @@ public class VoucherEvent implements Listener {
                     ItemStack item = CustomItemManager.getRandomArmor();
                     e.getPlayer().getInventory().addItem(item);
                     if (Core.chance(5)) e.getPlayer().getInventory().addItem(CustomItemManager.getTag(Tag.BTIER));
-                    Core.shout(DefaultConfig.prefix + "§6" + e.getPlayer().getName() + " opened " + item.getItemMeta().getDisplayName());
+                    Core.shout(DefaultConfig.prefix + "§6" + e.getPlayer().getName() + " §fopened " + item.getItemMeta().getDisplayName());
                     InventoryUtil.removeAnItemInHand(e.getPlayer());
                 } else if (ItemHelper.getName(e.getItem()).equalsIgnoreCase("§6§lSpecial Armor Voucher")) {
                     ItemStack item = CustomItemManager.getSpecialRandomArmor();
                     e.getPlayer().getInventory().addItem(item);
                     if (Core.chance(5)) e.getPlayer().getInventory().addItem(CustomItemManager.getTag(Tag.SPECIAL));
-                    Core.shout(DefaultConfig.prefix + "§6" + e.getPlayer().getName() + " opened " + item.getItemMeta().getDisplayName());
+                    Core.shout(DefaultConfig.prefix + "§6" + e.getPlayer().getName() + " §fopened " + item.getItemMeta().getDisplayName());
                     InventoryUtil.removeAnItemInHand(e.getPlayer());
                 } else if (ItemHelper.getName(e.getItem()).equalsIgnoreCase("§6§lWeapon Voucher")) {
                     ItemStack item = CustomItemManager.getRandomWeapon();
                     e.getPlayer().getInventory().addItem(item);
                     if (Core.chance(5)) e.getPlayer().getInventory().addItem(CustomItemManager.getTag(Tag.BTIER));
-                    Core.shout(DefaultConfig.prefix + "§6" + e.getPlayer().getName() + " opened " + item.getItemMeta().getDisplayName());
+                    Core.shout(DefaultConfig.prefix + "§6" + e.getPlayer().getName() + " §fopened " + item.getItemMeta().getDisplayName());
                     InventoryUtil.removeAnItemInHand(e.getPlayer());
                 } else if (ItemHelper.getName(e.getItem()).equalsIgnoreCase("§6§lSpecial Weapon Voucher")) {
                     ItemStack item = CustomItemManager.getSpecialRandomWeapon();
                     e.getPlayer().getInventory().addItem(item);
                     if (Core.chance(5)) e.getPlayer().getInventory().addItem(CustomItemManager.getTag(Tag.SPECIAL));
-                    Core.shout(DefaultConfig.prefix + "§6" + e.getPlayer().getName() + " opened " + item.getItemMeta().getDisplayName());
+                    Core.shout(DefaultConfig.prefix + "§6" + e.getPlayer().getName() + " §fopened " + item.getItemMeta().getDisplayName());
                     InventoryUtil.removeAnItemInHand(e.getPlayer());
                 } else if (ItemHelper.getName(e.getItem()).equalsIgnoreCase("§6§lArtifact Voucher")) {
                     ItemStack item = CustomItemManager.getRandomArtifact();
                     e.getPlayer().getInventory().addItem(item);
-                    Core.shout(DefaultConfig.prefix + "§6" + e.getPlayer().getName() + " opened " + item.getItemMeta().getDisplayName());
+                    Core.shout(DefaultConfig.prefix + "§6" + e.getPlayer().getName() + " §fopened " + item.getItemMeta().getDisplayName());
                     InventoryUtil.removeAnItemInHand(e.getPlayer());
                 } else if (ItemHelper.getName(e.getItem()).equalsIgnoreCase("§8§lGenerator Voucher")) {
                     int r = Core.generateNumber(0, 2);
                     if (r == 0) {
                         e.getPlayer().getInventory().addItem(CustomItemManager.getGenerator(GeneratorType.MONEY));
-                        Core.shout(DefaultConfig.prefix + "§6" + e.getPlayer().getName() + " opened a money generator.");
+                        Core.shout(DefaultConfig.prefix + "§6" + e.getPlayer().getName() + " §fopened a §6money generator");
                     } else if (r == 1) {
                         e.getPlayer().getInventory().addItem(CustomItemManager.getGenerator(GeneratorType.INGOT));
-                        Core.shout(DefaultConfig.prefix + "§6" + e.getPlayer().getName() + " opened a ingot generator.");
+                        Core.shout(DefaultConfig.prefix + "§6" + e.getPlayer().getName() + " §fopened a §6ingot generator.");
                     } else if (r == 2) {
                         e.getPlayer().getInventory().addItem(CustomItemManager.getGenerator(GeneratorType.ESSENCE));
-                        Core.shout(DefaultConfig.prefix + "§6" + e.getPlayer().getName() + " opened a essence generator.");
+                        Core.shout(DefaultConfig.prefix + "§6" + e.getPlayer().getName() + " §fopened a §6essence generator.");
                     }
                     InventoryUtil.removeAnItemInHand(e.getPlayer());
                 } else if (ItemHelper.getName(e.getItem()).equalsIgnoreCase("§4§lS-Tier Voucher")) {
                     ItemStack item = CustomItemManager.getRandomSTier();
                     e.getPlayer().getInventory().addItem(item);
                     if (Core.chance(5)) e.getPlayer().getInventory().addItem(CustomItemManager.getTag(Tag.STIER));
-                    Core.shout(DefaultConfig.prefix + "§6" + e.getPlayer().getName() + " opened " + item.getItemMeta().getDisplayName());
+                    Core.shout(DefaultConfig.prefix + "§6" + e.getPlayer().getName() + " §fopened " + item.getItemMeta().getDisplayName());
                     InventoryUtil.removeAnItemInHand(e.getPlayer());
                 } else if (ItemHelper.getName(e.getItem()).equalsIgnoreCase("§e§lA-Tier Voucher")) {
                     ItemStack item = CustomItemManager.getRandomATier();
                     e.getPlayer().getInventory().addItem(item);
                     if (Core.chance(5)) e.getPlayer().getInventory().addItem(CustomItemManager.getTag(Tag.ATIER));
-                    Core.shout(DefaultConfig.prefix + "§6" + e.getPlayer().getName() + " opened " + item.getItemMeta().getDisplayName());
+                    Core.shout(DefaultConfig.prefix + "§6" + e.getPlayer().getName() + " §fopened " + item.getItemMeta().getDisplayName());
                     InventoryUtil.removeAnItemInHand(e.getPlayer());
                 } else if (ItemHelper.getName(e.getItem()).equalsIgnoreCase("§a§lMoney Generator")) {
                     if (Generator.addNewGenerator(e.getPlayer(), GeneratorType.MONEY)) {
@@ -99,7 +99,7 @@ public class VoucherEvent implements Listener {
                         e.getPlayer().sendMessage(DefaultConfig.prefix + "§cYour generator limit has already been reached.");
                     }
                 } else if (ItemHelper.getName(e.getItem()).contains("Tag Voucher")) {
-                    Tag tag = Tag.getTagFromTagString(ItemHelper.getName(e.getItem()).replace("Tag Voucher", ""));
+                    Tag tag = Tag.getTagFromTagString(ItemHelper.getName(e.getItem()).replace(" Tag Voucher", ""));
                     Tags.giveTag(e.getPlayer(), tag);
                     e.getPlayer().sendMessage(DefaultConfig.prefix + "§aYou've successfully claimed the tag.");
                     InventoryUtil.removeAnItemInHand(e.getPlayer());

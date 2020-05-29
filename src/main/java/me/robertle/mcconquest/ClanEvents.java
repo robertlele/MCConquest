@@ -32,7 +32,8 @@ public class ClanEvents implements Listener, CommandExecutor {
     public static Event currentEvent;
     public static boolean eventActive;
     public static boolean eventToggle = true;
-    public static String winner;
+    public static String winner = "";
+    public static int skip = 0;
 
     //Beat Down
     public static HashMap<String, Integer> damageDone = new HashMap<>();
@@ -68,83 +69,97 @@ public class ClanEvents implements Listener, CommandExecutor {
         if (event == Event.LUCKY_PIT) {
             eventActive = true;
             currentEvent = Event.LUCKY_PIT;
-            Core.shoutCenter("§f──────── §6Clan Event §f────────");
+            Core.shoutCenter("§f§m──────── §6Clan Event §f§m────────");
             Core.shoutCenter("§eThe Lucky Pit event is starting soon.");
             Core.shoutCenter("§eLocation: §f" + Core.getStringFromLocation(DefaultConfig.locations.get("luckypit"))); //Put Coords here
-            Core.shoutCenter("───────────────────────");
+            Core.shoutCenter("§m───────────────────────");
+            winner = "Starting soon...";
 
             new BukkitRunnable() {
                 public void run() {
-                    if (eventActive) {
-                        Core.shoutCenter("§f──────── §6Clan Event §f────────");
+                    if (eventActive && currentEvent == Event.LUCKY_PIT) {
+                        Core.shoutCenter("§f§m──────── §6Clan Event §f§m────────");
                         Core.shoutCenter("§eThe Lucky Pit event has started.");
                         Core.shoutCenter("§eA random winner will be selected in §f5 minutes§e.");
-                        Core.shoutCenter("───────────────────────");
+                        Core.shoutCenter("§m───────────────────────");
+                        winner = "Winner will be selected soon...";
                     } else {
                         this.cancel();
                         return;
                     }
-                }
-            }.runTaskLater(Core.instance, 6000L);
+                    new BukkitRunnable() {
+                        public void run() {
+                            if (eventActive && currentEvent == Event.LUCKY_PIT) {
+                                List<Player> bag = new ArrayList<>();
+                                for (Player player : Bukkit.getOnlinePlayers()) {
+                                    if (WGRegionManager.inRegion(player, "luckypit")) bag.add(player);
+                                }
+                                Collections.shuffle(bag);
+                                Player winner = null;
+                                if (!bag.isEmpty())
+                                    winner = bag.get(Core.generateNumber(0, bag.size() - 1));
 
-            new BukkitRunnable() {
-                public void run() {
-                    if (eventActive) {
-                        List<Player> bag = new ArrayList<>();
-                        for (Player player : Bukkit.getOnlinePlayers()) {
-                            if (WGRegionManager.inRegion(player, "luckypit")) bag.add(player);
+                                if (winner != null) {
+                                    Core.shoutCenter("§f§m──────── §6Clan Event §f§m────────");
+                                    Core.shoutCenter("§eThe Lucky Pit event has ended.");
+                                    Core.shoutCenter("§eThe winner of the pit is: §6" + winner.getName());
+                                    Core.shoutCenter("§m───────────────────────");
+
+                                    winner.getInventory().addItem(CustomItemManager.getCrate(Crate.ULTRA_CRATE));
+                                    if (Core.chance(5))
+                                        winner.getInventory().addItem(CustomItemManager.getTag(Tag.EZ));
+                                } else {
+                                    Core.shoutCenter("§f§m──────── §6Clan Event §f§m────────");
+                                    Core.shoutCenter("§eThe Lucky Pit event has ended.");
+                                    Core.shoutCenter("§eNobody was in the pit to win.");
+                                    Core.shoutCenter("§m───────────────────────");
+                                }
+                                stopCurretEvent();
+                            } else {
+                                this.cancel();
+                                return;
+                            }
                         }
-                        Collections.shuffle(bag);
-                        Player winner = bag.get(Core.generateNumber(0, bag.size() - 1));
-
-                        Core.shoutCenter("§f──────── §6Clan Event §f────────");
-                        Core.shoutCenter("§eThe Lucky Pit event has ended.");
-                        Core.shoutCenter("§eThe winner of the pit is: §6" + winner.getName());
-                        Core.shoutCenter("───────────────────────");
-
-                        winner.getInventory().addItem(CustomItemManager.getCrate(Crate.ULTRA_CRATE));
-                        if (Core.chance(5)) winner.getInventory().addItem(CustomItemManager.getTag(Tag.WINNER));
-                        stopCurretEvent();
-                    } else {
-                        this.cancel();
-                        return;
-                    }
+                    }.runTaskLater(Core.instance, 6000L - skip);
                 }
-            }.runTaskLater(Core.instance, 12000L);
+            }.runTaskLater(Core.instance, 6000L - skip);
 
         } else if (event == Event.KOTH) {
             eventActive = true;
             currentEvent = Event.KOTH;
-            Core.shoutCenter("§f──────── §6Clan Event §f────────");
+            Core.shoutCenter("§f§m──────── §6Clan Event §f§m────────");
             Core.shoutCenter("§eThe KOTH event is starting soon.");
             Core.shoutCenter("§eLocation: §f?, ?, ?");
-            Core.shoutCenter("───────────────────────");
+            Core.shoutCenter("§m───────────────────────");
+            winner = "Starting soon...";
 
             int koth = Core.generateNumber(1, 2);
 
             new BukkitRunnable() {
                 public void run() {
-                    if (eventActive) {
-                        Core.shoutCenter("§f──────── §6Clan Event §f────────");
+                    if (eventActive && currentEvent == Event.KOTH) {
+                        Core.shoutCenter("§f§m──────── §6Clan Event §f§m────────");
                         Core.shoutCenter("§eThe KOTH event has started.");
                         Core.shoutCenter("§eThe first clan to hold the KOTH for 10 minutes wins.");
                         if (koth == 1)
                             Core.shoutCenter("§eLocation: §f" + Core.getStringFromLocation(DefaultConfig.locations.get("koth1")));
                         if (koth == 2)
                             Core.shoutCenter("§eLocation: §f" + Core.getStringFromLocation(DefaultConfig.locations.get("koth2")));
-                        Core.shoutCenter("───────────────────────");
+                        Core.shoutCenter("§m───────────────────────");
+                        winner = "Started";
                     } else {
                         this.cancel();
                         return;
                     }
                 }
-            }.runTaskLater(Core.instance, 6000L);
+            }.runTaskLater(Core.instance, 6000L - skip);
 
             new BukkitRunnable() {
+                Player holder = null;
+                HashMap<String, Integer> kothTimes = new HashMap<>();
+
                 public void run() {
-                    if (eventActive) {
-                        HashMap<String, Integer> kothTimes = new HashMap<>();
-                        Player holder = null;
+                    if (eventActive && currentEvent == Event.KOTH) {
                         if (holder != null && WGRegionManager.inRegion(holder, "koth" + koth)) {
                             if (Clan.getPlayerClan(holder).equalsIgnoreCase("None")) {
                                 if (kothTimes.containsKey("Player: " + holder.getName())) {
@@ -152,7 +167,7 @@ public class ClanEvents implements Listener, CommandExecutor {
                                 } else {
                                     kothTimes.put("Player: " + holder.getName(), 1);
                                 }
-                                winner = "§6" + "Player: " + holder.getName() + " §f> §7Time: " + DateUtil.getTimerFormat(kothTimes.get("Player: " + holder.getName()));
+                                winner = "§6" + "Player: " + holder.getName() + " §f> §f§lTime: §f" + DateUtil.getTimerFormat(kothTimes.get("Player: " + holder.getName()));
                             } else {
                                 Clan clan = Clan.getClan(Clan.getPlayerClan(holder));
                                 if (kothTimes.containsKey(clan.clanName)) {
@@ -160,7 +175,7 @@ public class ClanEvents implements Listener, CommandExecutor {
                                 } else {
                                     kothTimes.put(clan.clanName, 1);
                                 }
-                                winner = "§6" + clan.clanName + " §f> §7Time: " + DateUtil.getTimerFormat(kothTimes.get(clan.clanName));
+                                winner = "§6" + clan.clanName + " §f> §f§lTime: §f" + DateUtil.getTimerFormat(kothTimes.get(clan.clanName));
                             }
                         } else {
                             for (Player player : Bukkit.getOnlinePlayers()) {
@@ -174,21 +189,22 @@ public class ClanEvents implements Listener, CommandExecutor {
 
                         for (String clans : kothTimes.keySet()) {
                             if (kothTimes.get(clans) == 600) {
-                                Core.shoutCenter("§f──────── §6Clan Event §f────────");
+                                Core.shoutCenter("§f§m──────── §6Clan Event §f§m────────");
                                 Core.shoutCenter("§eThe KOTH event has ended.");
                                 Core.shoutCenter("§eThe winner of the KOTH is: §6" + clans);
-                                Core.shoutCenter("───────────────────────");
+                                Core.shoutCenter("§m───────────────────────");
                                 if (clans.contains("Player: ")) {
                                     Player player = Bukkit.getPlayer(clans.replace("Player: ", ""));
                                     if (player.isOnline()) {
                                         player.getInventory().addItem(CustomItemManager.getCrate(Crate.ULTRA_CRATE));
                                         if (Core.chance(5))
-                                            player.getInventory().addItem(CustomItemManager.getTag(Tag.WINNER));
+                                            player.getInventory().addItem(CustomItemManager.getTag(Tag.EZ));
                                     }
                                 } else {
                                     if (holder.isOnline()) {
                                         holder.getInventory().addItem(CustomItemManager.getCrate(Crate.ULTRA_CRATE));
-                                        if (Core.chance(5)) holder.getInventory().addItem(CustomItemManager.getTag(Tag.WINNER));
+                                        if (Core.chance(5))
+                                            holder.getInventory().addItem(CustomItemManager.getTag(Tag.EZ));
                                     }
                                     Clan clan = Clan.getClan(clans);
                                     for (Player player : clan.getOnlinePlayers()) {
@@ -207,26 +223,28 @@ public class ClanEvents implements Listener, CommandExecutor {
                         return;
                     }
                 }
-            }.runTaskTimer(Core.instance, 6000L, 20L);
+            }.runTaskTimer(Core.instance, 6000L - skip, 20L);
 
         } else if (event == Event.BEAT_DOWN) {
             eventActive = true;
             currentEvent = Event.BEAT_DOWN;
-            Core.shoutCenter("§f──────── §6Clan Event §f────────");
+            Core.shoutCenter("§f§m──────── §6Clan Event §f§m────────");
             Core.shoutCenter("§eThe Beat Down event is starting soon.");
             Core.shoutCenter("§eLocation: §f" + Core.getStringFromLocation(DefaultConfig.locations.get("beatdown")));
-            Core.shoutCenter("───────────────────────");
+            Core.shoutCenter("§m───────────────────────");
+            winner = "Starting soon...";
 
             new BukkitRunnable() {
                 public void run() {
-                    if (eventActive) {
-                        Core.shoutCenter("§f──────── §6Clan Event §f────────");
+                    if (eventActive && currentEvent == Event.BEAT_DOWN) {
+                        Core.shoutCenter("§f§m──────── §6Clan Event §f§m────────");
                         Core.shoutCenter("§eThe Beat Down event has started.");
                         Core.shoutCenter("§eThe clan with the highest damage wins.");
                         Core.shoutCenter("§eThe killer will get a special reward.");
-                        Core.shoutCenter("───────────────────────");
+                        Core.shoutCenter("§m───────────────────────");
+                        winner = "Started";
                         EnderCrystal crystal = (EnderCrystal) Bukkit.getWorld("world").spawnEntity(DefaultConfig.locations.get("beatdown"), EntityType.ENDER_CRYSTAL);
-                        crystal.setShowingBottom(true);
+                        crystal.setShowingBottom(false);
                         crystal.setFireTicks(0);
                         crystal.setCustomName("§d§lCrystal");
                         crystal.setCustomNameVisible(true);
@@ -235,28 +253,30 @@ public class ClanEvents implements Listener, CommandExecutor {
                         return;
                     }
                 }
-            }.runTaskLater(Core.instance, 6000L);
+            }.runTaskLater(Core.instance, 6000L - skip);
         } else if (event == Event.TREASURE_HUNT) {
             eventActive = true;
             currentEvent = Event.TREASURE_HUNT;
-            Core.shoutCenter("§f──────── §6Clan Event §f────────");
+            Core.shoutCenter("§f§m──────── §6Clan Event §f§m────────");
             Core.shoutCenter("§eThe Treasure Hunt event is starting soon.");
             Core.shoutCenter("§eHunt down shulkers for treasure.");
             Core.shoutCenter("§eThe clan with the most found after 15 minutes wins.");
-            Core.shoutCenter("───────────────────────");
+            Core.shoutCenter("§m───────────────────────");
+            winner = "Starting soon...";
 
             new BukkitRunnable() {
                 public void run() {
-                    if (eventActive) {
-                        Core.shoutCenter("§f──────── §6Clan Event §f────────");
+                    if (eventActive && currentEvent == Event.TREASURE_HUNT) {
+                        Core.shoutCenter("§f§m──────── §6Clan Event §f§m────────");
                         Core.shoutCenter("§eThe Treasure Hunt event has started.");
                         Core.shoutCenter("§eThe shulkers have spawned around the pvp area.");
-                        Core.shoutCenter("───────────────────────");
+                        Core.shoutCenter("§m───────────────────────");
+                        winner = "Started";
 
                         for (int i = 0; i < 25; i++) {
                             //Set range
-                            Shulker shulker = (Shulker) Bukkit.getWorld("world").spawnEntity(Core.getRandomLocationAtHighestBlock(DefaultConfig.locations.get("spawn"), 200, 900, 200, 900), EntityType.SHULKER);
-                            shulker.setColor(DyeColor.BROWN);
+                            Shulker shulker = (Shulker) Bukkit.getWorld("world").spawnEntity(Core.getRandomLocationAtHighestBlock(DefaultConfig.locations.get("spawn"), 100, 500, 100, 500), EntityType.SHULKER);
+                            shulker.setColor(DyeColor.ORANGE);
                             shulker.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 1200, 0, false, false));
                             shulkers.add(shulker);
                         }
@@ -265,7 +285,7 @@ public class ClanEvents implements Listener, CommandExecutor {
                         return;
                     }
                 }
-            }.runTaskLater(Core.instance, 6000L);
+            }.runTaskLater(Core.instance, 6000L - skip);
 
             new BukkitRunnable() {
                 public void run() {
@@ -293,10 +313,10 @@ public class ClanEvents implements Listener, CommandExecutor {
                             clan.eventWins += 1;
                         }
 
-                        Core.shoutCenter("§f──────── §6Clan Event §f────────");
+                        Core.shoutCenter("§f§m──────── §6Clan Event §f§m────────");
                         Core.shoutCenter("§eThe Treasure Hunt event has ended.");
                         Core.shoutCenter("§eThe winner of the hunt is: §6" + winning);
-                        Core.shoutCenter("───────────────────────");
+                        Core.shoutCenter("§m───────────────────────");
                     } else {
                         this.cancel();
                         return;
@@ -329,7 +349,9 @@ public class ClanEvents implements Listener, CommandExecutor {
                 e.getDrops().clear();
                 if (e.getEntity().getKiller() instanceof Player) {
                     Player player = e.getEntity().getKiller();
-                    player.getInventory().addItem(getTreasureLoot());
+                    ItemStack loot = getTreasureLoot();
+                    player.getInventory().addItem(loot);
+                    player.sendMessage(DefaultConfig.prefix + "§aYou found: &f" + loot.getAmount() + " " + ItemHelper.getName(loot));
 
                     if (Clan.getPlayerClan(player).equalsIgnoreCase("None")) {
                         if (treasureFound.containsKey("Player: " + player.getName())) {
@@ -356,7 +378,7 @@ public class ClanEvents implements Listener, CommandExecutor {
                             }
                         }
                     }
-                    winner = "§6" + winning + " §f> §7" + highest + " Found";
+                    winner = "§6" + winning + " §f> §f" + highest + " §f§lFound";
 
                 }
             }
@@ -390,14 +412,13 @@ public class ClanEvents implements Listener, CommandExecutor {
         if (currentEvent == Event.BEAT_DOWN) {
             if (e.getDamager() instanceof Player && e.getEntity() instanceof EnderCrystal) {
                 Player player = (Player) e.getDamager();
-                EnderCrystal crystal = (EnderCrystal) e.getEntity();
                 if (!eventActive) {
-                    crystal.remove();
                     stopCurretEvent();
+                    return;
                 }
                 int damage = 5;
                 if (ItemHelper.hasName(player.getInventory().getItemInMainHand()))
-                    if (ItemHelper.getName(player.getInventory().getItemInMainHand()).equalsIgnoreCase("§5§lCrystal Beater"))
+                    if (ItemHelper.getName(player.getInventory().getItemInMainHand()).equalsIgnoreCase("§d§lCrystal Beater"))
                         damage = 10;
                 if (Clan.getPlayerClan(player).equalsIgnoreCase("None")) {
                     if (damageDone.containsKey("Player: " + player.getName())) {
@@ -416,8 +437,9 @@ public class ClanEvents implements Listener, CommandExecutor {
                     health -= damage;
                 }
 
-                bar.addPlayer(player);
-                bar.setProgress(health / 50000);
+                if (!bar.getPlayers().contains(player))
+                    bar.addPlayer(player);
+                bar.setProgress(((double) health / 50000.00));
 
                 String winning = "None";
                 int highest = 0;
@@ -429,7 +451,7 @@ public class ClanEvents implements Listener, CommandExecutor {
                         }
                     }
                 }
-                winner = "§d" + health + "§c❤" + " §f> §6" + winning + " §f> §c" + highest + " damage";
+                winner = "§c" + health + "❤" + " §f> §6" + winning + " §f> §c" + highest + " §f§lDamage";
 
                 if (health < 0) {
                     if (winning.contains("Player: ")) {
@@ -443,13 +465,13 @@ public class ClanEvents implements Listener, CommandExecutor {
                         clan.eventWins += 1;
                     }
                     player.getInventory().addItem(CustomItemManager.getCrate(Crate.ULTRA_CRATE));
-                    if (Core.chance(5)) player.getInventory().addItem(CustomItemManager.getTag(Tag.WINNER));
+                    if (Core.chance(5)) player.getInventory().addItem(CustomItemManager.getTag(Tag.EZ));
 
-                    Core.shoutCenter("§f──────── §6Clan Event §f────────");
+                    Core.shoutCenter("§f§m──────── §6Clan Event §f§m────────");
                     Core.shoutCenter("§eThe Beat Down event has ended.");
                     Core.shoutCenter("§eThe highest damage dealt was by: §6" + winning);
                     Core.shoutCenter("§eThe crystal killer was: §6" + player.getName());
-                    Core.shoutCenter("───────────────────────");
+                    Core.shoutCenter("§m───────────────────────");
                     stopCurretEvent();
                 } else {
                     e.setDamage(0);
@@ -495,14 +517,14 @@ public class ClanEvents implements Listener, CommandExecutor {
             Player player = (Player) commandSender;
             if (command.getLabel().equalsIgnoreCase("event")) {
                 if (args.length == 0) {
-                    StringUtil.sendCenteredMessage(player, "§f──────── §6Clan Event §f────────");
+                    StringUtil.sendCenteredMessage(player, "§f§m──────── §6Clan Event §f§m────────");
                     StringUtil.sendCenteredMessage(player, "§eThe next upcoming event is: §6" + Event.stringFromEvent(getNextEvent()));
                     if (getNextEventInHours(getNextEvent()) == 1) {
                         StringUtil.sendCenteredMessage(player, "§eThe event will begin in under a hour");
                     } else {
                         StringUtil.sendCenteredMessage(player, "§eThe event will begin in about " + getNextEventInHours(getNextEvent()) + " hours.");
                     }
-                    StringUtil.sendCenteredMessage(player, "§f───────────────────────");
+                    StringUtil.sendCenteredMessage(player, "§f§m§m───────────────────────");
                 } else if (args.length >= 1) {
                     if (args[0].equalsIgnoreCase("toggle")) {
                         if (player.hasPermission("mcc.admin")) {
@@ -520,6 +542,17 @@ public class ClanEvents implements Listener, CommandExecutor {
                             stopCurretEvent();
                             player.sendMessage(DefaultConfig.prefix + "§aSuccessfully stopped event.");
                             Core.shout(DefaultConfig.prefix + "§c§lTHE CURRENT EVEN HAS BEEN STOPPED.");
+                            return true;
+                        }
+                    } else if (args[0].equalsIgnoreCase("skip")) {
+                        if (player.hasPermission("mcc.admin")) {
+                            if (skip == 6000) {
+                                skip = 0;
+                                player.sendMessage(DefaultConfig.prefix + "§aSuccessfully untoggled skip.");
+                            } else {
+                                skip = 6000;
+                                player.sendMessage(DefaultConfig.prefix + "§aSuccessfully toggled skip.");
+                            }
                             return true;
                         }
                     } else if (args[0].equalsIgnoreCase("force")) {

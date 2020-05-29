@@ -121,7 +121,7 @@ public class MCCPlaceholder extends PlaceholderExpansion {
 
         else if (identifier.equals("tag")) {
             if (Tags.playerTags.containsKey(player.getUniqueId())) {
-                return Tags.playerTags.get(player.getUniqueId()).getTagString();
+                return Tags.playerTags.get(player.getUniqueId()).getChatTagString();
             } else {
                 return "";
             }

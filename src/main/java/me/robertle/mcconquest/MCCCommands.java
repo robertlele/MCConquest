@@ -63,6 +63,9 @@ public class MCCCommands implements CommandExecutor {
                             case "godlycrate":
                                 player.getInventory().addItem(CustomItemManager.getCrate(Crate.GODLY_CRATE));
                                 break;
+                            case "petcrate":
+                                player.getInventory().addItem(CustomItemManager.getCrate(Crate.PET_CRATE));
+                                break;
                             case "stiervoucher":
                                 player.getInventory().addItem(CustomItemManager.getSTierVoucher());
                                 break;
@@ -192,6 +195,7 @@ public class MCCCommands implements CommandExecutor {
                         if (!(sender instanceof Player)) return false;
                         Player player = (Player) sender;
                         DefaultConfig.locations.put(args[1], player.getLocation());
+                        player.sendMessage(DefaultConfig.prefix + "§aLocation successfully set.");
                     }
                 } else if (args[0].equalsIgnoreCase("bs")) {
                     if (sender.hasPermission("mcc.admin")) {

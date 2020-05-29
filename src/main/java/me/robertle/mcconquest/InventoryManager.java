@@ -305,60 +305,60 @@ public class InventoryManager implements Listener {
                     if (player.getInventory().containsAtLeast(CustomItemManager.getIngot(false, 1), 448)) {
                         InventoryUtil.removeItems(player, CustomItemManager.getIngot(false, 1), 448);
                         player.getInventory().addItem(CustomItemManager.getWeaponVoucher(false));
-                        player.sendMessage("§4§lCombat Merchant §f> §aBest of luck!");
+                        player.sendMessage("§4§lCombat Merchant §f> Best of luck!");
                         player.closeInventory();
                     } else {
-                        player.sendMessage("§4§lCombat Merchant §f> §cYou don't have enough for this.");
+                        player.sendMessage("§4§lCombat Merchant §f> You don't have enough for this.");
                         player.closeInventory();
                     }
                 } else if (e.getCurrentItem().isSimilar(specialWeaponVoucher.asItemStack())) {
                     if (player.getInventory().containsAtLeast(CustomItemManager.getIngot(true, 1), 320)) {
                         InventoryUtil.removeItems(player, CustomItemManager.getIngot(true, 1), 320);
                         player.getInventory().addItem(CustomItemManager.getWeaponVoucher(true));
-                        player.sendMessage("§4§lCombat Merchant §f> §aBest of luck!");
+                        player.sendMessage("§4§lCombat Merchant §f> Best of luck!");
                         player.closeInventory();
                     } else {
-                        player.sendMessage("§4§lCombat Merchant §f> §cYou don't have enough for this.");
+                        player.sendMessage("§4§lCombat Merchant §f> You don't have enough for this.");
                         player.closeInventory();
                     }
                 } else if (e.getCurrentItem().isSimilar(armorVoucher.asItemStack())) {
                     if (player.getInventory().containsAtLeast(CustomItemManager.getIngot(false, 1), 256)) {
                         InventoryUtil.removeItems(player, CustomItemManager.getIngot(false, 1), 256);
                         player.getInventory().addItem(CustomItemManager.getArmorVoucher(false));
-                        player.sendMessage("§4§lCombat Merchant §f> §aBest of luck!");
+                        player.sendMessage("§4§lCombat Merchant §f> Best of luck!");
                         player.closeInventory();
                     } else {
-                        player.sendMessage("§4§lCombat Merchant §f> §cYou don't have enough for this.");
+                        player.sendMessage("§4§lCombat Merchant §f> You don't have enough for this.");
                         player.closeInventory();
                     }
                 } else if (e.getCurrentItem().isSimilar(specialArmorVoucher.asItemStack())) {
                     if (player.getInventory().containsAtLeast(CustomItemManager.getIngot(true, 1), 192)) {
                         InventoryUtil.removeItems(player, CustomItemManager.getIngot(true, 1), 192);
                         player.getInventory().addItem(CustomItemManager.getArmorVoucher(true));
-                        player.sendMessage("§4§lCombat Merchant §f> §aBest of luck!");
+                        player.sendMessage("§4§lCombat Merchant §f> Best of luck!");
                         player.closeInventory();
                     } else {
-                        player.sendMessage("§4§lCombat Merchant §f> §cYou don't have enough for this.");
+                        player.sendMessage("§4§lCombat Merchant §f> You don't have enough for this.");
                         player.closeInventory();
                     }
                 } else if (e.getCurrentItem().isSimilar(blacksmithsCoal.asItemStack())) {
                     if (player.getInventory().containsAtLeast(CustomItemManager.getEssence(true, 1), 128)) {
                         InventoryUtil.removeItems(player, CustomItemManager.getEssence(true, 1), 128);
                         player.getInventory().addItem(CustomItemManager.getBlacksmithsCoal());
-                        player.sendMessage("§4§lCombat Merchant §f> §aBest of luck!");
+                        player.sendMessage("§4§lCombat Merchant §f> Best of luck!");
                         player.closeInventory();
                     } else {
-                        player.sendMessage("§4§lCombat Merchant §f> §cYou don't have enough for this.");
+                        player.sendMessage("§4§lCombat Merchant §f> You don't have enough for this.");
                         player.closeInventory();
                     }
                 } else if (e.getCurrentItem().isSimilar(blacksmithsMagmaRod.asItemStack())) {
                     if (player.getInventory().containsAtLeast(CustomItemManager.getEssence(true, 1), 192)) {
                         InventoryUtil.removeItems(player, CustomItemManager.getEssence(true, 1), 192);
                         player.getInventory().addItem(CustomItemManager.getBlacksmithsMagmaRod());
-                        player.sendMessage("§4§lCombat Merchant §f> §aBest of luck!");
+                        player.sendMessage("§4§lCombat Merchant §f> Best of luck!");
                         player.closeInventory();
                     } else {
-                        player.sendMessage("§4§lCombat Merchant §f> §cYou don't have enough for this.");
+                        player.sendMessage("§4§lCombat Merchant §f> You don't have enough for this.");
                         player.closeInventory();
                     }
                 }
@@ -500,7 +500,7 @@ public class InventoryManager implements Listener {
     @EventHandler
     public void closePotionMerchantGui(InventoryCloseEvent e) {
         if (e.getView().getTitle().contains("Potion Merchant")) {
-            e.getPlayer().sendMessage("§d§lPotion Merchant §f> §aSee you soon!");
+            e.getPlayer().sendMessage("§d§lPotion Merchant §f> See you soon!");
         }
     }
 
@@ -591,20 +591,20 @@ public class InventoryManager implements Listener {
                     if (player.getInventory().containsAtLeast(CustomItemManager.getEssence(false, 1), 256)) {
                         InventoryUtil.removeItems(player, CustomItemManager.getEssence(false, 1), 256);
                         player.getInventory().addItem(CustomItemManager.getArtifactVoucher());
-                        player.sendMessage("§6§lSpecial Merchant §f> §aBest of luck!");
+                        player.sendMessage("§6§lSpecial Merchant §f> Best of luck!");
                         player.closeInventory();
                     } else {
-                        player.sendMessage("§6§lSpecial Merchant §f> §cYou don't have enough for this.");
+                        player.sendMessage("§6§lSpecial Merchant §f> You don't have enough for this.");
                         player.closeInventory();
                     }
                 } else if (e.getCurrentItem().isSimilar(petCrate.asItemStack())) {
                     if (player.getInventory().containsAtLeast(CustomItemManager.getEssence(true, 1), 384)) {
                         InventoryUtil.removeItems(player, CustomItemManager.getEssence(true, 1), 384);
                         player.getInventory().addItem(CustomItemManager.getCrate(Crate.PET_CRATE));
-                        player.sendMessage("§6§lSpecial Merchant §f> §aBest of luck!");
+                        player.sendMessage("§6§lSpecial Merchant §f> Best of luck!");
                         player.closeInventory();
                     } else {
-                        player.sendMessage("§6§lSpecial Merchant §f> §cYou don't have enough for this.");
+                        player.sendMessage("§6§lSpecial Merchant §f> You don't have enough for this.");
                         player.closeInventory();
                     }
                 }
@@ -627,7 +627,7 @@ public class InventoryManager implements Listener {
     @EventHandler
     public void closeSpecialMerchantGui(InventoryCloseEvent e) {
         if (e.getView().getTitle().contains("Special Merchant")) {
-            e.getPlayer().sendMessage("§6§lSpecial Merchant §f> §aThanks for your business.");
+            e.getPlayer().sendMessage("§6§lSpecial Merchant §f> Thank you for your business.");
         }
     }
 

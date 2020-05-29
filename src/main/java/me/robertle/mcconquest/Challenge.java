@@ -37,41 +37,41 @@ public class Challenge {
                                 challenge.removeOfflines();
                                 challenge.teleportTeam1(DefaultConfig.locations.get("challenge1"));
                                 challenge.teleportTeam2(DefaultConfig.locations.get("challenge2"));
-                                challenge.sendAllCenter("────────────────────────────────");
+                                challenge.sendAllCenter("§m────────────────────────────────");
                                 challenge.sendAllCenter("§6" + challenge.clan1.clanName + " §f§lVS §6" + challenge.clan2.clanName);
                                 challenge.sendAllCenter("");
                                 challenge.sendAllCenter("§fThe first clan to eliminate the other wins.");
                                 challenge.sendAllCenter("§fBattles over 10 minutes will end in a draw.");
-                                challenge.sendAllCenter("────────────────────────────────");
+                                challenge.sendAllCenter("§m────────────────────────────────");
                             }
                         }.runTaskLater(Core.instance, 1200L);
                     }
                 } else {
                     if (timer == 660) {
-                        activeChallenge.sendAllCenter("────────────────────────────────");
+                        activeChallenge.sendAllCenter("§m────────────────────────────────");
                         activeChallenge.sendAllCenter("§6" + activeChallenge.clan1.clanName + " §f§lVS §6" + activeChallenge.clan2.clanName);
                         activeChallenge.sendAllCenter("");
                         activeChallenge.sendAllCenter("§fThe clan battle ended in a §cdraw.");
-                        activeChallenge.sendAllCenter("────────────────────────────────");
+                        activeChallenge.sendAllCenter("§m────────────────────────────────");
                         endChallenge();
                     }
                     timer++;
                     activeChallenge.removeOfflines();
                     if (activeChallenge.team1Participants.isEmpty()) {
-                        activeChallenge.sendAllCenter("────────────────────────────────");
+                        activeChallenge.sendAllCenter("§m────────────────────────────────");
                         activeChallenge.sendAllCenter("§6" + activeChallenge.clan1.clanName + " §f§lVS §6" + activeChallenge.clan2.clanName);
                         activeChallenge.sendAllCenter("");
                         activeChallenge.sendAllCenter("§f§lWinner: §6" + activeChallenge.clan2.clanName);
-                        activeChallenge.sendAllCenter("────────────────────────────────");
+                        activeChallenge.sendAllCenter("§m────────────────────────────────");
                         activeChallenge.clan2.battleWins += 1;
                         endChallenge();
                     }
                     else if (activeChallenge.team2Participants.isEmpty()) {
-                        activeChallenge.sendAllCenter("────────────────────────────────");
+                        activeChallenge.sendAllCenter("§m────────────────────────────────");
                         activeChallenge.sendAllCenter("§6" + activeChallenge.clan1.clanName + " §f§lVS §6" + activeChallenge.clan2.clanName);
                         activeChallenge.sendAllCenter("");
                         activeChallenge.sendAllCenter("§f§lWinner: §6" + activeChallenge.clan1.clanName);
-                        activeChallenge.sendAllCenter("────────────────────────────────");
+                        activeChallenge.sendAllCenter("§m────────────────────────────────");
                         activeChallenge.clan1.battleWins += 1;
                         endChallenge();
                     }

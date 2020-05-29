@@ -9,13 +9,13 @@ public enum Tag {
     ALPHA("§4Alpha"),
     GAMMA("§eGamma"),
     DELTA("§2Delta"),
-    ETA("§fEta"),
+    ETA("Eta"),
     CASH("§a§lCASH"),
     FISHERMAN("§3F§bi§3s§bh§3e§br§3m§ba§3n"),
     GRINDER("§6G§er§6i§en§6d§ee§6r"),
     MINER("§8M§7i§8n§7e§8r"),
     SPECIAL("§d§lSPECIAL"),
-    WINNER("§6§lWINNER");
+    EZ("§a§lE§6§lZ");
 
     private String tagString;
 
@@ -24,12 +24,16 @@ public enum Tag {
     }
 
     public String getTagString() {
-        return tagString + " ";
+        return tagString;
+    }
+
+    public String getChatTagString() {
+        return "[" + tagString + "§f] ";
     }
 
     public static Tag getTagFromTagString(String string) {
         for (Tag tag : Tag.values()) {
-            if (tag.getTagString().equalsIgnoreCase(string)) {
+            if (string.equalsIgnoreCase(tag.getTagString())) {
                 return tag;
             }
         }
