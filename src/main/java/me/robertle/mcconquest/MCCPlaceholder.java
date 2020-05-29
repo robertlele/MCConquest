@@ -119,6 +119,14 @@ public class MCCPlaceholder extends PlaceholderExpansion {
             return "";
         }
 
+        else if (identifier.equals("tag")) {
+            if (Tags.playerTags.containsKey(player.getUniqueId())) {
+                return Tags.playerTags.get(player.getUniqueId()).getTagString();
+            } else {
+                return "";
+            }
+        }
+
         return null;
     }
 }

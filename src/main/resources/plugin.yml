@@ -13,8 +13,16 @@ commands:
   mcc:
     description: Base command for MC Conquest.
   generator:
-    description: Base command for MC Conquest.
+    description: Base command for MC Conquest generators.
     aliases: [gen, generators]
   event:
-    description: Base command for MC Conquest.
+    description: Base command for MC Conquest events.
     aliases: [events]
+  coinflip:
+    description: Base command for MC Conquest coinflip.
+    aliases: [cf]
+  war:
+    description: Base command for MC Conquest war.
+  tag:
+    description: Base command for MC Conquest tag.
+    aliases: [tags]

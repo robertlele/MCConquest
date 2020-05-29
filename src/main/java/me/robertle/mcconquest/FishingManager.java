@@ -54,6 +54,7 @@ public class FishingManager implements Listener {
                                 ((Damageable) itemMeta).setDamage(((Damageable) itemMeta).getDamage() + 1);
                             }
                             e.getPlayer().getInventory().getItemInMainHand().setItemMeta(itemMeta);
+                            if (Core.chance(1)) e.getPlayer().getInventory().addItem(CustomItemManager.getTag(Tag.FISHERMAN));
                         }
                         if (itemName.equalsIgnoreCase("§9Guardian Rod")) {
                             giveRandomGuardianFishingReward(e.getPlayer());
@@ -114,22 +115,22 @@ public class FishingManager implements Listener {
             case IRON_INGOT:
                 amount = Core.generateNumber(1, 6);
                 player.getInventory().addItem(CustomItemManager.getIngot(false, amount));
-                player.sendMessage(DefaultConfig.prefix + "§aYou caught: " + amount + " Iron Ingot");
+                player.sendMessage(DefaultConfig.prefix + "§fYou caught: §6" + amount + " Iron Ingot");
                 break;
             case GOLD_INGOT:
                 amount = Core.generateNumber(1, 3);
                 player.getInventory().addItem(CustomItemManager.getIngot(true, amount));
-                player.sendMessage(DefaultConfig.prefix + "§aYou caught: " + amount + " Gold Ingot");
+                player.sendMessage(DefaultConfig.prefix + "§fYou caught: §6" + amount + " Gold Ingot");
                 break;
             case ESSENCE:
                 amount = Core.generateNumber(1, 3);
                 player.getInventory().addItem(CustomItemManager.getEssence(false, amount));
-                player.sendMessage(DefaultConfig.prefix + "§aYou caught: " + amount + " Essence");
+                player.sendMessage(DefaultConfig.prefix + "§fYou caught: §6" + amount + " Essence");
                 break;
             case RARE_ESSENCE:
                 amount = Core.generateNumber(1, 2);
                 player.getInventory().addItem(CustomItemManager.getEssence(true, amount));
-                player.sendMessage(DefaultConfig.prefix + "§aYou caught: " + amount + " Rare Essence");
+                player.sendMessage(DefaultConfig.prefix + "§fYou caught: §6" + amount + " Rare Essence");
                 break;
             case MONEY_NOTE:
                 player.getInventory().addItem(CustomItemManager.getRandomMoneyNote(1000, 2500));
@@ -183,22 +184,22 @@ public class FishingManager implements Listener {
             case IRON_INGOT:
                 amount = Core.generateNumber(4, 8);
                 player.getInventory().addItem(CustomItemManager.getIngot(false, amount));
-                player.sendMessage(DefaultConfig.prefix + "§aYou caught: " + amount + " Iron Ingot");
+                player.sendMessage(DefaultConfig.prefix + "§fYou caught: §6" + amount + " Iron Ingot");
                 break;
             case GOLD_INGOT:
                 amount = Core.generateNumber(2, 6);
                 player.getInventory().addItem(CustomItemManager.getIngot(true, amount));
-                player.sendMessage(DefaultConfig.prefix + "§aYou caught: " + amount + " Gold Ingot");
+                player.sendMessage(DefaultConfig.prefix + "§fYou caught: §6" + amount + " Gold Ingot");
                 break;
             case ESSENCE:
                 amount = Core.generateNumber(3, 6);
                 player.getInventory().addItem(CustomItemManager.getEssence(false, amount));
-                player.sendMessage(DefaultConfig.prefix + "§aYou caught: " + amount + " Essence");
+                player.sendMessage(DefaultConfig.prefix + "§fYou caught: §6" + amount + " Essence");
                 break;
             case RARE_ESSENCE:
                 amount = Core.generateNumber(2, 4);
                 player.getInventory().addItem(CustomItemManager.getEssence(true, amount));
-                player.sendMessage(DefaultConfig.prefix + "§aYou caught: " + amount + " Rare Essence");
+                player.sendMessage(DefaultConfig.prefix + "§fYou caught: §6" + amount + " Rare Essence");
                 break;
             case MONEY_NOTE:
                 player.getInventory().addItem(CustomItemManager.getRandomMoneyNote(1000, 3000));
@@ -269,22 +270,22 @@ public class FishingManager implements Listener {
             case IRON_INGOT:
                 amount = Core.generateNumber(3, 6);
                 player.getInventory().addItem(CustomItemManager.getIngot(false, amount));
-                player.sendMessage(DefaultConfig.prefix + "§aYou caught: " + amount + " Iron Ingot");
+                player.sendMessage(DefaultConfig.prefix + "§fYou caught: §6" + amount + " Iron Ingot");
                 break;
             case GOLD_INGOT:
                 amount = Core.generateNumber(2, 6);
                 player.getInventory().addItem(CustomItemManager.getIngot(true, amount));
-                player.sendMessage(DefaultConfig.prefix + "§aYou caught: " + amount + " Gold Ingot");
+                player.sendMessage(DefaultConfig.prefix + "§fYou caught: §6" + amount + " Gold Ingot");
                 break;
             case ESSENCE:
                 amount = Core.generateNumber(3, 6);
                 player.getInventory().addItem(CustomItemManager.getEssence(false, amount));
-                player.sendMessage(DefaultConfig.prefix + "§aYou caught: " + amount + " Essence");
+                player.sendMessage(DefaultConfig.prefix + "§fYou caught: §6" + amount + " Essence");
                 break;
             case RARE_ESSENCE:
                 amount = Core.generateNumber(2, 4);
                 player.getInventory().addItem(CustomItemManager.getEssence(true, amount));
-                player.sendMessage(DefaultConfig.prefix + "§aYou caught: " + amount + " Rare Essence");
+                player.sendMessage(DefaultConfig.prefix + "§fYou caught: §6" + amount + " Rare Essence");
                 break;
             case MONEY_NOTE:
                 player.getInventory().addItem(CustomItemManager.getRandomMoneyNote(1500, 3500));

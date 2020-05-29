@@ -34,6 +34,9 @@ public class MCCPlayer {
                 }
                 playerGenerators.put(UUID.fromString(uuid), generators);
             }
+            if (playerConfig.get(path+".Tag") != null) {
+                Tags.playerTags.put(UUID.fromString(uuid), Tag.valueOf(playerConfig.getString(path+".Tag")));
+            }
         }
 
         playerConfig.set("Players", "");
@@ -53,6 +56,10 @@ public class MCCPlayer {
                 playerConfig.set(path + ".Generator." + i + ".level", playerGenerators.get(uuid).get(i).level);
                 playerConfig.set(path + ".Generator." + i + ".produced", playerGenerators.get(uuid).get(i).produced);
             }
+        }
+        for (UUID uuid : Tags.playerTags.keySet()) {
+            String path = "Players." + uuid.toString() + ".Tag";
+            playerConfig.set(path, Tags.playerTags.get(uuid).toString());
         }
         try {
             playerConfig.save(playerConfigFile);

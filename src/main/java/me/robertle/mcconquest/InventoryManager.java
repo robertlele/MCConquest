@@ -2,6 +2,7 @@ package me.robertle.mcconquest;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,6 +14,7 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 
@@ -113,6 +115,8 @@ public class InventoryManager implements Listener {
                     if (itemName.equalsIgnoreCase("§6Unlock New Perk")) {
                         if (clan.clanMembers.get(e.getWhoClicked().getUniqueId()) == ClanRole.COLEADER || clan.clanMembers.get(e.getWhoClicked().getUniqueId()) == ClanRole.LEADER) {
                             if (clan.buyNextPerk()) {
+                                Player player = (Player) e.getWhoClicked();
+                                player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
                                 e.getWhoClicked().sendMessage(DefaultConfig.prefix + "§aPerk unlocked.");
                                 clan.log(e.getWhoClicked().getName() + " unlocked a new perk.");
                                 e.getWhoClicked().openInventory(getPerkGui(clan));
@@ -175,7 +179,7 @@ public class InventoryManager implements Listener {
                         player.closeInventory();
                     } else if (itemName.contains("Generator")) {
                         if (ItemHelper.hasLore(e.getCurrentItem())) {
-                            if (Generator.upgradeGenerator(player, e.getSlot() - 2)) {
+                            if (Generator.upgradeGenerator(player, e.getRawSlot() - 2)) {
                                 player.openInventory(getGeneratorGui(player));
                                 player.sendMessage(DefaultConfig.prefix + "§aGenerator successfully upgraded.");
                             } else {
@@ -722,8 +726,11 @@ public class InventoryManager implements Listener {
     public void closeMemberPickerGui(InventoryCloseEvent e) {
         if (e.getView().getTitle().contains("Member Picker")) {
             if (e.getReason() != InventoryCloseEvent.Reason.PLUGIN) {
-                Player player = (Player) e.getPlayer();
-                e.getPlayer().openInventory(getMemberPicker(Clan.getClan(Clan.getPlayerClan(player))));
+                new BukkitRunnable() {
+                    public void run() {
+                        e.getPlayer().openInventory(e.getInventory());
+                    }
+                }.runTaskLater(Core.instance, 1L);
             }
         }
     }

@@ -97,6 +97,7 @@ public enum DefaultFontInfo {
     PERIOD('.', 1),
     COMMA(',', 1),
     SPACE(' ', 3),
+    CONNECTED_LINE('─', 8),
     DEFAULT('a', 4);
 
     private char character;

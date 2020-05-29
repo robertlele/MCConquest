@@ -30,7 +30,10 @@ public final class Core extends JavaPlugin {
         getCommand("cc").setExecutor(new ClanCommands());
         getCommand("mcc").setExecutor(new MCCCommands());
         getCommand("generator").setExecutor(new MCCCommands());
-        getCommand("event").setExecutor(new MCCCommands());
+        getCommand("event").setExecutor(new ClanEvents());
+        getCommand("coinflip").setExecutor(new Coinflip());
+        getCommand("war").setExecutor(new War());
+        getCommand("tag").setExecutor(new Tags());
 
         //Events
         getServer().getPluginManager().registerEvents(new InventoryManager(), this);
@@ -40,6 +43,10 @@ public final class Core extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new FishingManager(), this);
         getServer().getPluginManager().registerEvents(new MCCEvents(), this);
         getServer().getPluginManager().registerEvents(new ClanEvents(), this);
+        getServer().getPluginManager().registerEvents(new Coinflip(), this);
+        getServer().getPluginManager().registerEvents(new War(), this);
+        getServer().getPluginManager().registerEvents(new Tags(), this);
+        getServer().getPluginManager().registerEvents(new JoinFull(), this);
 
         //Placeholder
         new MCCPlaceholder(this).register();
@@ -117,7 +124,7 @@ public final class Core extends JavaPlugin {
         if (Bukkit.getOfflinePlayer(player).hasPlayedBefore()) {
             return Bukkit.getOfflinePlayer(player).getUniqueId();
         }
-        return null;
+        return UUID.randomUUID();
     }
 
     public static Location getRandomLocationAtHighestBlock(Location center, int xMin, int xMax, int zMin, int zMax) {

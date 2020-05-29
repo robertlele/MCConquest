@@ -178,6 +178,10 @@ public class MCCCommands implements CommandExecutor {
                                     player.getInventory().addItem(CustomItemManager.getPetVoucher(p));
                                 }
                                 break;
+                            case "tags":
+                                for (Tag tag : Tag.values()) {
+                                    player.getInventory().addItem(CustomItemManager.getTag(tag));
+                                }
                         }
                         player.sendMessage(DefaultConfig.prefix + "Item(s) given.");
                         return true;

@@ -12,6 +12,7 @@ public class MiningManager implements Listener {
     @EventHandler
     public void onMine(BlockBreakEvent e) {
         if (e.getPlayer().getGameMode() == GameMode.CREATIVE) return;
+        if (Core.chance(1)) e.getPlayer().getInventory().addItem(CustomItemManager.getTag(Tag.MINER));
         if (e.getBlock().getType() == Material.IRON_ORE) {
             if (ItemHelper.hasName(e.getPlayer().getInventory().getItemInMainHand())) {
                 String itemName = ItemHelper.getName(e.getPlayer().getInventory().getItemInMainHand());
@@ -26,7 +27,7 @@ public class MiningManager implements Listener {
                 }
                 if (Core.generateNumber(1, 200) == 199) {
                     e.getPlayer().getInventory().addItem(CustomItemManager.getGeneratorVoucher());
-                    e.getPlayer().sendMessage(DefaultConfig.prefix + "§a§lYou found a generator voucher!");
+                    e.getPlayer().sendMessage(DefaultConfig.prefix + "§6§lYou found a generator voucher!");
                 }
                 new BukkitRunnable() {
                     public void run() {
@@ -54,7 +55,7 @@ public class MiningManager implements Listener {
                 }
                 if (Core.generateNumber(1, 200) == 199) {
                     e.getPlayer().getInventory().addItem(CustomItemManager.getGeneratorVoucher());
-                    e.getPlayer().sendMessage(DefaultConfig.prefix + "§a§lYou found a generator voucher!");
+                    e.getPlayer().sendMessage(DefaultConfig.prefix + "§6§lYou found a generator voucher!");
                 }
                 new BukkitRunnable() {
                     public void run() {
@@ -82,7 +83,7 @@ public class MiningManager implements Listener {
                 }
                 if (Core.generateNumber(1, 200) == 199) {
                     e.getPlayer().getInventory().addItem(CustomItemManager.getGeneratorVoucher());
-                    e.getPlayer().sendMessage(DefaultConfig.prefix + "§a§lYou found a generator voucher!");
+                    e.getPlayer().sendMessage(DefaultConfig.prefix + "§6§lYou found a generator voucher!");
                 }
                 new BukkitRunnable() {
                     public void run() {
@@ -110,7 +111,7 @@ public class MiningManager implements Listener {
                 }
                 if (Core.generateNumber(1, 200) == 199) {
                     e.getPlayer().getInventory().addItem(CustomItemManager.getGeneratorVoucher());
-                    e.getPlayer().sendMessage(DefaultConfig.prefix + "§a§lYou found a generator voucher!");
+                    e.getPlayer().sendMessage(DefaultConfig.prefix + "§6§lYou found a generator voucher!");
                 }
                 new BukkitRunnable() {
                     public void run() {

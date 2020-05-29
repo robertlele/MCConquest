@@ -40,6 +40,12 @@ public class DefaultConfig {
             }
         }
 
+        if (config.getStringList("War Clans") != null) {
+            War.warClans = config.getStringList("War Clans");
+        }
+
+        War.warOpen = config.getBoolean("War Open");
+
         Core.instance.getConfig().options().copyDefaults(true);
         Core.instance.saveConfig();
         Core.logToConsole("Default config has been loaded.");
@@ -54,6 +60,12 @@ public class DefaultConfig {
             for (String locationName : locations.keySet()) {
                 config.set("Locations." + locationName, locations.get(locationName));
             }
+
+        if (!War.warClans.isEmpty()) {
+            config.set("War Clans", War.warClans);
+        }
+
+        config.set("War Open", War.warOpen);
 
         Core.instance.saveConfig();
         Core.logToConsole("Default config has been saved.");

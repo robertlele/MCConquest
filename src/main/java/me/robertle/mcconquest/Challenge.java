@@ -24,7 +24,7 @@ public class Challenge {
                     if (!challengeQueue.isEmpty()) {
                         active = true;
                         Challenge challenge = challengeQueue.poll();
-                        challenge.sendAll(DefaultConfig.prefix + "§6Your clan battle is starting in a minute. Get ready!");
+                        challenge.sendAll(DefaultConfig.prefix + "§fYour clan battle is starting in a minute. Get ready!");
                         new BukkitRunnable() {
                             public void run() {
                                 if (challenge.team1Participants.isEmpty() || challenge.team2Participants.isEmpty()) {
@@ -37,41 +37,41 @@ public class Challenge {
                                 challenge.removeOfflines();
                                 challenge.teleportTeam1(DefaultConfig.locations.get("challenge1"));
                                 challenge.teleportTeam2(DefaultConfig.locations.get("challenge2"));
-                                challenge.sendAllCenter("————————————————————————————————————————————————————————");
+                                challenge.sendAllCenter("────────────────────────────────");
                                 challenge.sendAllCenter("§6" + challenge.clan1.clanName + " §f§lVS §6" + challenge.clan2.clanName);
                                 challenge.sendAllCenter("");
-                                challenge.sendAllCenter("§eFirst clan to eliminate the other wins.");
-                                challenge.sendAllCenter("§eBattles over 10 minutes will end in a draw!");
-                                challenge.sendAllCenter("————————————————————————————————————————————————————————");
+                                challenge.sendAllCenter("§fThe first clan to eliminate the other wins.");
+                                challenge.sendAllCenter("§fBattles over 10 minutes will end in a draw.");
+                                challenge.sendAllCenter("────────────────────────────────");
                             }
                         }.runTaskLater(Core.instance, 1200L);
                     }
                 } else {
                     if (timer == 660) {
-                        activeChallenge.sendAllCenter("————————————————————————————————————————————————————————");
+                        activeChallenge.sendAllCenter("────────────────────────────────");
                         activeChallenge.sendAllCenter("§6" + activeChallenge.clan1.clanName + " §f§lVS §6" + activeChallenge.clan2.clanName);
                         activeChallenge.sendAllCenter("");
-                        activeChallenge.sendAllCenter("§cThe clan battle ended in a draw.");
-                        activeChallenge.sendAllCenter("————————————————————————————————————————————————————————");
+                        activeChallenge.sendAllCenter("§fThe clan battle ended in a §cdraw.");
+                        activeChallenge.sendAllCenter("────────────────────────────────");
                         endChallenge();
                     }
                     timer++;
                     activeChallenge.removeOfflines();
                     if (activeChallenge.team1Participants.isEmpty()) {
-                        activeChallenge.sendAllCenter("————————————————————————————————————————————————————————");
+                        activeChallenge.sendAllCenter("────────────────────────────────");
                         activeChallenge.sendAllCenter("§6" + activeChallenge.clan1.clanName + " §f§lVS §6" + activeChallenge.clan2.clanName);
                         activeChallenge.sendAllCenter("");
-                        activeChallenge.sendAllCenter("§a§lWinner: §6" + activeChallenge.clan2.clanName);
-                        activeChallenge.sendAllCenter("————————————————————————————————————————————————————————");
+                        activeChallenge.sendAllCenter("§f§lWinner: §6" + activeChallenge.clan2.clanName);
+                        activeChallenge.sendAllCenter("────────────────────────────────");
                         activeChallenge.clan2.battleWins += 1;
                         endChallenge();
                     }
                     else if (activeChallenge.team2Participants.isEmpty()) {
-                        activeChallenge.sendAllCenter("————————————————————————————————————————————————————————");
+                        activeChallenge.sendAllCenter("────────────────────────────────");
                         activeChallenge.sendAllCenter("§6" + activeChallenge.clan1.clanName + " §f§lVS §6" + activeChallenge.clan2.clanName);
                         activeChallenge.sendAllCenter("");
-                        activeChallenge.sendAllCenter("§a§lWinner: §6" + activeChallenge.clan1.clanName);
-                        activeChallenge.sendAllCenter("————————————————————————————————————————————————————————");
+                        activeChallenge.sendAllCenter("§f§lWinner: §6" + activeChallenge.clan1.clanName);
+                        activeChallenge.sendAllCenter("────────────────────────────────");
                         activeChallenge.clan1.battleWins += 1;
                         endChallenge();
                     }

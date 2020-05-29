@@ -170,25 +170,25 @@ public class Generator {
                         case MONEY:
                             Core.econ.depositPlayer(player, amount);
                             generator.produced -= amount;
-                            player.sendMessage(DefaultConfig.prefix + "§eYou collected $" + amount + ".");
+                            player.sendMessage(DefaultConfig.prefix + "§eYou collected §6$" + amount + ".");
                             break;
                         case INGOT:
                             if (generator.level > 3) {
                                 player.getInventory().addItem(CustomItemManager.getIngot(true, amount));
-                                player.sendMessage(DefaultConfig.prefix + "§eYou collected " + amount + " Gold Ingot.");
+                                player.sendMessage(DefaultConfig.prefix + "§eYou collected §6" + amount + " Gold Ingot.");
                             } else {
                                 player.getInventory().addItem(CustomItemManager.getIngot(false, amount));
-                                player.sendMessage(DefaultConfig.prefix + "§eYou collected " + amount + " Iron Ingot.");
+                                player.sendMessage(DefaultConfig.prefix + "§eYou collected §6" + amount + " Iron Ingot.");
                             }
                             generator.produced -= amount;
                             break;
                         case ESSENCE:
                             if (generator.level > 3) {
                                 player.getInventory().addItem(CustomItemManager.getEssence(true, amount));
-                                player.sendMessage(DefaultConfig.prefix + "§eYou collected " + amount + " Rare Essence.");
+                                player.sendMessage(DefaultConfig.prefix + "§eYou collected §6" + amount + " Rare Essence.");
                             } else {
                                 player.getInventory().addItem(CustomItemManager.getEssence(false, amount));
-                                player.sendMessage(DefaultConfig.prefix + "§eYou collected " + amount + " Essence.");
+                                player.sendMessage(DefaultConfig.prefix + "§eYou collected §6" + amount + " Essence.");
                             }
                             generator.produced -= amount;
                             break;
