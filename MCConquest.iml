@@ -41,5 +41,6 @@
     <orderEntry type="library" scope="PROVIDED" name="PlaceholderAPI-2.10.6" level="project" />
     <orderEntry type="library" name="EliteLootbox-2.0.0" level="project" />
     <orderEntry type="library" name="worldedit-bukkit-7.1.0" level="project" />
+    <orderEntry type="library" name="Companions___CREATE_YOUR_OWN_CUSTOM_COMPANIONS_WITH_ABILITIES-1.7.9" level="project" />
   </component>
 </module>

@@ -106,7 +106,7 @@ public class Coinflip implements Listener, CommandExecutor {
                         }
                     }
                 } else {
-                    StringUtil.sendCenteredMessage(player, "§f§m──────── §aCoinflip Help §f§m────────");
+                    StringUtil.sendCenteredMessage(player, "§f§m───────────§r §aCoinflip Help §f§m───────────");
                     player.sendMessage("§e/cf <player> §fSend a coinflip to a player.");
                     player.sendMessage("§e/cf accept §fAccept a coinflip.");
                     player.sendMessage("§e/cf decline §fDecline a coinflip");

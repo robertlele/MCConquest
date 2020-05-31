@@ -219,7 +219,7 @@ public class ClanCommands implements CommandExecutor {
                 player.sendMessage(list);
                 StringUtil.sendCenteredMessage(player, "§f§m───────────────────────");
             } else if (args[0].equalsIgnoreCase("help")) {
-                StringUtil.sendCenteredMessage(player, "§f§m─────────── §aClans Help §f§m───────────");
+                StringUtil.sendCenteredMessage(player, "§f§m───────────§r §aClans Help §f§m───────────");
                 player.sendMessage("§f/clan create <clan> §eCreate a clan for $50k.");
                 player.sendMessage("§f/clan show <clan/player> §eView a clan.");
                 player.sendMessage("§f/clan join §eJoin a clan that you've been invited to.");
@@ -578,7 +578,7 @@ public class ClanCommands implements CommandExecutor {
                     player.sendMessage(prefix + "§cYou aren't in a clan.");
                 }
             } else {
-                StringUtil.sendCenteredMessage(player, "§f§m─────────── §aClans Help §f§m───────────");
+                StringUtil.sendCenteredMessage(player, "§f§m───────────§r §aClans Help §f§m───────────");
                 player.sendMessage("§f/clan create <clan> §eCreate a clan for $50k.");
                 player.sendMessage("§f/clan show <clan/player> §eView a clan.");
                 player.sendMessage("§f/clan join §eJoin a clan that you've been invited to.");

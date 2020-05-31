@@ -887,7 +887,7 @@ public class CustomItemManager {
             case MOOSHROOM:
                 item = new ItemBuilder(CustomHeadManager.getHead(pet));
                 item.displayName("§9Mooshroom Pet");
-                item.lore("§f§lABILITY: §eSmall chance to gain regneration 2 when hit", "", "§eRight click to claim this pet.");
+                item.lore("§f§lABILITY: §eSmall chance to gain regeneration 2 when hit", "", "§eRight click to claim this pet.");
                 return item.asItemStack();
             case SQUID:
                 item = new ItemBuilder(CustomHeadManager.getHead(pet));
@@ -912,7 +912,7 @@ public class CustomItemManager {
             case SLIME:
                 item = new ItemBuilder(CustomHeadManager.getHead(pet));
                 item.displayName("§9Slime Pet");
-                item.lore("§f§lABILITY: §eHigh chance to not be slowed", "", "§eRight click to claim this pet.");
+                item.lore("§f§lABILITY: §eGain immunity to slowness", "", "§eRight click to claim this pet.");
                 return item.asItemStack();
             case PIG:
                 item = new ItemBuilder(CustomHeadManager.getHead(pet));
@@ -1111,9 +1111,9 @@ public class CustomItemManager {
 
     public static ItemStack getRandomMoneyNote(int min, int max) {
         ItemBuilder item = new ItemBuilder(Material.PAPER, 1);
-        item.displayName("§2§lMoney Note");
+        item.displayName("§a§lMoney Note");
         int value = Core.generateNumber(min, max);
-        item.lore("§6Value: $" + value, "", "§eRight click to redeem the note");
+        item.lore("§6Value: §a$" + value, "", "§eRight click to redeem the note");
         item.setGlowing(true);
         return item.asItemStack();
     }
@@ -1136,7 +1136,7 @@ public class CustomItemManager {
 
     public static ItemStack getBlacksmithsMagicDust() {
         ItemBuilder item = new ItemBuilder(Material.REDSTONE, 1);
-        item.displayName("§4§lBlacksmith's Magic Dust");
+        item.displayName("§5§lBlacksmith's Magic Dust");
         item.lore("§eForge this to increase an item's enchant level.");
         item.setGlowing(true);
         return item.asItemStack();

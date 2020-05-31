@@ -227,6 +227,10 @@ public class MCCCommands implements CommandExecutor {
                             Bukkit.getPlayer(args[1]).openInventory(InventoryManager.getSpecialMerchant());
                         }
                     }
+                } else if (args[0].equalsIgnoreCase("close")) {
+                    if (sender instanceof Player) {
+                        ((Player) sender).closeInventory();
+                    }
                 }
             }
 

@@ -60,7 +60,7 @@ public class War implements Listener, CommandExecutor {
                         }
                         return true;
                     } else if (args[0].equalsIgnoreCase("list")) {
-                        StringUtil.sendCenteredMessage(player, "§f§m────────§aClan Wars List §f────────");
+                        StringUtil.sendCenteredMessage(player, "§f§m───────────§r §aClan Wars List §f§m───────────");
                         for (int i = 0; i < warClans.size(); i++) {
                             player.sendMessage("§f" + (i + 1) + ". §6" + warClans.get(i));
                         }
@@ -149,7 +149,7 @@ public class War implements Listener, CommandExecutor {
                         return true;
                     }
                 } else {
-                    StringUtil.sendCenteredMessage(player, "§f─────────── §aClan Wars §f───────────");
+                    StringUtil.sendCenteredMessage(player, "§f§m───────────§r  §aClan Wars §f§m───────────");
                     player.sendMessage("§f/war apply §eApply to join the clan war.");
                     player.sendMessage("§f/war list §eView clans currently in the clan war.");
                     player.sendMessage("§f/warp spectate §eTeleport to the war's spectate area.");
@@ -256,13 +256,13 @@ public class War implements Listener, CommandExecutor {
             clan2Players.remove(e.getEntity());
         }
         if (clan1Players.isEmpty()) {
-            Core.shoutCenter("§f§m────────§6Clan War §f────────");
+            Core.shoutCenter("§f§m───────────§r §6Clan War §f§m───────────");
             Core.shoutCenter("§eThe clan war has ended.");
             Core.shoutCenter("§eThe winner of the war is: §6" + clan2.clanName);
             Core.shoutCenter("§m───────────────────────────────");
             stopWar();
         } else if (clan2Players.isEmpty()) {
-            Core.shoutCenter("§f§m────────§6Clan War §f────────");
+            Core.shoutCenter("§f§m───────────§r §6Clan War §f§m───────────");
             Core.shoutCenter("§eThe clan war has ended.");
             Core.shoutCenter("§eThe winner of the war is: §6" + clan1.clanName);
             Core.shoutCenter("§m───────────────────────────────");
@@ -280,13 +280,13 @@ public class War implements Listener, CommandExecutor {
             clan2Players.remove(e.getPlayer());
         }
         if (clan1Players.isEmpty()) {
-            Core.shoutCenter("§f§m────────§6Clan War §f────────");
+            Core.shoutCenter("§f§m───────────§r §6Clan War §f§m───────────");
             Core.shoutCenter("§eThe clan war has ended.");
             Core.shoutCenter("§eThe winner of the war is: §6" + clan2.clanName);
             Core.shoutCenter("§m───────────────────────────────");
             stopWar();
         } else if (clan2Players.isEmpty()) {
-            Core.shoutCenter("§f§m────────§6Clan War §f────────");
+            Core.shoutCenter("§f§m───────────§r §6Clan War §f§m───────────");
             Core.shoutCenter("§eThe clan war has ended.");
             Core.shoutCenter("§eThe winner of the war is: §6" + clan1.clanName);
             Core.shoutCenter("§m───────────────────────────────");

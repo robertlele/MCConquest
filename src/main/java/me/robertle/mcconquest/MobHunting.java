@@ -59,6 +59,8 @@ public class MobHunting implements Listener {
                                 player.getInventory().addItem(CustomItemManager.getCrate(Crate.SUPER_CRATE));
                             if (Core.chance(6))
                                 player.getInventory().addItem(CustomItemManager.getRandomMoneyNote(500, 2000));
+                            if (Core.chance(1))
+                                player.getInventory().addItem(CustomItemManager.getBlacksmithsLifeOrb());
                         } else if (itemName.equalsIgnoreCase("§2Zombie Grinder")) {
                             player.getInventory().addItem(CustomItemManager.getEssence(false, Core.generateNumber(2, 3) + 1));
                             player.getInventory().addItem(CustomItemManager.getEssence(true, Core.generateNumber(1, 2) + 1));
@@ -68,6 +70,8 @@ public class MobHunting implements Listener {
                                 player.getInventory().addItem(CustomItemManager.getCrate(Crate.SUPER_CRATE));
                             if (Core.chance(6))
                                 player.getInventory().addItem(CustomItemManager.getRandomMoneyNote(500, 2000));
+                            if (Core.chance(1))
+                                player.getInventory().addItem(CustomItemManager.getBlacksmithsLifeOrb());
                         } else {
                             player.getInventory().addItem(CustomItemManager.getEssence(false, Core.generateNumber(2, 3)));
                             player.getInventory().addItem(CustomItemManager.getEssence(true, Core.generateNumber(1, 2)));
@@ -77,6 +81,8 @@ public class MobHunting implements Listener {
                                 player.getInventory().addItem(CustomItemManager.getCrate(Crate.SUPER_CRATE));
                             if (Core.chance(6))
                                 player.getInventory().addItem(CustomItemManager.getRandomMoneyNote(500, 2000));
+                            if (Core.chance(1))
+                                player.getInventory().addItem(CustomItemManager.getBlacksmithsLifeOrb());
                         }
                     }
                 }
@@ -130,6 +136,8 @@ public class MobHunting implements Listener {
                                 player.getInventory().addItem(CustomItemManager.getCrate(Crate.SUPER_CRATE));
                             if (Core.chance(6))
                                 player.getInventory().addItem(CustomItemManager.getRandomMoneyNote(500, 2000));
+                            if (Core.chance(1))
+                                player.getInventory().addItem(CustomItemManager.getBlacksmithsLifeOrb());
                         } else if (itemName.equalsIgnoreCase("§2Zombie Grinder")) {
                             player.getInventory().addItem(CustomItemManager.getEssence(false, Core.generateNumber(2, 3) + 1));
                             player.getInventory().addItem(CustomItemManager.getEssence(true, Core.generateNumber(1, 2) + 1));
@@ -139,6 +147,8 @@ public class MobHunting implements Listener {
                                 player.getInventory().addItem(CustomItemManager.getCrate(Crate.SUPER_CRATE));
                             if (Core.chance(6))
                                 player.getInventory().addItem(CustomItemManager.getRandomMoneyNote(500, 2000));
+                            if (Core.chance(1))
+                                player.getInventory().addItem(CustomItemManager.getBlacksmithsLifeOrb());
                         } else {
                             player.getInventory().addItem(CustomItemManager.getEssence(false, Core.generateNumber(2, 3)));
                             player.getInventory().addItem(CustomItemManager.getEssence(true, Core.generateNumber(1, 2)));
@@ -148,6 +158,8 @@ public class MobHunting implements Listener {
                                 player.getInventory().addItem(CustomItemManager.getCrate(Crate.SUPER_CRATE));
                             if (Core.chance(6))
                                 player.getInventory().addItem(CustomItemManager.getRandomMoneyNote(500, 2000));
+                            if (Core.chance(1))
+                                player.getInventory().addItem(CustomItemManager.getBlacksmithsLifeOrb());
                         }
                     }
                 }

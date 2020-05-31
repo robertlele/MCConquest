@@ -15,7 +15,8 @@ public enum Tag {
     GRINDER("§6G§er§6i§en§6d§ee§6r"),
     MINER("§8M§7i§8n§7e§8r"),
     SPECIAL("§d§lSPECIAL"),
-    EZ("§a§lE§6§lZ");
+    EZ("§a§lE§6§lZ"),
+    ONE("§f§l#§6§l1");
 
     private String tagString;
 
