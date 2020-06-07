@@ -170,7 +170,7 @@ public class War implements Listener, CommandExecutor {
 
     public static void startWar() {
         warActive = true;
-        Core.shoutCenter("§f§m────────§6Clan War §f────────");
+        Core.shoutCenter("§f§m────────§r §6Clan War §f────────");
         Core.shoutCenter("§eA clan war is starting.");
         Core.shoutCenter("§6" + clan1.clanName + " §f§lVS §6" + clan2.clanName);
         Core.shoutCenter("§eDo §f/warp spectate §eto watch!");
@@ -214,7 +214,7 @@ public class War implements Listener, CommandExecutor {
 
                     for (String clans : kothTimes.keySet()) {
                         if (kothTimes.get(clans) == 300) {
-                            Core.shoutCenter("§f§m────────§6Clan War §f────────");
+                            Core.shoutCenter("§f§m────────§r §6Clan War §f────────");
                             Core.shoutCenter("§eThe clan war has ended.");
                             Core.shoutCenter("§eThe winner of the war is: §6" + clans);
                             Core.shoutCenter("§m───────────────────────────────");

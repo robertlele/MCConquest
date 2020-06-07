@@ -2,6 +2,7 @@ package me.robertle.mcconquest;
 
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
+import org.bukkit.Particle;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
@@ -106,6 +107,7 @@ public class ClanEvents implements Listener, CommandExecutor {
                                     Core.shoutCenter("§m───────────────────────");
 
                                     winner.getInventory().addItem(CustomItemManager.getCrate(Crate.ULTRA_CRATE));
+                                    Core.spawnFirework(winner);
                                     if (Core.chance(5))
                                         winner.getInventory().addItem(CustomItemManager.getTag(Tag.EZ));
                                 } else {
@@ -163,7 +165,7 @@ public class ClanEvents implements Listener, CommandExecutor {
                         if (holder != null && WGRegionManager.inRegion(holder, "koth" + koth)) {
                             if (Clan.getPlayerClan(holder).equalsIgnoreCase("None")) {
                                 if (kothTimes.containsKey("Player: " + holder.getName())) {
-                                    kothTimes.put("Player: " + holder.getName(), kothTimes.get(holder.getName()) + 1);
+                                    kothTimes.put("Player: " + holder.getName(), kothTimes.get("Player: " + holder.getName()) + 1);
                                 } else {
                                     kothTimes.put("Player: " + holder.getName(), 1);
                                 }
@@ -197,12 +199,14 @@ public class ClanEvents implements Listener, CommandExecutor {
                                     Player player = Bukkit.getPlayer(clans.replace("Player: ", ""));
                                     if (player.isOnline()) {
                                         player.getInventory().addItem(CustomItemManager.getCrate(Crate.ULTRA_CRATE));
+                                        Core.spawnFirework(player);
                                         if (Core.chance(5))
                                             player.getInventory().addItem(CustomItemManager.getTag(Tag.EZ));
                                     }
                                 } else {
                                     if (holder.isOnline()) {
                                         holder.getInventory().addItem(CustomItemManager.getCrate(Crate.ULTRA_CRATE));
+                                        Core.spawnFirework(holder);
                                         if (Core.chance(5))
                                             holder.getInventory().addItem(CustomItemManager.getTag(Tag.EZ));
                                     }
@@ -303,14 +307,19 @@ public class ClanEvents implements Listener, CommandExecutor {
 
                         if (winning.contains("Player: ")) {
                             Player p = Bukkit.getPlayer(winning.replace("Player: ", ""));
-                            if (p.isOnline()) p.getInventory().addItem(CustomItemManager.getCrate(Crate.SUPER_CRATE));
+                            if (p.isOnline()) {
+                                Core.spawnFirework(p);
+                                p.getInventory().addItem(CustomItemManager.getCrate(Crate.SUPER_CRATE));
+                            }
                         } else if (winning.equalsIgnoreCase("None")) {
                             winning = "No one";
                         } else {
                             Clan clan = Clan.getClan(winning);
                             for (Player p : clan.getOnlinePlayers()) {
-                                if (p.isOnline())
+                                if (p.isOnline()) {
+                                    Core.spawnFirework(p);
                                     p.getInventory().addItem(CustomItemManager.getCrate(Crate.SUPER_CRATE));
+                                }
                             }
                             clan.eventWins += 1;
                         }
@@ -319,7 +328,9 @@ public class ClanEvents implements Listener, CommandExecutor {
                         Core.shoutCenter("§eThe Treasure Hunt event has ended.");
                         Core.shoutCenter("§eThe winner of the hunt is: §6" + winning);
                         Core.shoutCenter("§m───────────────────────");
+                        stopCurretEvent();
                     } else {
+                        stopCurretEvent();
                         this.cancel();
                         return;
                     }
@@ -357,7 +368,7 @@ public class ClanEvents implements Listener, CommandExecutor {
 
                     if (Clan.getPlayerClan(player).equalsIgnoreCase("None")) {
                         if (treasureFound.containsKey("Player: " + player.getName())) {
-                            treasureFound.put("Player: " + player.getName(), treasureFound.get(player.getName()) + 1);
+                            treasureFound.put("Player: " + player.getName(), treasureFound.get("Player: " + player.getName()) + 1);
                         } else {
                             treasureFound.put("Player: " + player.getName(), 1);
                         }
@@ -424,7 +435,7 @@ public class ClanEvents implements Listener, CommandExecutor {
                         damage = 10;
                 if (Clan.getPlayerClan(player).equalsIgnoreCase("None")) {
                     if (damageDone.containsKey("Player: " + player.getName())) {
-                        damageDone.put("Player: " + player.getName(), damageDone.get(player.getName()) + damage);
+                        damageDone.put("Player: " + player.getName(), damageDone.get("Player: " + player.getName()) + damage);
                     } else {
                         damageDone.put("Player: " + player.getName(), damage);
                     }
@@ -462,11 +473,15 @@ public class ClanEvents implements Listener, CommandExecutor {
                     } else {
                         Clan clan = Clan.getClan(winning);
                         for (Player p : clan.getOnlinePlayers()) {
-                            if (p.isOnline()) p.getInventory().addItem(CustomItemManager.getCrate(Crate.SUPER_CRATE));
+                            if (p.isOnline()) {
+                                p.getInventory().addItem(CustomItemManager.getCrate(Crate.SUPER_CRATE));
+                            }
                         }
                         clan.eventWins += 1;
                     }
+                    e.getEntity().getWorld().spawnParticle(Particle.EXPLOSION_LARGE, e.getEntity().getLocation(), 3);
                     player.getInventory().addItem(CustomItemManager.getCrate(Crate.ULTRA_CRATE));
+                    Core.spawnFirework(player);
                     if (Core.chance(5)) player.getInventory().addItem(CustomItemManager.getTag(Tag.EZ));
 
                     Core.shoutCenter("§f§m────────§r §6Clan Event §f§m────────");
@@ -519,14 +534,22 @@ public class ClanEvents implements Listener, CommandExecutor {
             Player player = (Player) commandSender;
             if (command.getLabel().equalsIgnoreCase("event")) {
                 if (args.length == 0) {
-                    StringUtil.sendCenteredMessage(player, "§f§m────────§r §6Clan Event §f§m────────");
-                    StringUtil.sendCenteredMessage(player, "§eThe next upcoming event is: §6" + Event.stringFromEvent(getNextEvent()));
-                    if (getNextEventInHours(getNextEvent()) == 1) {
-                        StringUtil.sendCenteredMessage(player, "§eThe event will begin in under a hour");
+                    if (eventActive) {
+                        StringUtil.sendCenteredMessage(player, "§f§m────────§r §6Clan Event §f§m────────");
+                        StringUtil.sendCenteredMessage(player, "§eCurrent Event: §6" + Event.stringFromEvent(currentEvent));
+                        StringUtil.sendCenteredMessage(player, "§a§lStatus");
+                        StringUtil.sendCenteredMessage(player, winner);
+                        StringUtil.sendCenteredMessage(player, "§f§m───────────────────────");
                     } else {
-                        StringUtil.sendCenteredMessage(player, "§eThe event will begin in about " + getNextEventInHours(getNextEvent()) + " hours.");
+                        StringUtil.sendCenteredMessage(player, "§f§m────────§r §6Clan Event §f§m────────");
+                        StringUtil.sendCenteredMessage(player, "§eThe next upcoming event is: §6" + Event.stringFromEvent(getNextEvent()));
+                        if (getNextEventInHours(getNextEvent()) == 1) {
+                            StringUtil.sendCenteredMessage(player, "§eThe event will begin in under a hour");
+                        } else {
+                            StringUtil.sendCenteredMessage(player, "§eThe event will begin in about " + getNextEventInHours(getNextEvent()) + " hours.");
+                        }
+                        StringUtil.sendCenteredMessage(player, "§f§m───────────────────────");
                     }
-                    StringUtil.sendCenteredMessage(player, "§f§m───────────────────────");
                 } else if (args.length >= 1) {
                     if (args[0].equalsIgnoreCase("toggle")) {
                         if (player.hasPermission("mcc.admin")) {

@@ -26,3 +26,11 @@ commands:
   tag:
     description: Base command for MC Conquest tag.
     aliases: [tags]
+  combat:
+    description: Base command for MC Conquest.
+  special:
+    description: Base command for MC Conquest.
+  potion:
+    description: Base command for MC Conquest.
+  food:
+    description: Base command for MC Conquest.

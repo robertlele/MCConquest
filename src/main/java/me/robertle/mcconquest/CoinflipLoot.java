@@ -19,7 +19,7 @@ public class CoinflipLoot {
         for (ItemStack i : items) {
             if (i != null)
             player.getInventory().addItem(i);
-            player.sendMessage("§f+ §7" + i.getAmount() + " " + ItemHelper.getName(i));
+            player.sendMessage("+ §l" + i.getAmount() + " " + ItemHelper.getName(i));
         }
         items.clear();
         Core.econ.depositPlayer(player, money);

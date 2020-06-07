@@ -664,6 +664,8 @@ public class Coinflip implements Listener, CommandExecutor {
                         winner.sendMessage(DefaultConfig.prefix + "§aYou've won the coinflip against §6" + loser.getName());
                         winner.sendMessage(DefaultConfig.prefix + "§aDo §f/cf collect §ato collect your winnings.");
                         loser.sendMessage(DefaultConfig.prefix + "§cYou've lost the coinflip against §6" + winner.getName());
+                        winner.playSound(winner.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
+                        loser.playSound(winner.getLocation(), Sound.ENTITY_PLAYER_DEATH, 1.0f, 1.0f);
                         this.cancel();
                         break;
                 }

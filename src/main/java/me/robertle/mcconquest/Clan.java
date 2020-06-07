@@ -37,7 +37,7 @@ public class Clan {
             int storageSize = clanConfig.getInt(path + "Storage Size");
             int perk = clanConfig.getInt(path + "Perk");
             Inventory storage = Bukkit.createInventory(null, storageSize, "§e" + name + "'s Clan Storage");
-            for (ItemStack i : InventoryUtil.loadItemStackList(path + "Storage", storageSize)) {
+            for (ItemStack i : InventoryUtil.loadItemStackList(path + "Storage", storageSize - 1)) {
                 if (i != null) storage.addItem(i);
             }
             int eventWins = clanConfig.getInt(path + "Event Wins");
@@ -50,26 +50,27 @@ public class Clan {
     }
 
     public static void saveClans() {
-        if (clans.isEmpty()) return;
-        for (Clan clan : clans.values()) {
-            String path = "Clans." + clan.clanName + ".";
-            clanConfig.set(path + "Name", clan.clanName);
-            clanConfig.set(path + "Balance", clan.clanBalance);
-            clanConfig.set(path + "Perk", clan.clanPerk);
-            clanConfig.set(path + "Event Wins", clan.eventWins);
-            clanConfig.set(path + "Clan Battle Wins", clan.battleWins);
-            clanConfig.set(path + "Storage Size", clan.clanStorageSize);
-            clanConfig.set(path + "Logs", clan.clanLogs);
-            for (UUID uuid : clan.clanMembers.keySet()) {
-                clanConfig.set(path + "Members." + uuid.toString(), clan.clanMembers.get(uuid).toString());
-            }
-            List<ItemStack> storage = new ArrayList<>();
-            if (clan.clanStorage.getContents().length > 0) {
-                for (ItemStack i : clan.clanStorage.getContents()) {
-                    storage.add(i);
+        if (!clans.isEmpty()) {
+            for (Clan clan : clans.values()) {
+                String path = "Clans." + clan.clanName + ".";
+                clanConfig.set(path + "Name", clan.clanName);
+                clanConfig.set(path + "Balance", clan.clanBalance);
+                clanConfig.set(path + "Perk", clan.clanPerk);
+                clanConfig.set(path + "Event Wins", clan.eventWins);
+                clanConfig.set(path + "Clan Battle Wins", clan.battleWins);
+                clanConfig.set(path + "Storage Size", clan.clanStorageSize);
+                clanConfig.set(path + "Logs", clan.clanLogs);
+                for (UUID uuid : clan.clanMembers.keySet()) {
+                    clanConfig.set(path + "Members." + uuid.toString(), clan.clanMembers.get(uuid).toString());
                 }
+                List<ItemStack> storage = new ArrayList<>();
+                if (clan.clanStorage.getContents().length > 0) {
+                    for (ItemStack i : clan.clanStorage.getContents()) {
+                        storage.add(i);
+                    }
+                }
+                clanConfig.set(path + "Storage", storage);
             }
-            clanConfig.set(path + "Storage", storage);
         }
         try {
             clanConfig.save(clanConfigFile);
@@ -88,6 +89,32 @@ public class Clan {
         for (int i = 8; i >= 0; i--) {
             for (String clanName : clans.keySet()) {
                 if (clans.get(clanName).getOnlinePlayers().size() == i) {
+                    newClans.add(clans.get(clanName));
+                }
+            }
+        }
+        return newClans;
+    }
+
+    public static List<Clan> sortTopEventClans() {
+        List<Clan> newClans = new ArrayList<>();
+        for (int i = 100; i >= 0; i--) {
+            if (newClans.size() == 10) break;
+            for (String clanName : clans.keySet()) {
+                if (clans.get(clanName).eventWins == i) {
+                    newClans.add(clans.get(clanName));
+                }
+            }
+        }
+        return newClans;
+    }
+
+    public static List<Clan> sortTopBattleClans() {
+        List<Clan> newClans = new ArrayList<>();
+        for (int i = 100; i >= 0; i--) {
+            if (newClans.size() == 10) break;
+            for (String clanName : clans.keySet()) {
+                if (clans.get(clanName).battleWins == i) {
                     newClans.add(clans.get(clanName));
                 }
             }
@@ -131,6 +158,14 @@ public class Clan {
             if (clan.equalsIgnoreCase(clanName)) return clans.get(clan);
         }
         return null;
+    }
+
+    public static boolean sameClan(Player player1, Player player2) {
+        if (getPlayerClan(player1).equalsIgnoreCase("None") || getPlayerClan(player2).equalsIgnoreCase("None"))
+            return false;
+        if (player1.getName().equalsIgnoreCase(player2.getName())) return false;
+        if (getPlayerClan(player1).equalsIgnoreCase(getPlayerClan(player2))) return true;
+        return false;
     }
 
     //Clan Object
@@ -271,8 +306,8 @@ public class Clan {
                 if (this.clanBalance >= 400000) {
                     this.clanBalance -= 400000;
                     this.clanPerk++;
-                    this.clanStorageSize = 18;
-                    clanStorage = Bukkit.createInventory(null, 18, "§e" + this.clanName + "'s Clan Storage");
+                    this.clanStorageSize = 9;
+                    clanStorage = Bukkit.createInventory(null, 9, "§e" + this.clanName + "'s Clan Storage");
                     return true;
                 }
                 return false;
@@ -291,7 +326,10 @@ public class Clan {
                     this.clanBalance -= 200000;
                     this.clanPerk++;
                     this.clanStorageSize = 27;
-                    clanStorage = Bukkit.createInventory(null, 27, "§e" + this.clanName + "'s Clan Storage");
+                    Inventory newStorage = Bukkit.createInventory(null, 27, "§e" + this.clanName + "'s Clan Storage");
+                    for (ItemStack i : clanStorage.getContents())
+                        if (i != null) newStorage.addItem(i);
+                    clanStorage = newStorage;
                     return true;
                 }
                 return false;
@@ -309,8 +347,11 @@ public class Clan {
                 if (this.clanBalance >= 1200000) {
                     this.clanBalance -= 1200000;
                     this.clanPerk++;
-                    this.clanStorageSize = 54;
-                    clanStorage = Bukkit.createInventory(null, 54, "§e" + this.clanName + "'s Clan Storage");
+                    this.clanStorageSize = 36;
+                    Inventory newStorage = Bukkit.createInventory(null, 36, "§e" + this.clanName + "'s Clan Storage");
+                    for (ItemStack i : clanStorage.getContents())
+                        if (i != null) newStorage.addItem(i);
+                    clanStorage = newStorage;
                     return true;
                 }
                 return false;

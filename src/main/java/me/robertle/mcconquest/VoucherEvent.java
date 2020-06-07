@@ -16,7 +16,7 @@ public class VoucherEvent implements Listener {
         if (e.getHand() == EquipmentSlot.OFF_HAND) return;
         if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
             if (ItemHelper.hasName(e.getItem()) && ItemHelper.hasLore(e.getItem())) {
-                if (ItemHelper.getName(e.getItem()).equalsIgnoreCase("§2§lMoney Note")) {
+                if (ItemHelper.getName(e.getItem()).equalsIgnoreCase("§a§lMoney Note")) {
                     String moneyLore = ItemHelper.getLore(e.getItem()).get(0);
                     int value = Integer.parseInt(moneyLore.substring(moneyLore.indexOf("$") + 1));
                     Core.econ.depositPlayer(e.getPlayer(), value);
@@ -56,13 +56,13 @@ public class VoucherEvent implements Listener {
                     int r = Core.generateNumber(0, 2);
                     if (r == 0) {
                         e.getPlayer().getInventory().addItem(CustomItemManager.getGenerator(GeneratorType.MONEY));
-                        Core.shout(DefaultConfig.prefix + "§6" + e.getPlayer().getName() + " §fopened a §6money generator");
+                        Core.shout(DefaultConfig.prefix + "§6" + e.getPlayer().getName() + " §fopened a §6Money Generator");
                     } else if (r == 1) {
                         e.getPlayer().getInventory().addItem(CustomItemManager.getGenerator(GeneratorType.INGOT));
-                        Core.shout(DefaultConfig.prefix + "§6" + e.getPlayer().getName() + " §fopened a §6ingot generator.");
+                        Core.shout(DefaultConfig.prefix + "§6" + e.getPlayer().getName() + " §fopened a §6Ingot Generator.");
                     } else if (r == 2) {
                         e.getPlayer().getInventory().addItem(CustomItemManager.getGenerator(GeneratorType.ESSENCE));
-                        Core.shout(DefaultConfig.prefix + "§6" + e.getPlayer().getName() + " §fopened a §6essence generator.");
+                        Core.shout(DefaultConfig.prefix + "§6" + e.getPlayer().getName() + " §fopened a §6Essence Generator.");
                     }
                     InventoryUtil.removeAnItemInHand(e.getPlayer());
                 } else if (ItemHelper.getName(e.getItem()).equalsIgnoreCase("§4§lS-Tier Voucher")) {
@@ -99,7 +99,7 @@ public class VoucherEvent implements Listener {
                         e.getPlayer().sendMessage(DefaultConfig.prefix + "§cYour generator limit has already been reached.");
                     }
                 } else if (ItemHelper.getName(e.getItem()).contains("Tag Voucher")) {
-                    Tag tag = Tag.getTagFromTagString(ItemHelper.getName(e.getItem()).replace(" Tag Voucher", ""));
+                    Tag tag = Tag.getTagFromTagString(ItemHelper.getName(e.getItem()).replace(" §fTag Voucher", ""));
                     Tags.giveTag(e.getPlayer(), tag);
                     e.getPlayer().sendMessage(DefaultConfig.prefix + "§aYou've successfully claimed the tag.");
                     InventoryUtil.removeAnItemInHand(e.getPlayer());
@@ -107,6 +107,7 @@ public class VoucherEvent implements Listener {
                     String petName = ItemHelper.getName(e.getItem()).substring(2).replace(" Pet", "").replaceAll(" ", "_");
                     String command = "givec " + e.getPlayer().getName() + " " + petName.toLowerCase();
                     Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
+                    e.getPlayer().sendMessage("§e§lPet §r> You've claimed the " + ItemHelper.getName(e.getItem()));
                     InventoryUtil.removeAnItemInHand(e.getPlayer());
                 }
             }

@@ -4,8 +4,12 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
+import org.bukkit.Color;
+import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
+import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Random;
@@ -29,6 +33,10 @@ public final class Core extends JavaPlugin {
         getCommand("clan").setExecutor(new ClanCommands());
         getCommand("cc").setExecutor(new ClanCommands());
         getCommand("mcc").setExecutor(new MCCCommands());
+        getCommand("combat").setExecutor(new MCCCommands());
+        getCommand("food").setExecutor(new MCCCommands());
+        getCommand("special").setExecutor(new MCCCommands());
+        getCommand("potion").setExecutor(new MCCCommands());
         getCommand("generator").setExecutor(new MCCCommands());
         getCommand("event").setExecutor(new ClanEvents());
         getCommand("coinflip").setExecutor(new Coinflip());
@@ -37,7 +45,7 @@ public final class Core extends JavaPlugin {
 
         //Events
         getServer().getPluginManager().registerEvents(new InventoryManager(), this);
-        getServer().getPluginManager().registerEvents(new MobHunting(), this);
+        getServer().getPluginManager().registerEvents(new MobManager(), this);
         getServer().getPluginManager().registerEvents(new MiningManager(), this);
         getServer().getPluginManager().registerEvents(new VoucherEvent(), this);
         getServer().getPluginManager().registerEvents(new FishingManager(), this);
@@ -47,6 +55,7 @@ public final class Core extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new War(), this);
         getServer().getPluginManager().registerEvents(new Tags(), this);
         getServer().getPluginManager().registerEvents(new JoinFull(), this);
+        getServer().getPluginManager().registerEvents(new CustomEnchantManager(), this);
 
         //Placeholder
         new MCCPlaceholder(this).register();
@@ -62,6 +71,9 @@ public final class Core extends JavaPlugin {
         FishingManager.runFishTimers();
         Generator.runGenerators();
         ClanEvents.runEventTimers();
+        Challenge.runChallengeTimer();
+        MobManager.spawnMobTimer();
+        CustomEnchantManager.runEnchantTimer();
 
     }
 
@@ -106,9 +118,10 @@ public final class Core extends JavaPlugin {
         return true;
     }
 
-    public static boolean chance(int chance) {
-        int r = generateNumber(1, 100);
-        if (r <= chance) return true;
+    public static boolean chance(double chance) {
+        Random random = new Random();
+        double r = random.nextDouble();
+        if (r < (chance / 100)) return true;
         else return false;
     }
 
@@ -134,7 +147,7 @@ public final class Core extends JavaPlugin {
         int x = center.getBlockX() + (rollNegative()*Core.generateNumber(xMin,xMax));
         int z = center.getBlockZ() + (rollNegative()*Core.generateNumber(zMin,zMax));
         int y = Bukkit.getWorld("world").getHighestBlockYAt(x, z);
-        return new Location(Bukkit.getWorld("world"), x, y, z);
+        return new Location(Bukkit.getWorld("world"), x, y + 2, z);
     }
 
     public static String getStringFromLocation(Location location) {
@@ -143,5 +156,15 @@ public final class Core extends JavaPlugin {
 
     public static void sendActionBar(Player player, String message) {
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
+    }
+
+    public static void spawnFirework(Player player) {
+        Firework fw = player.getWorld().spawn(player.getLocation(), Firework.class);
+        FireworkMeta meta = fw.getFireworkMeta();
+
+        meta.addEffect(FireworkEffect.builder().flicker(true).withColor(Color.RED, Color.BLACK).withFade(Color.WHITE).with(FireworkEffect.Type.STAR).build());
+        meta.addEffect(FireworkEffect.builder().flicker(true).withColor(Color.GRAY).withFade(Color.RED).with(FireworkEffect.Type.BURST).build());
+        meta.setPower(1);
+        fw.setFireworkMeta(meta);
     }
 }

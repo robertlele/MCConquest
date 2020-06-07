@@ -60,19 +60,25 @@ public class BlacksmithManager {
                 return false;
             }
         } else if (blacksmithItem.isSimilar(CustomItemManager.getBlacksmithsMagicDust())) {
-            if ((InventoryUtil.verifyWeapon(item) || InventoryUtil.verifyArmor(item)) && ItemHelper.hasLore(item)) {
+            if ((InventoryUtil.verifyArmor(item)) && ItemHelper.hasLore(item)) {
                 if (ItemHelper.getLore(item).size() < 4 || ItemHelper.getLore(item).get(3).isEmpty()) {
                     player.sendMessage("§8§lBlacksmith §f> Your item has no enchant on it.");
                     return false;
                 }
-                if (InventoryUtil.checkMaxLevel(item)) {
+                if (InventoryUtil.checkMaxArmorLevel(item)) {
                     player.sendMessage("§8§lBlacksmith §f> Your enchant is already maxed level.");
                     return false;
                 }
-                player.getInventory().addItem(InventoryUtil.increaseEnchantLevel(item));
+                player.getInventory().addItem(InventoryUtil.increaseArmorEnchantLevel(item));
                 player.playSound(player.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1f, 1f);
                 player.sendMessage("§8§lBlacksmith §f> Your enchant's level has been increased.");
                 return true;
+            } else if (InventoryUtil.verifyWeapon(item)) {
+                if (ItemHelper.getLore(item).size() < 4 || ItemHelper.getLore(item).get(3).isEmpty()) {
+                    player.sendMessage("§8§lBlacksmith §f> Your item has no enchant on it.");
+                    return false;
+                }
+                //open enchant picker gui and check if max level, if not enchant item
             } else {
                 player.sendMessage("§8§lBlacksmith §f> This item cannot be forged with my magic dust.");
                 return false;

@@ -8,40 +8,46 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class MCCEvents implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerDeath(PlayerDeathEvent e) {
-        e.setKeepInventory(true);
-        e.getDrops().clear();
         e.setShouldDropExperience(false);
         e.setKeepLevel(false);
+
+        if (Challenge.activeChallenge != null && Challenge.activeChallenge.team1Participants.contains(e.getEntity().getPlayer())) {
+            Challenge.activeChallenge.team1Participants.remove(e.getEntity().getPlayer());
+            e.getEntity().sendMessage(DefaultConfig.prefix + "§cYou've been eliminated from the clan battle.");
+        } else if (Challenge.activeChallenge != null && Challenge.activeChallenge.team2Participants.contains(e.getEntity().getPlayer())) {
+            Challenge.activeChallenge.team2Participants.remove(e.getEntity().getPlayer());
+            e.getEntity().sendMessage(DefaultConfig.prefix + "§cYou've been eliminated from the clan battle.");
+        }
+
+        //Remove armor & weapons from drops
+        List<ItemStack> currentDrops = e.getDrops();
+        Iterator<ItemStack> newDrops = currentDrops.iterator();
+        while (newDrops.hasNext()) {
+            ItemStack i = newDrops.next();
+            if (i.getType() == Material.IRON_HELMET || i.getType() == Material.IRON_CHESTPLATE || i.getType() == Material.IRON_LEGGINGS || i.getType() == Material.IRON_BOOTS || i.getType() == Material.DIAMOND_HELMET || i.getType() == Material.DIAMOND_CHESTPLATE || i.getType() == Material.DIAMOND_LEGGINGS || i.getType() == Material.DIAMOND_BOOTS || i.getType() == Material.STICK || i.getType() == Material.GOLDEN_SWORD || i.getType() == Material.IRON_SWORD || i.getType() == Material.DIAMOND_SWORD || i.getType() == Material.DIAMOND_AXE || i.getType() == Material.BOW) {
+                newDrops.remove();
+            }
+        }
+
         //Add if statements here to check if lives should be deducted
-        if (Challenge.activeChallenge.team1Participants.contains(e.getEntity())) {
-            Challenge.activeChallenge.team1Participants.remove(e.getEntity());
-            e.getEntity().sendMessage(DefaultConfig.prefix + "§cYou've been eliminated from the clan battle.");
-            return;
-        }
-        else if (Challenge.activeChallenge.team2Participants.contains(e.getEntity())) {
-            Challenge.activeChallenge.team2Participants.remove(e.getEntity());
-            e.getEntity().sendMessage(DefaultConfig.prefix + "§cYou've been eliminated from the clan battle.");
-            return;
-        }
         for (ItemStack itemStack : e.getEntity().getInventory().getStorageContents()) {
             if (ItemHelper.hasLore(itemStack) && ItemHelper.getLore(itemStack).size() > 1) {
                 String lore = ItemHelper.getLore(itemStack).get(1);
                 if (lore.contains("Lives")) {
                     int index = lore.indexOf("l");
                     int lives = Integer.parseInt(lore.substring(index + 1, index + 2));
-                    if (lives == 1) {
-                        e.getEntity().getInventory().remove(itemStack);
-                    } else {
+                    if (lives != 1) {
                         List<String> lores = ItemHelper.getLore(itemStack);
                         lives--;
                         lores.set(1, "§a§l" + lives + " Lives");
-                        ItemHelper.setLore(itemStack, lores);
+                        e.getItemsToKeep().add(ItemHelper.setLore(itemStack, lores));
                     }
                 }
             }
@@ -53,13 +59,12 @@ public class MCCEvents implements Listener {
                 if (lore.contains("Lives")) {
                     int index = lore.indexOf("l");
                     int lives = Integer.parseInt(lore.substring(index + 1, index + 2));
-                    if (lives == 1) {
-                        armorContents[i] = null;
-                    } else {
+                    if (lives != 1) {
                         List<String> lores = ItemHelper.getLore(armorContents[i]);
                         lives--;
                         lores.set(1, "§a§l" + lives + " Lives");
                         ItemHelper.setLore(armorContents[i], lores);
+                        e.getItemsToKeep().add(armorContents[i]);
                     }
                 }
             }

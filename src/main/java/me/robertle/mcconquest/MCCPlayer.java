@@ -34,8 +34,8 @@ public class MCCPlayer {
                 }
                 playerGenerators.put(UUID.fromString(uuid), generators);
             }
-            if (playerConfig.get(path+".Tag") != null) {
-                Tags.playerTags.put(UUID.fromString(uuid), Tag.valueOf(playerConfig.getString(path+".Tag")));
+            if (playerConfig.get(path + ".Tag") != null) {
+                Tags.playerTags.put(UUID.fromString(uuid), Tag.valueOf(playerConfig.getString(path + ".Tag")));
             }
         }
 
@@ -44,22 +44,23 @@ public class MCCPlayer {
     }
 
     public static void savePlayers() {
-        if (playerClans.isEmpty()) return;
-        for (UUID uuid : playerClans.keySet()) {
-            String path = "Players." + uuid.toString();
-            playerConfig.set(path + ".Clan", playerClans.get(uuid));
-        }
-        for (UUID uuid : playerGenerators.keySet()) {
-            String path = "Players." + uuid.toString();
-            for (int i = 0; i < playerGenerators.get(uuid).size(); i++) {
-                playerConfig.set(path + ".Generator." + i + ".type", playerGenerators.get(uuid).get(i).type.toString());
-                playerConfig.set(path + ".Generator." + i + ".level", playerGenerators.get(uuid).get(i).level);
-                playerConfig.set(path + ".Generator." + i + ".produced", playerGenerators.get(uuid).get(i).produced);
+        if (!playerClans.isEmpty()) {
+            for (UUID uuid : playerClans.keySet()) {
+                String path = "Players." + uuid.toString();
+                playerConfig.set(path + ".Clan", playerClans.get(uuid));
             }
-        }
-        for (UUID uuid : Tags.playerTags.keySet()) {
-            String path = "Players." + uuid.toString() + ".Tag";
-            playerConfig.set(path, Tags.playerTags.get(uuid).toString());
+            for (UUID uuid : playerGenerators.keySet()) {
+                String path = "Players." + uuid.toString();
+                for (int i = 0; i < playerGenerators.get(uuid).size(); i++) {
+                    playerConfig.set(path + ".Generator." + i + ".type", playerGenerators.get(uuid).get(i).type.toString());
+                    playerConfig.set(path + ".Generator." + i + ".level", playerGenerators.get(uuid).get(i).level);
+                    playerConfig.set(path + ".Generator." + i + ".produced", playerGenerators.get(uuid).get(i).produced);
+                }
+            }
+            for (UUID uuid : Tags.playerTags.keySet()) {
+                String path = "Players." + uuid.toString() + ".Tag";
+                playerConfig.set(path, Tags.playerTags.get(uuid).toString());
+            }
         }
         try {
             playerConfig.save(playerConfigFile);

@@ -89,6 +89,51 @@ public class MCCCommands implements CommandExecutor {
                                 player.getInventory().addItem(CustomItemManager.getWeapon(MCCWeapon.GIANT_BOW));
                                 player.getInventory().addItem(CustomItemManager.getArtifact(MCCArtifact.GIANT_GRINDER));
                                 break;
+                            case "mooshroomset":
+                                player.getInventory().addItem(CustomItemManager.getArmorPiece(MCCArmor.MOOSHROOM_HELMET));
+                                player.getInventory().addItem(CustomItemManager.getArmorPiece(MCCArmor.MOOSHROOM_CHESTPLATE));
+                                player.getInventory().addItem(CustomItemManager.getArmorPiece(MCCArmor.MOOSHROOM_LEGGINGS));
+                                player.getInventory().addItem(CustomItemManager.getArmorPiece(MCCArmor.MOOSHROOM_BOOTS));
+                                player.getInventory().addItem(CustomItemManager.getWeapon(MCCWeapon.MOOSHROOM_AXE));
+                                break;
+                            case "blazeset":
+                                player.getInventory().addItem(CustomItemManager.getArmorPiece(MCCArmor.BLAZE_HELMET));
+                                player.getInventory().addItem(CustomItemManager.getArmorPiece(MCCArmor.BLAZE_CHESTPLATE));
+                                player.getInventory().addItem(CustomItemManager.getArmorPiece(MCCArmor.BLAZE_LEGGINGS));
+                                player.getInventory().addItem(CustomItemManager.getArmorPiece(MCCArmor.BLAZE_BOOTS));
+                                player.getInventory().addItem(CustomItemManager.getWeapon(MCCWeapon.BLAZE_SWORD));
+                                player.getInventory().addItem(CustomItemManager.getWeapon(MCCWeapon.BLAZE_BOW));
+                                break;
+                            case "pigmanset":
+                                player.getInventory().addItem(CustomItemManager.getArmorPiece(MCCArmor.PIGMAN_HELMET));
+                                player.getInventory().addItem(CustomItemManager.getArmorPiece(MCCArmor.PIGMAN_CHESTPLATE));
+                                player.getInventory().addItem(CustomItemManager.getArmorPiece(MCCArmor.PIGMAN_LEGGINGS));
+                                player.getInventory().addItem(CustomItemManager.getArmorPiece(MCCArmor.PIGMAN_BOOTS));
+                                player.getInventory().addItem(CustomItemManager.getWeapon(MCCWeapon.PIGMAN_SWORD));
+                                player.getInventory().addItem(CustomItemManager.getArtifact(MCCArtifact.PIGMAN_PICKAXE));
+                                break;
+                            case "polarbearset":
+                                player.getInventory().addItem(CustomItemManager.getArmorPiece(MCCArmor.POLAR_BEAR_HELMET));
+                                player.getInventory().addItem(CustomItemManager.getArmorPiece(MCCArmor.POLAR_BEAR_CHESTPLATE));
+                                player.getInventory().addItem(CustomItemManager.getArmorPiece(MCCArmor.POLAR_BEAR_LEGGINGS));
+                                player.getInventory().addItem(CustomItemManager.getArmorPiece(MCCArmor.POLAR_BEAR_BOOTS));
+                                player.getInventory().addItem(CustomItemManager.getWeapon(MCCWeapon.POLAR_BEAR_AXE));
+                                break;
+                            case "endermanset":
+                                player.getInventory().addItem(CustomItemManager.getArmorPiece(MCCArmor.ENDERMAN_HELMET));
+                                player.getInventory().addItem(CustomItemManager.getArmorPiece(MCCArmor.ENDERMAN_CHESTPLATE));
+                                player.getInventory().addItem(CustomItemManager.getArmorPiece(MCCArmor.ENDERMAN_LEGGINGS));
+                                player.getInventory().addItem(CustomItemManager.getArmorPiece(MCCArmor.ENDERMAN_BOOTS));
+                                player.getInventory().addItem(CustomItemManager.getWeapon(MCCWeapon.ENDERMAN_SWORD));
+                                player.getInventory().addItem(CustomItemManager.getWeapon(MCCWeapon.ENDERMAN_BOW));
+                                break;
+                            case "batset":
+                                player.getInventory().addItem(CustomItemManager.getArmorPiece(MCCArmor.BAT_HELMET));
+                                player.getInventory().addItem(CustomItemManager.getArmorPiece(MCCArmor.BAT_CHESTPLATE));
+                                player.getInventory().addItem(CustomItemManager.getArmorPiece(MCCArmor.BAT_LEGGINGS));
+                                player.getInventory().addItem(CustomItemManager.getArmorPiece(MCCArmor.BAT_BOOTS));
+                                player.getInventory().addItem(CustomItemManager.getWeapon(MCCWeapon.BAT_SWORD));
+                                break;
                             case "squidset":
                                 player.getInventory().addItem(CustomItemManager.getArmorPiece(MCCArmor.SQUID_HELMET));
                                 player.getInventory().addItem(CustomItemManager.getArmorPiece(MCCArmor.SQUID_CHESTPLATE));
@@ -96,6 +141,13 @@ public class MCCCommands implements CommandExecutor {
                                 player.getInventory().addItem(CustomItemManager.getArmorPiece(MCCArmor.SQUID_BOOTS));
                                 player.getInventory().addItem(CustomItemManager.getWeapon(MCCWeapon.SQUID_SWORD));
                                 player.getInventory().addItem(CustomItemManager.getArtifact(MCCArtifact.SQUID_ROD));
+                                break;
+                            case "slimeset":
+                                player.getInventory().addItem(CustomItemManager.getArmorPiece(MCCArmor.SLIME_HELMET));
+                                player.getInventory().addItem(CustomItemManager.getArmorPiece(MCCArmor.SLIME_CHESTPLATE));
+                                player.getInventory().addItem(CustomItemManager.getArmorPiece(MCCArmor.SLIME_LEGGINGS));
+                                player.getInventory().addItem(CustomItemManager.getArmorPiece(MCCArmor.SLIME_BOOTS));
+                                player.getInventory().addItem(CustomItemManager.getWeapon(MCCWeapon.SLIME_SWORD));
                                 break;
                             case "golemset":
                                 player.getInventory().addItem(CustomItemManager.getArmorPiece(MCCArmor.GOLEM_HELMET));
@@ -133,10 +185,12 @@ public class MCCCommands implements CommandExecutor {
                                 player.getInventory().addItem(CustomItemManager.getArtifact(MCCArtifact.WITHER_PICKAXE));
                                 break;
                             case "zombieset":
+                                player.getInventory().addItem(CustomItemManager.getArmorPiece(MCCArmor.ZOMBIE_HELMET));
+                                player.getInventory().addItem(CustomItemManager.getArmorPiece(MCCArmor.ZOMBIE_CHESTPLATE));
+                                player.getInventory().addItem(CustomItemManager.getArmorPiece(MCCArmor.ZOMBIE_LEGGINGS));
+                                player.getInventory().addItem(CustomItemManager.getArmorPiece(MCCArmor.ZOMBIE_BOOTS));
+                                player.getInventory().addItem(CustomItemManager.getWeapon(MCCWeapon.ZOMBIE_SWORD));
                                 player.getInventory().addItem(CustomItemManager.getArtifact(MCCArtifact.ZOMBIE_GRINDER));
-                                break;
-                            case "pigmanset":
-                                player.getInventory().addItem(CustomItemManager.getArtifact(MCCArtifact.PIGMAN_PICKAXE));
                                 break;
                             case "knockbackset":
                                 player.getInventory().addItem(CustomItemManager.getArtifact(MCCArtifact.EXTREME_KNOCKBACK_STICK));
@@ -189,8 +243,7 @@ public class MCCCommands implements CommandExecutor {
                         player.sendMessage(DefaultConfig.prefix + "Item(s) given.");
                         return true;
                     }
-                }
-                else if (args[0].equalsIgnoreCase("location")) {
+                } else if (args[0].equalsIgnoreCase("location")) {
                     if (sender.hasPermission("mcc.admin")) {
                         if (!(sender instanceof Player)) return false;
                         Player player = (Player) sender;
@@ -243,6 +296,42 @@ public class MCCCommands implements CommandExecutor {
                         gifted.getInventory().addItem(note);
                     }
                 }
+            }
+        }
+
+        if (command.getLabel().equalsIgnoreCase("combat")) {
+            if (sender instanceof Player) {
+                Player player = (Player) sender;
+                if (player.hasPermission("mcc.combat"))
+                    player.openInventory(InventoryManager.getCombatMerchantGui());
+                else player.sendMessage(DefaultConfig.prefix + "§cOnly donors can access this command.");
+            }
+        }
+
+        if (command.getLabel().equalsIgnoreCase("food")) {
+            if (sender instanceof Player) {
+                Player player = (Player) sender;
+                if (player.hasPermission("mcc.food"))
+                    player.openInventory(InventoryManager.getFoodMerchant());
+                else player.sendMessage(DefaultConfig.prefix + "§cOnly donors can access this command.");
+            }
+        }
+
+        if (command.getLabel().equalsIgnoreCase("special")) {
+            if (sender instanceof Player) {
+                Player player = (Player) sender;
+                if (player.hasPermission("mcc.special"))
+                    player.openInventory(InventoryManager.getSpecialMerchant());
+                else player.sendMessage(DefaultConfig.prefix + "§cOnly donors can access this command.");
+            }
+        }
+
+        if (command.getLabel().equalsIgnoreCase("potion")) {
+            if (sender instanceof Player) {
+                Player player = (Player) sender;
+                if (player.hasPermission("mcc.potion"))
+                    player.openInventory(InventoryManager.getPotionMerchant());
+                else player.sendMessage(DefaultConfig.prefix + "§cOnly donors can access this command.");
             }
         }
 

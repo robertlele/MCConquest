@@ -33,34 +33,34 @@ public class InventoryManager implements Listener {
         perk.setGlowing(true);
         switch (clan.clanPerk) {
             case 0:
-                perk.lore("§f§nNext Perk", "", "§eUnlock size 18 clan storage");
+                perk.lore("§f§nNext Perk", "", "§eUnlock size 9 clan storage");
                 break;
             case 1:
-                perk.lore("§f§nNext Perk", "", "§eEach member receives an armor voucher", "§f§lWARNING §r§fItems will be put in the clan storage", "§fso make sure it's not full");
+                perk.lore("§f§nNext Perk", "", "§eEach member receives an armor voucher", "§c§lWARNING §r§fItems will be put in the clan storage", "§fso make sure it's not full");
                 break;
             case 2:
-                perk.lore("§f§nNext Perk", "", "§eUnlock size 27 clan storage", "§f§lWARNING §r§fItems will be cleared from clan storage", "§fso clear before unlocking");
+                perk.lore("§f§nNext Perk", "", "§eUnlock size 27 clan storage");
                 break;
             case 3:
-                perk.lore("§f§nNext Perk", "", "§eEach member receives a weapon voucher", "§f§lWARNING §r§fItems will be put in the clan storage", "§fso make sure it's not full");
+                perk.lore("§f§nNext Perk", "", "§eEach member receives a weapon voucher,", "§eAble to challenge other clans for rewards", "§c§lWARNING §r§fItems will be put in the clan storage", "§fso make sure it's not full");
                 break;
             case 4:
-                perk.lore("§f§nNext Perk", "", "§eUnlock size 45 clan storage", "§f§lWARNING §r§fItems will be cleared from clan storage", "§fso clear before unlocking");
+                perk.lore("§f§nNext Perk", "", "§eUnlock size 36 clan storage");
                 break;
             case 5:
-                perk.lore("§f§nNext Perk", "", "§eEach member receives a special artifact voucher", "§f§lWARNING §r§fItems will be put in the clan storage", "§fso make sure it's not full");
+                perk.lore("§f§nNext Perk", "", "§eEach member receives a special artifact voucher", "§c§lWARNING §r§fItems will be put in the clan storage", "§fso make sure it's not full");
                 break;
             case 6:
-                perk.lore("§f§nNext Perk", "", "§eEach member receives a special armor voucher", "§f§lWARNING §r§fItems will be put in the clan storage", "§fso make sure it's not full");
+                perk.lore("§f§nNext Perk", "", "§eEach member receives a special armor voucher", "§c§lWARNING §r§fItems will be put in the clan storage", "§fso make sure it's not full");
                 break;
             case 7:
-                perk.lore("§f§nNext Perk", "", "§eEach member receives a special weapon voucher", "§f§lWARNING §r§fItems will be put in the clan storage", "§fso make sure it's not full");
+                perk.lore("§f§nNext Perk", "", "§eEach member receives a special weapon voucher", "§c§lWARNING §r§fItems will be put in the clan storage", "§fso make sure it's not full");
                 break;
             case 8:
-                perk.lore("§f§nNext Perk", "", "§eEach member receives an super crate", "§f§lWARNING §r§fItems will be put in the clan storage", "§fso make sure it's not full");
+                perk.lore("§f§nNext Perk", "", "§eEach member receives an super crate", "§c§lWARNING §r§fItems will be put in the clan storage", "§fso make sure it's not full");
                 break;
             case 9:
-                perk.lore("§f§nNext Perk", "", "§eEach member receives an ultra crate", "§f§lWARNING §r§fItems will be put in the clan storage", "§fso make sure it's not full");
+                perk.lore("§f§nNext Perk", "", "§eEach member receives an ultra crate,", "§eAble to participate in the clan war", "§c§lWARNING §r§fItems will be put in the clan storage", "§fso make sure it's not full");
                 break;
         }
         inv.setItem(4, perk.asItemStack());
@@ -78,10 +78,10 @@ public class InventoryManager implements Listener {
                 buy.lore("§aCost: $" + 800000, "", "§eLeft click to unlock");
                 break;
             case 3:
-                buy.lore("§aCost: $" + 400000, "", "§eLeft click to unlock");
+                buy.lore("§aCost: $" + 1200000, "", "§eLeft click to unlock");
                 break;
             case 4:
-                buy.lore("§aCost: $" + 1600000, "", "§eLeft click to unlock");
+                buy.lore("§aCost: $" + 400000, "", "§eLeft click to unlock");
                 break;
             case 5:
                 buy.lore("§aCost: $" + 800000, "", "§eLeft click to unlock");
@@ -99,7 +99,8 @@ public class InventoryManager implements Listener {
                 buy.lore("§aCost: $" + 1600000, "", "§eLeft click to unlock");
                 break;
         }
-        inv.setItem(5, buy.asItemStack());
+        if (clan.clanPerk < 10)
+            inv.setItem(5, buy.asItemStack());
 
         return inv;
     }
@@ -274,12 +275,15 @@ public class InventoryManager implements Listener {
         blacksmithsCoal.lore("§aCost: 128 Rare Essence", "", "§eLeft click to buy");
         ItemBuilder blacksmithsMagmaRod = new ItemBuilder(CustomItemManager.getBlacksmithsMagmaRod());
         blacksmithsMagmaRod.lore("§aCost: 192 Rare Essence", "", "§eLeft click to buy");
+        ItemBuilder arrow = new ItemBuilder(Material.ARROW);
+        arrow.lore("§aCost: $10", "", "§eLeft click to buy", "§eMiddle click to buy 16");
         inv.setItem(1, armorVoucher.asItemStack());
         inv.setItem(2, specialArmorVoucher.asItemStack());
         inv.setItem(3, weaponVoucher.asItemStack());
         inv.setItem(4, specialWeaponVoucher.asItemStack());
         inv.setItem(5, blacksmithsCoal.asItemStack());
         inv.setItem(6, blacksmithsMagmaRod.asItemStack());
+        inv.setItem(7, arrow.asItemStack());
         return inv;
     }
 
@@ -300,6 +304,8 @@ public class InventoryManager implements Listener {
                 blacksmithsCoal.lore("§aCost: 128 Rare Essence", "", "§eLeft click to buy");
                 ItemBuilder blacksmithsMagmaRod = new ItemBuilder(CustomItemManager.getBlacksmithsMagmaRod());
                 blacksmithsMagmaRod.lore("§aCost: 192 Rare Essence", "", "§eLeft click to buy");
+                ItemBuilder arrow = new ItemBuilder(Material.ARROW);
+                arrow.lore("§aCost: $150", "", "§eLeft click to buy 16");
                 Player player = (Player) e.getWhoClicked();
                 if (e.getCurrentItem().isSimilar(weaponVoucher.asItemStack())) {
                     if (player.getInventory().containsAtLeast(CustomItemManager.getIngot(false, 1), 448)) {
@@ -361,6 +367,13 @@ public class InventoryManager implements Listener {
                         player.sendMessage("§4§lCombat Merchant §f> You don't have enough for this.");
                         player.closeInventory();
                     }
+                } else if (e.getCurrentItem().isSimilar(arrow.asItemStack())) {
+                    if (Core.econ.has(player, 150)) {
+                        Core.econ.withdrawPlayer(player, 150);
+                        arrow.lore(new ArrayList<>());
+                        arrow.amount(16);
+                        player.getInventory().addItem(arrow.asItemStack());
+                    }
                 }
             }
         }
@@ -374,7 +387,7 @@ public class InventoryManager implements Listener {
 
         ItemBuilder healing = new ItemBuilder(Material.SPLASH_POTION);
         PotionMeta potionMeta = (PotionMeta) healing.asItemStack().getItemMeta();
-        potionMeta.setBasePotionData(new PotionData(PotionType.INSTANT_HEAL, false, false));
+        potionMeta.setBasePotionData(new PotionData(PotionType.INSTANT_HEAL, false, true));
         healing.potion(potionMeta);
         healing.displayName("§dSplash Potion of Healing");
         healing.lore("§aCost: $100", "", "§eLeft click to buy 1", "§eMiddle click to buy 9");
@@ -412,7 +425,7 @@ public class InventoryManager implements Listener {
 
             ItemBuilder healing = new ItemBuilder(Material.SPLASH_POTION);
             PotionMeta potionMeta = (PotionMeta) healing.asItemStack().getItemMeta();
-            potionMeta.setBasePotionData(new PotionData(PotionType.INSTANT_HEAL, false, false));
+            potionMeta.setBasePotionData(new PotionData(PotionType.INSTANT_HEAL, false, true));
             healing.potion(potionMeta);
             healing.displayName("§dSplash Potion of Healing");
             healing.lore("§aCost: $100", "", "§eLeft click to buy 1", "§eMiddle click to buy 9");
@@ -611,11 +624,13 @@ public class InventoryManager implements Listener {
             } else if (e.getClick() == ClickType.MIDDLE) {
                 if (e.getCurrentItem().isSimilar(enderpearl.asItemStack())) {
                     if (Core.econ.has(player, 6400)) {
+                        enderpearl.amount(16);
                         enderpearl.lore(new ArrayList<>());
                         player.getInventory().addItem(enderpearl.asItemStack());
                     }
                 } else if (e.getCurrentItem().isSimilar(gapple.asItemStack())) {
                     if (Core.econ.has(player, 16000)) {
+                        gapple.amount(16);
                         gapple.lore(new ArrayList<>());
                         player.getInventory().addItem(gapple.asItemStack());
                     }
@@ -628,6 +643,118 @@ public class InventoryManager implements Listener {
     public void closeSpecialMerchantGui(InventoryCloseEvent e) {
         if (e.getView().getTitle().contains("Special Merchant")) {
             e.getPlayer().sendMessage("§6§lSpecial Merchant §f> Thank you for your business.");
+        }
+    }
+
+    //Food Merchant Gui
+    public static Inventory getFoodMerchant() {
+        Inventory inv = Bukkit.createInventory(null, 9, "§e§lFood Merchant");
+        inv.setItem(0, new ItemBuilder(Material.WHITE_STAINED_GLASS_PANE).displayName("§8§lMC§c§lConquest").asItemStack());
+        inv.setItem(8, new ItemBuilder(Material.WHITE_STAINED_GLASS_PANE).displayName("§8§lMC§c§lConquest").asItemStack());
+
+        ItemBuilder potato = new ItemBuilder(Material.BAKED_POTATO);
+        potato.displayName("§eBaked Potato");
+        potato.lore("§aCost: $25", "", "§eLeft click to buy 1", "§eMiddle click to buy 16");
+
+        ItemBuilder chicken = new ItemBuilder(Material.COOKED_CHICKEN);
+        chicken.displayName("§eCooked Chicken");
+        chicken.lore("§aCost: $50", "", "§eLeft click to buy 1", "§eMiddle click to buy 16");
+
+        ItemBuilder steak = new ItemBuilder(Material.COOKED_BEEF);
+        steak.displayName("§eSteak");
+        steak.lore("§aCost: $75", "", "§eLeft click to buy 1", "§eMiddle click to buy 16");
+
+        ItemBuilder carrot = new ItemBuilder(Material.GOLDEN_CARROT);
+        carrot.displayName("§6Golden Carrot");
+        carrot.lore("§aCost: $150", "", "§eLeft click to buy 1", "§eMiddle click to buy 16");
+
+        inv.setItem(1, potato.asItemStack());
+        inv.setItem(2, chicken.asItemStack());
+        inv.setItem(3, steak.asItemStack());
+        inv.setItem(4, carrot.asItemStack());
+
+        return inv;
+    }
+
+    @EventHandler
+    public void foodMerchantGui(InventoryClickEvent e) {
+        if (e.getView().getTitle().contains("Food Merchant")) {
+            e.setCancelled(true);
+
+            ItemBuilder potato = new ItemBuilder(Material.BAKED_POTATO);
+            potato.displayName("§eBaked Potato");
+            potato.lore("§aCost: $25", "", "§eLeft click to buy 1", "§eMiddle click to buy 16");
+
+            ItemBuilder chicken = new ItemBuilder(Material.COOKED_CHICKEN);
+            chicken.displayName("§eCooked Chicken");
+            chicken.lore("§aCost: $50", "", "§eLeft click to buy 1", "§eMiddle click to buy 16");
+
+            ItemBuilder steak = new ItemBuilder(Material.COOKED_BEEF);
+            steak.displayName("§eSteak");
+            steak.lore("§aCost: $75", "", "§eLeft click to buy 1", "§eMiddle click to buy 16");
+
+            ItemBuilder carrot = new ItemBuilder(Material.GOLDEN_CARROT);
+            carrot.displayName("§6Golden Carrot");
+            carrot.lore("§aCost: $150", "", "§eLeft click to buy 1", "§eMiddle click to buy 16");
+
+            Player player = (Player) e.getWhoClicked();
+
+            if (e.isLeftClick()) {
+                if (e.getCurrentItem().isSimilar(potato.asItemStack())) {
+                    if (Core.econ.has(player, 25)) {
+                        potato.lore(new ArrayList<>());
+                        player.getInventory().addItem(potato.asItemStack());
+                    }
+                } else if (e.getCurrentItem().isSimilar(chicken.asItemStack())) {
+                    if (Core.econ.has(player, 50)) {
+                        chicken.lore(new ArrayList<>());
+                        player.getInventory().addItem(chicken.asItemStack());
+                    }
+                } else if (e.getCurrentItem().isSimilar(steak.asItemStack())) {
+                    if (Core.econ.has(player, 75)) {
+                        steak.lore(new ArrayList<>());
+                        player.getInventory().addItem(steak.asItemStack());
+                    }
+                } else if (e.getCurrentItem().isSimilar(carrot.asItemStack())) {
+                    if (Core.econ.has(player, 150)) {
+                        carrot.lore(new ArrayList<>());
+                        player.getInventory().addItem(carrot.asItemStack());
+                    }
+                }
+            } else if (e.getClick() == ClickType.MIDDLE) {
+                if (e.getCurrentItem().isSimilar(potato.asItemStack())) {
+                    if (Core.econ.has(player, 400)) {
+                        potato.lore(new ArrayList<>());
+                        potato.amount(16);
+                        player.getInventory().addItem(potato.asItemStack());
+                    }
+                } else if (e.getCurrentItem().isSimilar(chicken.asItemStack())) {
+                    if (Core.econ.has(player, 800)) {
+                        chicken.lore(new ArrayList<>());
+                        chicken.amount(16);
+                        player.getInventory().addItem(chicken.asItemStack());
+                    }
+                } else if (e.getCurrentItem().isSimilar(steak.asItemStack())) {
+                    if (Core.econ.has(player, 1200)) {
+                        steak.lore(new ArrayList<>());
+                        steak.amount(16);
+                        player.getInventory().addItem(steak.asItemStack());
+                    }
+                } else if (e.getCurrentItem().isSimilar(carrot.asItemStack())) {
+                    if (Core.econ.has(player, 2400)) {
+                        carrot.lore(new ArrayList<>());
+                        carrot.amount(16);
+                        player.getInventory().addItem(carrot.asItemStack());
+                    }
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void closeFoodMerchantGui(InventoryCloseEvent e) {
+        if (e.getView().getTitle().contains("Food Merchant")) {
+            e.getPlayer().sendMessage("§e§lFood Merchant §f> Come back for more food!");
         }
     }
 
@@ -656,6 +783,7 @@ public class InventoryManager implements Listener {
         if (e.getView().getTitle().contains("Member Picker")) {
             e.setCancelled(true);
             Player player = (Player) e.getWhoClicked();
+            if (e.getCurrentItem() == null) return;
             if (e.getCurrentItem().getType() == Material.PLAYER_HEAD) {
                 Clan clan = Clan.getClan(Clan.getPlayerClan(player));
                 if (e.getClick() == ClickType.LEFT) {
@@ -668,15 +796,15 @@ public class InventoryManager implements Listener {
                             e.setCurrentItem(item.asItemStack());
                             Challenge challenge = Challenge.pendingChallenges.get(clan);
                             if (challenge.clan1 == clan) {
-                                if (!challenge.team1Participants.contains(skullPlayer)) challenge.team1Participants.add(skullPlayer);
-                            }
-                            else if (challenge.clan2 == clan) {
-                                if (!challenge.team2Participants.contains(skullPlayer)) challenge.team2Participants.add(skullPlayer);
+                                if (!challenge.team1Participants.contains(skullPlayer))
+                                    challenge.team1Participants.add(skullPlayer);
+                            } else if (challenge.clan2 == clan) {
+                                if (!challenge.team2Participants.contains(skullPlayer))
+                                    challenge.team2Participants.add(skullPlayer);
                             }
                         }
                     }
-                }
-                else if (e.getClick() == ClickType.RIGHT) {
+                } else if (e.getClick() == ClickType.RIGHT) {
                     if (e.getCurrentItem().getItemMeta().hasEnchants()) {
                         SkullMeta skull = (SkullMeta) e.getCurrentItem().getItemMeta();
                         if (skull.getOwningPlayer().isOnline()) {
@@ -686,10 +814,11 @@ public class InventoryManager implements Listener {
                             e.setCurrentItem(item.asItemStack());
                             Challenge challenge = Challenge.pendingChallenges.get(clan);
                             if (challenge.clan1 == clan) {
-                                if (challenge.team1Participants.contains(skullPlayer)) challenge.team1Participants.remove(skullPlayer);
-                            }
-                            else if (challenge.clan2 == clan) {
-                                if (challenge.team2Participants.contains(skullPlayer)) challenge.team2Participants.remove(skullPlayer);
+                                if (challenge.team1Participants.contains(skullPlayer))
+                                    challenge.team1Participants.remove(skullPlayer);
+                            } else if (challenge.clan2 == clan) {
+                                if (challenge.team2Participants.contains(skullPlayer))
+                                    challenge.team2Participants.remove(skullPlayer);
                             }
                         }
                     }
@@ -708,7 +837,7 @@ public class InventoryManager implements Listener {
                         }
                     }
                 }
-                else if (challenge.clan2 == clan) {
+                if (challenge.clan2 == clan) {
                     if (!challenge.team1Participants.isEmpty()) {
                         player.closeInventory();
                         challenge.confirm2 = true;
