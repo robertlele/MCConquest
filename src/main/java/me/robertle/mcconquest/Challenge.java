@@ -27,7 +27,7 @@ public class Challenge {
                         active = true;
                         Challenge challenge = challengeQueue.poll();
                         activeChallenge = challenge;
-                        challenge.sendAll(DefaultConfig.prefix + "§aYour clan battle is starting in a minute. §lGet ready!");
+                        challenge.sendAll(DefaultConfig.prefix + "Your clan battle is starting in a minute.\n §4§lGet ready!");
                         new BukkitRunnable() {
                             public void run() {
                                 if (challenge.team1Participants.isEmpty() || challenge.team2Participants.isEmpty()) {
@@ -40,8 +40,8 @@ public class Challenge {
                                 challenge.teleportTeam1(DefaultConfig.locations.get("challenge1"));
                                 challenge.teleportTeam2(DefaultConfig.locations.get("challenge2"));
                                 challenge.sendAllCenter("§m────────────────────────────────");
+                                challenge.sendAllCenter("§e§lClan Battle");
                                 challenge.sendAllCenter("§6" + challenge.clan1.clanName + " §f§lVS §6" + challenge.clan2.clanName);
-                                challenge.sendAllCenter("");
                                 challenge.sendAllCenter("§fThe first clan to eliminate the other wins.");
                                 challenge.sendAllCenter("§fBattles over 10 minutes will end in a draw.");
                                 challenge.sendAllCenter("§m────────────────────────────────");
@@ -54,38 +54,41 @@ public class Challenge {
                 } else {
                     if (timer == 660) {
                         activeChallenge.sendAllCenter("§m────────────────────────────────");
+                        activeChallenge.sendAllCenter("§e§lClan Battle");
                         activeChallenge.sendAllCenter("§6" + activeChallenge.clan1.clanName + " §f§lVS §6" + activeChallenge.clan2.clanName);
-                        activeChallenge.sendAllCenter("");
                         activeChallenge.sendAllCenter("§fThe clan battle ended in a §cdraw.");
                         activeChallenge.sendAllCenter("§m────────────────────────────────");
                         endChallenge();
                         return;
                     }
-                    timer++;
-                    activeChallenge.removeOfflines();
-                    if (activeChallenge.team1Participants.isEmpty()) {
-                        activeChallenge.sendAllCenter("§m────────────────────────────────");
-                        activeChallenge.sendAllCenter("§6" + activeChallenge.clan1.clanName + " §f§lVS §6" + activeChallenge.clan2.clanName);
-                        activeChallenge.sendAllCenter("");
-                        activeChallenge.sendAllCenter("§f§lWinner: §6" + activeChallenge.clan2.clanName);
-                        activeChallenge.sendAllCenter("§fThe rewards have been randomly given out.");
-                        activeChallenge.sendAllCenter("§m────────────────────────────────");
-                        int perkAverage = (activeChallenge.clan1.clanPerk + activeChallenge.clan2.clanPerk) / 2;
-                        giveChallengeRewards(perkAverage, activeChallenge.team2Participants);
-                        activeChallenge.clan2.battleWins += 1;
-                        endChallenge();
-                    }
-                    else if (activeChallenge.team2Participants.isEmpty()) {
-                        activeChallenge.sendAllCenter("§m────────────────────────────────");
-                        activeChallenge.sendAllCenter("§6" + activeChallenge.clan1.clanName + " §f§lVS §6" + activeChallenge.clan2.clanName);
-                        activeChallenge.sendAllCenter("");
-                        activeChallenge.sendAllCenter("§f§lWinner: §6" + activeChallenge.clan1.clanName);
-                        activeChallenge.sendAllCenter("§fThe rewards have been randomly given out.");
-                        activeChallenge.sendAllCenter("§m────────────────────────────────");
-                        int perkAverage = (activeChallenge.clan1.clanPerk + activeChallenge.clan2.clanPerk) / 2;
-                        giveChallengeRewards(perkAverage, activeChallenge.team1Participants);
-                        activeChallenge.clan1.battleWins += 1;
-                        endChallenge();
+                    if (timer < 660) {
+                        timer++;
+                        activeChallenge.removeOfflines();
+                        if (activeChallenge.team1Participants.isEmpty()) {
+                            activeChallenge.sendAllCenter("§m────────────────────────────────");
+                            activeChallenge.sendAllCenter("§e§lClan Battle");
+                            activeChallenge.sendAllCenter("§6" + activeChallenge.clan1.clanName + " §f§lVS §6" + activeChallenge.clan2.clanName);
+                            activeChallenge.sendAllCenter("§f§lWinner: §6" + activeChallenge.clan2.clanName);
+                            activeChallenge.sendAllCenter("§fThe rewards have been randomly given out.");
+                            activeChallenge.sendAllCenter("§m────────────────────────────────");
+                            Core.shout(DefaultConfig.prefix + "§6" + activeChallenge.clan2.clanName + " §fhas defeated §c" + activeChallenge.clan1.clanName + " §fin a clan battle!");
+                            int perkAverage = (activeChallenge.clan1.clanPerk + activeChallenge.clan2.clanPerk) / 2;
+                            giveChallengeRewards(perkAverage, activeChallenge.team2Participants);
+                            activeChallenge.clan2.battleWins += 1;
+                            endChallenge();
+                        } else if (activeChallenge.team2Participants.isEmpty()) {
+                            activeChallenge.sendAllCenter("§m────────────────────────────────");
+                            activeChallenge.sendAllCenter("§e§lClan Battle");
+                            activeChallenge.sendAllCenter("§6" + activeChallenge.clan1.clanName + " §f§lVS §6" + activeChallenge.clan2.clanName);
+                            activeChallenge.sendAllCenter("§f§lWinner: §6" + activeChallenge.clan1.clanName);
+                            activeChallenge.sendAllCenter("§fThe rewards have been randomly given out.");
+                            activeChallenge.sendAllCenter("§m────────────────────────────────");
+                            Core.shout(DefaultConfig.prefix + "§6" + activeChallenge.clan1.clanName + " §fhas defeated §c" + activeChallenge.clan2.clanName + " §fin a clan battle!");
+                            int perkAverage = (activeChallenge.clan1.clanPerk + activeChallenge.clan2.clanPerk) / 2;
+                            giveChallengeRewards(perkAverage, activeChallenge.team1Participants);
+                            activeChallenge.clan1.battleWins += 1;
+                            endChallenge();
+                        }
                     }
                     return;
                 }
@@ -95,33 +98,36 @@ public class Challenge {
 
     public static void giveChallengeRewards(int perkAverage, List<Player> winners) {
         if (perkAverage == 4 || perkAverage == 5) {
-            winners.get(Core.generateNumber(0, winners.size() - 1)).getInventory().addItem(CustomItemManager.getCrate(Crate.SUPER_CRATE));
-            winners.get(Core.generateNumber(0, winners.size() - 1)).getInventory().addItem(CustomItemManager.getCrate(Crate.SUPER_CRATE));
-            winners.get(Core.generateNumber(0, winners.size() - 1)).getInventory().addItem(CustomItemManager.getCrate(Crate.SUPER_CRATE));
+            Core.giftPlayer(winners.get(Core.generateNumber(0, winners.size() - 1)), "super", 1);
+            Core.giftPlayer(winners.get(Core.generateNumber(0, winners.size() - 1)), "super", 1);
+            Core.giftPlayer(winners.get(Core.generateNumber(0, winners.size() - 1)), "super", 1);
         } else if (perkAverage == 6 || perkAverage == 7) {
-            winners.get(Core.generateNumber(0, winners.size() - 1)).getInventory().addItem(CustomItemManager.getCrate(Crate.SUPER_CRATE));
-            winners.get(Core.generateNumber(0, winners.size() - 1)).getInventory().addItem(CustomItemManager.getCrate(Crate.SUPER_CRATE));
-            winners.get(Core.generateNumber(0, winners.size() - 1)).getInventory().addItem(CustomItemManager.getCrate(Crate.SUPER_CRATE));
-            winners.get(Core.generateNumber(0, winners.size() - 1)).getInventory().addItem(CustomItemManager.getCrate(Crate.SUPER_CRATE));
+            Core.giftPlayer(winners.get(Core.generateNumber(0, winners.size() - 1)), "super", 1);
+            Core.giftPlayer(winners.get(Core.generateNumber(0, winners.size() - 1)), "super", 1);
+            Core.giftPlayer(winners.get(Core.generateNumber(0, winners.size() - 1)), "super", 1);
+            Core.giftPlayer(winners.get(Core.generateNumber(0, winners.size() - 1)), "super", 1);
         } else if (perkAverage == 8 || perkAverage == 9) {
-            winners.get(Core.generateNumber(0, winners.size() - 1)).getInventory().addItem(CustomItemManager.getCrate(Crate.ULTRA_CRATE));
-            winners.get(Core.generateNumber(0, winners.size() - 1)).getInventory().addItem(CustomItemManager.getCrate(Crate.SUPER_CRATE));
-            winners.get(Core.generateNumber(0, winners.size() - 1)).getInventory().addItem(CustomItemManager.getCrate(Crate.SUPER_CRATE));
-            winners.get(Core.generateNumber(0, winners.size() - 1)).getInventory().addItem(CustomItemManager.getCrate(Crate.SUPER_CRATE));
+            Core.giftPlayer(winners.get(Core.generateNumber(0, winners.size() - 1)), "super", 1);
+            Core.giftPlayer(winners.get(Core.generateNumber(0, winners.size() - 1)), "super", 1);
+            Core.giftPlayer(winners.get(Core.generateNumber(0, winners.size() - 1)), "super", 1);
+            Core.giftPlayer(winners.get(Core.generateNumber(0, winners.size() - 1)), "super", 1);
+            Core.giftPlayer(winners.get(Core.generateNumber(0, winners.size() - 1)), "super", 1);
         } else if (perkAverage == 10) {
-            winners.get(Core.generateNumber(0, winners.size() - 1)).getInventory().addItem(CustomItemManager.getCrate(Crate.ULTRA_CRATE));
-            winners.get(Core.generateNumber(0, winners.size() - 1)).getInventory().addItem(CustomItemManager.getCrate(Crate.ULTRA_CRATE));
-            winners.get(Core.generateNumber(0, winners.size() - 1)).getInventory().addItem(CustomItemManager.getCrate(Crate.SUPER_CRATE));
-            winners.get(Core.generateNumber(0, winners.size() - 1)).getInventory().addItem(CustomItemManager.getCrate(Crate.SUPER_CRATE));
+            Core.giftPlayer(winners.get(Core.generateNumber(0, winners.size() - 1)), "super", 1);
+            Core.giftPlayer(winners.get(Core.generateNumber(0, winners.size() - 1)), "super", 1);
+            Core.giftPlayer(winners.get(Core.generateNumber(0, winners.size() - 1)), "super", 1);
+            Core.giftPlayer(winners.get(Core.generateNumber(0, winners.size() - 1)), "super", 1);
+            Core.giftPlayer(winners.get(Core.generateNumber(0, winners.size() - 1)), "super", 1);
+            Core.giftPlayer(winners.get(Core.generateNumber(0, winners.size() - 1)), "ultra", 1);
         }
     }
 
     public static void endChallenge() {
         if (active) {
+            timer = 999;
             active = false;
             activeChallenge.teleportTeam1(DefaultConfig.locations.get("spawn"));
             activeChallenge.teleportTeam2(DefaultConfig.locations.get("spawn"));
-            timer = 0;
             pendingChallenges.remove(activeChallenge.clan1);
             pendingChallenges.remove(activeChallenge.clan2);
             activeChallenge = null;
@@ -133,6 +139,7 @@ public class Challenge {
     public List<Player> team2Participants = new ArrayList<>();
     public Clan clan1;
     public Clan clan2;
+    public int participants;
 
     public Player challenger;
     public Player challenged;
@@ -142,11 +149,12 @@ public class Challenge {
     public boolean confirm1 = false;
     public boolean confirm2 = false;
 
-    public Challenge(Clan team1, Clan team2, Player challenger, Player challenged) {
+    public Challenge(Clan team1, Clan team2, Player challenger, Player challenged, int participants) {
         this.clan1 = team1;
         this.clan2 = team2;
         this.challenged = challenged;
         this.challenger = challenger;
+        this.participants = participants;
     }
 
     public void sendAll(String message) {
@@ -168,11 +176,11 @@ public class Challenge {
     }
 
     public void removeOfflines() {
-        for (Player player : team1Participants) {
-            if (!player.isOnline()) team1Participants.remove(player);
+        for (int i = team1Participants.size() - 1; i >= 0; i--) {
+            if (!team1Participants.get(i).isOnline()) team1Participants.remove(i);
         }
-        for (Player player : team2Participants) {
-            if (!player.isOnline()) team2Participants.remove(player);
+        for (int i = team2Participants.size() - 1; i >= 0; i--) {
+            if (!team2Participants.get(i).isOnline()) team2Participants.remove(i);
         }
     }
 
@@ -188,7 +196,6 @@ public class Challenge {
             if (player.isOnline()) player.teleport(location);
         }
     }
-
 
 
 }

@@ -2,7 +2,7 @@ name: MCConquest
 version: ${project.version}
 main: me.robertle.mcconquest.Core
 api-version: 1.13
-depend: [Vault, PlaceholderAPI, WorldGuard, EliteLootbox]
+depend: [Vault, PlaceholderAPI, WorldGuard, Companions]
 authors: [E65]
 description: Core plugin for MC Conquest
 commands:
@@ -26,11 +26,32 @@ commands:
   tag:
     description: Base command for MC Conquest tag.
     aliases: [tags]
-  combat:
+  analyze:
+    description: Base command for MC Conquest analyze.
+    aliases: [a]
+  merchant:
     description: Base command for MC Conquest.
-  special:
+  outpost:
+    description: Base command for MC Conquest outpost.
+  reboot:
     description: Base command for MC Conquest.
-  potion:
+  mcchelp:
     description: Base command for MC Conquest.
-  food:
+  discord:
+    description: Base command for MC Conquest.
+  wiki:
+    description: Base command for MC Conquest.
+  donate:
+    description: Base command for MC Conquest.
+  boss:
+    description: Base command for MC Conquest Boss.
+  claim:
+    description: Base command for MC Conquest.
+  shout:
+    description: Base command for MC Conquest.
+  debuff:
+    description: Base command for MC Conquest.
+  punish:
+    description: Base command for MC Conquest.
+  leave:
     description: Base command for MC Conquest.

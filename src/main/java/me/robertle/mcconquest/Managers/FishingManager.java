@@ -1,5 +1,6 @@
-package me.robertle.mcconquest;
+package me.robertle.mcconquest.Managers;
 
+import me.robertle.mcconquest.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
@@ -13,10 +14,7 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class FishingManager implements Listener {
 
@@ -39,7 +37,7 @@ public class FishingManager implements Listener {
             }
             e.setExpToDrop(0);
             if (e.getState() == PlayerFishEvent.State.FISHING) {
-                fishingPlayers.put(e.getPlayer().getName(), new FishingTimer());
+                fishingPlayers.put(e.getPlayer().getName(), new FishingTimer(e.getPlayer()));
                 Core.sendActionBar(e.getPlayer(), "§f§l>>> §a§lFISHING §f§l<<<");
             }
             if (e.getState() == PlayerFishEvent.State.REEL_IN) {
@@ -54,7 +52,8 @@ public class FishingManager implements Listener {
                                 ((Damageable) itemMeta).setDamage(((Damageable) itemMeta).getDamage() + 1);
                             }
                             e.getPlayer().getInventory().getItemInMainHand().setItemMeta(itemMeta);
-                            if (Core.chance(1)) e.getPlayer().getInventory().addItem(CustomItemManager.getTag(Tag.FISHERMAN));
+                            if (Core.chance(.10))
+                                e.getPlayer().getInventory().addItem(CustomItemManager.getTag(Tag.FISHERMAN));
                         }
                         if (itemName.equalsIgnoreCase("§9Guardian Rod")) {
                             giveRandomGuardianFishingReward(e.getPlayer());
@@ -90,23 +89,24 @@ public class FishingManager implements Listener {
 
     public static void giveRandomFishingReward(Player player) {
         List<FishingReward> pot = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            if (i < 30) {
+        for (int i = 0; i < 60; i++) {
+            if (i < 60) {
                 pot.add(FishingReward.IRON_INGOT);
                 pot.add(FishingReward.GOLD_INGOT);
                 pot.add(FishingReward.ESSENCE);
                 pot.add(FishingReward.RARE_ESSENCE);
                 pot.add(FishingReward.MONEY_NOTE);
             }
-            if (i < 4) {
+            if (i < 6) {
                 pot.add(FishingReward.BASIC_CRATE);
             }
             if (i < 2) {
-                pot.add(FishingReward.ARTIFACT_VOUCHER);
-            }
-            if (i < 1) {
                 pot.add(FishingReward.SUPER_CRATE);
             }
+        }
+        if (Pet.isSummoned(player, Pet.GUARDIAN)) {
+            pot.add(FishingReward.BASIC_CRATE);
+            pot.add(FishingReward.SUPER_CRATE);
         }
         Collections.shuffle(pot);
         FishingReward reward = pot.get(Core.generateNumber(0, pot.size() - 1));
@@ -133,19 +133,15 @@ public class FishingManager implements Listener {
                 player.sendMessage(DefaultConfig.prefix + "§fYou caught: §6" + amount + " Rare Essence");
                 break;
             case MONEY_NOTE:
-                player.getInventory().addItem(CustomItemManager.getRandomMoneyNote(1000, 2500));
+                player.getInventory().addItem(CustomItemManager.getRandomMoneyNote(2500, 5000));
                 player.sendMessage(DefaultConfig.prefix + "§aYou caught: Money Note");
                 break;
-            case ARTIFACT_VOUCHER:
-                player.getInventory().addItem(CustomItemManager.getArtifactVoucher());
-                player.sendMessage(DefaultConfig.prefix + "§aYou caught: Artifact Voucher");
-                break;
             case BASIC_CRATE:
-                //player.getInventory().addItem(CustomItemManager.getCrate(Crate.BASIC_CRATE));
+                player.getInventory().addItem(CustomItemManager.getCrate(Crate.BASIC_CRATE));
                 player.sendMessage(DefaultConfig.prefix + "§aYou caught: Basic Crate");
                 break;
             case SUPER_CRATE:
-                //player.getInventory().addItem(CustomItemManager.getCrate(Crate.SUPER_CRATE));
+                player.getInventory().addItem(CustomItemManager.getCrate(Crate.SUPER_CRATE));
                 player.sendMessage(DefaultConfig.prefix + "§aYou caught: Super Crate");
                 break;
         }
@@ -153,29 +149,38 @@ public class FishingManager implements Listener {
 
     public static void giveRandomGuardianFishingReward(Player player) {
         List<FishingReward> pot = new ArrayList<>();
-        for (int i = 0; i < 60; i++) {
-            if (i < 40) {
+        for (int i = 0; i < 75; i++) {
+            if (i < 75) {
                 pot.add(FishingReward.IRON_INGOT);
                 pot.add(FishingReward.GOLD_INGOT);
                 pot.add(FishingReward.ESSENCE);
                 pot.add(FishingReward.RARE_ESSENCE);
                 pot.add(FishingReward.MONEY_NOTE);
             }
-            if (i < 5) {
+            if (i < 8) {
                 pot.add(FishingReward.BASIC_CRATE);
             }
-            if (i < 4) {
+            if (i < 6) {
                 pot.add(FishingReward.SUPER_CRATE);
             }
-            if (i < 3) {
-                pot.add(FishingReward.ARTIFACT_VOUCHER);
+            if (i < 5) {
                 pot.add(FishingReward.BLACKSMITHS_MAGIC_DUST);
-                pot.add(FishingReward.BLACKSMITHS_LIFE_ORB);
             }
-            if (i < 1) {
+            if (i < 2) {
                 pot.add(FishingReward.ULTRA_CRATE);
                 pot.add(FishingReward.PET_CRATE);
+                pot.add(FishingReward.ARMOR_DUST);
             }
+            if (i < 1) {
+                pot.add(FishingReward.GOD_SLAYER);
+                pot.add(FishingReward.EXTREME_KNOCKBACK_STICK);
+            }
+        }
+        if (Pet.isSummoned(player, Pet.GUARDIAN)) {
+            pot.add(FishingReward.BASIC_CRATE);
+            pot.add(FishingReward.SUPER_CRATE);
+            pot.add(FishingReward.ULTRA_CRATE);
+            pot.add(FishingReward.PET_CRATE);
         }
         Collections.shuffle(pot);
         FishingReward reward = pot.get(Core.generateNumber(0, pot.size() - 1));
@@ -202,24 +207,32 @@ public class FishingManager implements Listener {
                 player.sendMessage(DefaultConfig.prefix + "§fYou caught: §6" + amount + " Rare Essence");
                 break;
             case MONEY_NOTE:
-                player.getInventory().addItem(CustomItemManager.getRandomMoneyNote(1000, 3000));
+                player.getInventory().addItem(CustomItemManager.getRandomMoneyNote(2500, 5000));
                 player.sendMessage(DefaultConfig.prefix + "§aYou caught: Money Note");
                 break;
-            case ARTIFACT_VOUCHER:
-                player.getInventory().addItem(CustomItemManager.getArtifactVoucher());
-                player.sendMessage(DefaultConfig.prefix + "§aYou caught: Artifact Voucher");
-                break;
             case BASIC_CRATE:
-                //player.getInventory().addItem(CustomItemManager.getCrate(Crate.BASIC_CRATE));
+                player.getInventory().addItem(CustomItemManager.getCrate(Crate.BASIC_CRATE));
                 player.sendMessage(DefaultConfig.prefix + "§aYou caught: Basic Crate");
                 break;
             case SUPER_CRATE:
-                //player.getInventory().addItem(CustomItemManager.getCrate(Crate.SUPER_CRATE));
+                player.getInventory().addItem(CustomItemManager.getCrate(Crate.SUPER_CRATE));
                 player.sendMessage(DefaultConfig.prefix + "§aYou caught: Super Crate");
                 break;
             case ULTRA_CRATE:
-                //player.getInventory().addItem(CustomItemManager.getCrate(Crate.ULTRA_CRATE));
+                player.getInventory().addItem(CustomItemManager.getCrate(Crate.ULTRA_CRATE));
                 player.sendMessage(DefaultConfig.prefix + "§aYou caught: Ultra Crate");
+                break;
+            case EXTREME_KNOCKBACK_STICK:
+                player.getInventory().addItem(CustomItemManager.getArtifact(MCCArtifact.EXTREME_KNOCKBACK_STICK));
+                player.sendMessage(DefaultConfig.prefix + "§aYou caught: Extreme Knockback Stick");
+                break;
+            case GOD_SLAYER:
+                player.getInventory().addItem(CustomItemManager.getArtifact(MCCArtifact.GOD_SLAYER));
+                player.sendMessage(DefaultConfig.prefix + "§aYou caught: God Slayer");
+                break;
+            case ARMOR_DUST:
+                player.getInventory().addItem(CustomItemManager.getMergerDust(false));
+                player.sendMessage(DefaultConfig.prefix + "§aYou caught: Armor Dust");
                 break;
             case BLACKSMITHS_MAGIC_DUST:
                 player.getInventory().addItem(CustomItemManager.getBlacksmithsMagicDust());
@@ -230,7 +243,7 @@ public class FishingManager implements Listener {
                 player.sendMessage(DefaultConfig.prefix + "§aYou caught: Blacksmith's Life Orb");
                 break;
             case PET_CRATE:
-                //player.getInventory().addItem(CustomItemManager.getCrate(Crate.PET_CRATE));
+                player.getInventory().addItem(CustomItemManager.getCrate(Crate.PET_CRATE));
                 player.sendMessage(DefaultConfig.prefix + "§aYou caught: Pet Crate");
                 break;
         }
@@ -238,30 +251,35 @@ public class FishingManager implements Listener {
 
     public static void giveRandomSquidFishingReward(Player player) {
         List<FishingReward> pot = new ArrayList<>();
-        for (int i = 0; i < 60; i++) {
-            if (i < 35) {
+        for (int i = 0; i < 75; i++) {
+            if (i < 75) {
                 pot.add(FishingReward.IRON_INGOT);
                 pot.add(FishingReward.GOLD_INGOT);
                 pot.add(FishingReward.ESSENCE);
                 pot.add(FishingReward.RARE_ESSENCE);
                 pot.add(FishingReward.MONEY_NOTE);
             }
-            if (i < 5) {
+            if (i < 8) {
                 pot.add(FishingReward.BASIC_CRATE);
             }
-            if (i < 4) {
+            if (i < 6) {
                 pot.add(FishingReward.SUPER_CRATE);
             }
-            if (i < 3) {
-                pot.add(FishingReward.ARTIFACT_VOUCHER);
+            if (i < 4) {
+                pot.add(FishingReward.BLACKSMITHS_MAGIC_DUST);
             }
             if (i < 2) {
-                pot.add(FishingReward.BLACKSMITHS_MAGIC_DUST);
-                pot.add(FishingReward.BLACKSMITHS_LIFE_ORB);
-            }
-            if (i < 1) {
                 pot.add(FishingReward.PET_CRATE);
             }
+            if (i < 1) {
+                pot.add(FishingReward.KNOCKBACK_STICK);
+                pot.add(FishingReward.CRYSTAL_BEATER);
+            }
+        }
+        if (Pet.isSummoned(player, Pet.GUARDIAN)) {
+            pot.add(FishingReward.BASIC_CRATE);
+            pot.add(FishingReward.SUPER_CRATE);
+            pot.add(FishingReward.PET_CRATE);
         }
         Collections.shuffle(pot);
         FishingReward reward = pot.get(Core.generateNumber(0, pot.size() - 1));
@@ -288,24 +306,28 @@ public class FishingManager implements Listener {
                 player.sendMessage(DefaultConfig.prefix + "§fYou caught: §6" + amount + " Rare Essence");
                 break;
             case MONEY_NOTE:
-                player.getInventory().addItem(CustomItemManager.getRandomMoneyNote(1500, 3500));
+                player.getInventory().addItem(CustomItemManager.getRandomMoneyNote(2500, 5000));
                 player.sendMessage(DefaultConfig.prefix + "§aYou caught: Money Note");
                 break;
-            case ARTIFACT_VOUCHER:
-                player.getInventory().addItem(CustomItemManager.getArtifactVoucher());
-                player.sendMessage(DefaultConfig.prefix + "§aYou caught: Artifact Voucher");
-                break;
             case BASIC_CRATE:
-                //player.getInventory().addItem(CustomItemManager.getCrate(Crate.BASIC_CRATE));
+                player.getInventory().addItem(CustomItemManager.getCrate(Crate.BASIC_CRATE));
                 player.sendMessage(DefaultConfig.prefix + "§aYou caught: Basic Crate");
                 break;
             case SUPER_CRATE:
-                //player.getInventory().addItem(CustomItemManager.getCrate(Crate.SUPER_CRATE));
+                player.getInventory().addItem(CustomItemManager.getCrate(Crate.SUPER_CRATE));
                 player.sendMessage(DefaultConfig.prefix + "§aYou caught: Super Crate");
                 break;
             case ULTRA_CRATE:
-                //player.getInventory().addItem(CustomItemManager.getCrate(Crate.ULTRA_CRATE));
+                player.getInventory().addItem(CustomItemManager.getCrate(Crate.ULTRA_CRATE));
                 player.sendMessage(DefaultConfig.prefix + "§aYou caught: Ultra Crate");
+                break;
+            case KNOCKBACK_STICK:
+                player.getInventory().addItem(CustomItemManager.getArtifact(MCCArtifact.KNOCKBACK_STICK));
+                player.sendMessage(DefaultConfig.prefix + "§aYou caught: Knockback Stick");
+                break;
+            case CRYSTAL_BEATER:
+                player.getInventory().addItem(CustomItemManager.getArtifact(MCCArtifact.CRYSTAL_BEATER));
+                player.sendMessage(DefaultConfig.prefix + "§aYou caught: Crystal Beater");
                 break;
             case BLACKSMITHS_MAGIC_DUST:
                 player.getInventory().addItem(CustomItemManager.getBlacksmithsMagicDust());
@@ -316,7 +338,7 @@ public class FishingManager implements Listener {
                 player.sendMessage(DefaultConfig.prefix + "§aYou caught: Blacksmith's Life Orb");
                 break;
             case PET_CRATE:
-                //player.getInventory().addItem(CustomItemManager.getCrate(Crate.PET_CRATE));
+                player.getInventory().addItem(CustomItemManager.getCrate(Crate.PET_CRATE));
                 player.sendMessage(DefaultConfig.prefix + "§aYou caught: Pet Crate");
                 break;
         }
@@ -326,7 +348,9 @@ public class FishingManager implements Listener {
         new BukkitRunnable() {
             public void run() {
                 if (!fishingPlayers.isEmpty()) {
-                    for (String playerName : fishingPlayers.keySet()) {
+                    Iterator<String> it = fishingPlayers.keySet().iterator();
+                    while (it.hasNext()) {
+                        String playerName = it.next();
                         Player player = Bukkit.getPlayer(playerName);
                         if (fishingPlayers.get(playerName).state == FishingState.FISHING)
                             Core.sendActionBar(player, "§f§l>>> §a§lFISHING §f§l<<<");
@@ -337,7 +361,7 @@ public class FishingManager implements Listener {
                         } else if (fishingPlayers.get(playerName).catchTime == -2) {
                             fishingPlayers.get(playerName).state = FishingState.BITE_LOSS;
                             Core.sendActionBar(player, "§f§l>>> §c§lBITE LOSS §f§l<<<");
-                            fishingPlayers.remove(playerName);
+                            it.remove();
                         }
                         if (fishingPlayers.containsKey(playerName)) fishingPlayers.get(playerName).catchTime -= 1;
                     }
@@ -350,9 +374,10 @@ public class FishingManager implements Listener {
         public FishingState state;
         public int catchTime;
 
-        public FishingTimer() {
+        public FishingTimer(Player player) {
             state = FishingState.FISHING;
-            catchTime = Core.generateNumber(4, 18);
+            if (Pet.isSummoned(player, Pet.OCELOT)) catchTime = Core.generateNumber(2, 14);
+            else catchTime = Core.generateNumber(4, 18);
         }
 
     }
@@ -363,9 +388,9 @@ public class FishingManager implements Listener {
 
     private enum FishingReward {
         IRON_INGOT, GOLD_INGOT, ESSENCE, RARE_ESSENCE,
-        MONEY_NOTE, BASIC_CRATE, ARTIFACT_VOUCHER,
-        SUPER_CRATE, ULTRA_CRATE, BLACKSMITHS_MAGIC_DUST,
-        BLACKSMITHS_LIFE_ORB, PET_CRATE
+        MONEY_NOTE, BASIC_CRATE, KNOCKBACK_STICK, CRYSTAL_BEATER,
+        SUPER_CRATE, ULTRA_CRATE, BLACKSMITHS_MAGIC_DUST, ARMOR_DUST,
+        BLACKSMITHS_LIFE_ORB, PET_CRATE, EXTREME_KNOCKBACK_STICK, GOD_SLAYER
     }
 
 }

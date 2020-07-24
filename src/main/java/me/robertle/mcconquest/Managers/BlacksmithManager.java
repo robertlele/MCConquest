@@ -1,8 +1,10 @@
-package me.robertle.mcconquest;
+package me.robertle.mcconquest.Managers;
 
+import me.robertle.mcconquest.*;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
 
@@ -19,7 +21,7 @@ public class BlacksmithManager {
                     lores.set(1, "§a§l" + currentLives + " Lives");
                     newArmor.lore(lores);
                     player.getInventory().addItem(newArmor.asItemStack());
-                    if (lores.get(3).isEmpty()) {
+                    if (lores.size() == 3) {
                         player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_DESTROY, 1f, 1f);
                         player.sendMessage("§8§lBlacksmith §f> Your armor failed while forging and got no enchants.");
                     } else {
@@ -46,7 +48,7 @@ public class BlacksmithManager {
                     lores.set(1, "§a§l" + currentLives + " Lives");
                     newWeapon.lore(lores);
                     player.getInventory().addItem(newWeapon.asItemStack());
-                    if (lores.get(3).isEmpty()) {
+                    if (lores.size() == 3) {
                         player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_DESTROY, 1f, 1f);
                         player.sendMessage("§8§lBlacksmith §f> Your weapon failed while forging and got no enchants.");
                     } else {
@@ -65,20 +67,23 @@ public class BlacksmithManager {
                     player.sendMessage("§8§lBlacksmith §f> Your item has no enchant on it.");
                     return false;
                 }
-                if (InventoryUtil.checkMaxArmorLevel(item)) {
-                    player.sendMessage("§8§lBlacksmith §f> Your enchant is already maxed level.");
-                    return false;
-                }
-                player.getInventory().addItem(InventoryUtil.increaseArmorEnchantLevel(item));
-                player.playSound(player.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1f, 1f);
-                player.sendMessage("§8§lBlacksmith §f> Your enchant's level has been increased.");
+                new BukkitRunnable() {
+                    public void run() {
+                        player.openInventory(InventoryManager.getArmorEnchanter(item));
+                    }
+                }.runTaskLater(Core.instance, 2L);
                 return true;
-            } else if (InventoryUtil.verifyWeapon(item)) {
+            } else if (InventoryUtil.verifyWeapon(item) && ItemHelper.hasLore(item)) {
                 if (ItemHelper.getLore(item).size() < 4 || ItemHelper.getLore(item).get(3).isEmpty()) {
                     player.sendMessage("§8§lBlacksmith §f> Your item has no enchant on it.");
                     return false;
                 }
-                //open enchant picker gui and check if max level, if not enchant item
+                new BukkitRunnable() {
+                    public void run() {
+                        player.openInventory(InventoryManager.getWeaponEnchanter(item));
+                    }
+                }.runTaskLater(Core.instance, 2L);
+                return true;
             } else {
                 player.sendMessage("§8§lBlacksmith §f> This item cannot be forged with my magic dust.");
                 return false;

@@ -1,5 +1,6 @@
 package me.robertle.mcconquest;
 
+import me.robertle.mcconquest.Managers.CustomHeadManager;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -106,7 +107,7 @@ public class Coinflip implements Listener, CommandExecutor {
                         }
                     }
                 } else {
-                    StringUtil.sendCenteredMessage(player, "§f§m───────────§r §aCoinflip Help §f§m───────────");
+                    StringUtil.sendCenteredMessage(player, "§f§m────────§r §aCoinflip Help §f§m────────");
                     player.sendMessage("§e/cf <player> §fSend a coinflip to a player.");
                     player.sendMessage("§e/cf accept §fAccept a coinflip.");
                     player.sendMessage("§e/cf decline §fDecline a coinflip");
@@ -701,12 +702,12 @@ public class Coinflip implements Listener, CommandExecutor {
         this.receiver = receiver;
         cfInventory = Bukkit.createInventory(null, 54, "§a§l" + sender.getName() + "'s Coinflip");
 
-        ItemBuilder senderWager = new ItemBuilder(CustomHeadManager.heads.get("bank")).displayName("§a" + sender.getName() + "'s Wager");
+        ItemBuilder senderWager = new ItemBuilder(new ItemStack(CustomHeadManager.heads.get("bank"))).displayName("§a" + sender.getName() + "'s Wager");
         senderWager.lore("§eAmount: §f$0");
 
         ItemBuilder senderHead = new ItemBuilder(CustomHeadManager.getPlayerHead(sender)).displayName("§f"+sender.getName());
 
-        ItemBuilder receiverWager = new ItemBuilder(CustomHeadManager.heads.get("bank")).displayName("§a" + receiver.getName() + "'s Wager");
+        ItemBuilder receiverWager = new ItemBuilder(new ItemStack(CustomHeadManager.heads.get("bank"))).displayName("§a" + receiver.getName() + "'s Wager");
         receiverWager.lore("§eAmount: §f$0");
 
         ItemBuilder receiverHead = new ItemBuilder(CustomHeadManager.getPlayerHead(receiver)).displayName("§f"+receiver.getName());
@@ -740,6 +741,8 @@ public class Coinflip implements Listener, CommandExecutor {
     public void addMoneyToPot() {
         int senderWager = Integer.parseInt(ItemHelper.getLore(cfInventory.getItem(1)).get(0).substring(13));
         int receiverWager = Integer.parseInt(ItemHelper.getLore(cfInventory.getItem(7)).get(0).substring(13));
+        Core.econ.withdrawPlayer(sender, senderWager);
+        Core.econ.withdrawPlayer(receiver, receiverWager);
         moneyPot = (int) ((senderWager + receiverWager) * .9);
     }
 

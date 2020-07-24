@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" build-on-make="true" name="MCConquest">
-    <output-path>D:/MC Conquest/plugins</output-path>
+    <output-path>E:/Fresh MC Conquest/plugins</output-path>
     <root id="archive" name="MCConquest.jar">
       <element id="module-output" name="MCConquest" />
       <element id="directory" name="META-INF">

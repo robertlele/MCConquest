@@ -1,5 +1,9 @@
 package me.robertle.mcconquest;
 
+import me.robertle.mcconquest.Managers.BossManager;
+import me.robertle.mcconquest.Managers.MobManager;
+import me.robertle.mcconquest.Managers.OutpostManager;
+import me.robertle.mcconquest.Managers.OutpostManager.Outpost;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -51,7 +55,18 @@ public class DefaultConfig {
             War.warClans = config.getStringList("War Clans");
         }
 
+        if (config.get("Outpost") != null) {
+            for (String outpost : config.getConfigurationSection("Outpost").getKeys(false)) {
+                OutpostManager.outposts.add(new Outpost(config.getLocation("Outpost." + outpost), outpost));
+            }
+        }
+
+        War.daysTilWar = config.getInt("War Days");
+
         War.warOpen = config.getBoolean("War Open");
+
+        BossManager.nextWorldBoss = config.getLong("Next World Boss");
+        BossManager.ZeusOrHades = config.getBoolean("Zeus or Hades");
 
         config.set("Clan Events", "");
         Core.instance.getConfig().options().copyDefaults(false);
@@ -77,7 +92,18 @@ public class DefaultConfig {
             config.set("Spawners", MobManager.spawners);
         }
 
+        if (!OutpostManager.outposts.isEmpty()) {
+            for (Outpost outpost : OutpostManager.outposts) {
+                config.set("Outpost." + outpost.name, outpost.outpostLocation);
+            }
+        }
+
+        config.set("War Days", War.daysTilWar);
+
         config.set("War Open", War.warOpen);
+
+        config.set("Next World Boss", BossManager.nextWorldBoss);
+        config.set("Zeus or Hades", BossManager.ZeusOrHades);
 
         Core.instance.saveConfig();
         Core.logToConsole("Default config has been saved.");

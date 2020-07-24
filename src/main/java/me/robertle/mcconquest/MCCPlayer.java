@@ -2,6 +2,7 @@ package me.robertle.mcconquest;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,6 +13,7 @@ public class MCCPlayer {
     //Player data
     public static HashMap<UUID, String> playerClans = new HashMap<>();
     public static HashMap<UUID, List<Generator>> playerGenerators = new HashMap<>();
+    public static HashMap<UUID, List<ItemStack>> playerConfirms = new HashMap<>();
 
     public static FileConfiguration playerConfig;
     public static File playerConfigFile;
@@ -26,6 +28,7 @@ public class MCCPlayer {
             String path = "Players." + uuid;
             if (playerConfig.getString(path + ".Clan") != null)
                 playerClans.put(UUID.fromString(uuid), playerConfig.getString(path + ".Clan"));
+
             if (playerConfig.get(path + ".Generator") != null) {
                 Set<String> generatorPaths = playerConfig.getConfigurationSection(path + ".Generator").getKeys(false);
                 List<Generator> generators = new ArrayList<>();
@@ -34,8 +37,13 @@ public class MCCPlayer {
                 }
                 playerGenerators.put(UUID.fromString(uuid), generators);
             }
+
             if (playerConfig.get(path + ".Tag") != null) {
                 Tags.playerTags.put(UUID.fromString(uuid), Tag.valueOf(playerConfig.getString(path + ".Tag")));
+            }
+
+            if (playerConfig.get(path + ".Items") != null) {
+                playerConfirms.put(UUID.fromString(uuid), (List<ItemStack>) playerConfig.get(path + ".Items"));
             }
         }
 
@@ -44,7 +52,6 @@ public class MCCPlayer {
     }
 
     public static void savePlayers() {
-        if (!playerClans.isEmpty()) {
             for (UUID uuid : playerClans.keySet()) {
                 String path = "Players." + uuid.toString();
                 playerConfig.set(path + ".Clan", playerClans.get(uuid));
@@ -57,10 +64,15 @@ public class MCCPlayer {
                     playerConfig.set(path + ".Generator." + i + ".produced", playerGenerators.get(uuid).get(i).produced);
                 }
             }
-            for (UUID uuid : Tags.playerTags.keySet()) {
+
+        for (UUID uuid : Tags.playerTags.keySet()) {
                 String path = "Players." + uuid.toString() + ".Tag";
                 playerConfig.set(path, Tags.playerTags.get(uuid).toString());
             }
+
+        for (UUID uuid : playerConfirms.keySet()) {
+            String path = "Players." + uuid.toString() + ".Items";
+            playerConfig.set(path, playerConfirms.get(uuid));
         }
         try {
             playerConfig.save(playerConfigFile);

@@ -1,5 +1,6 @@
 package me.robertle.mcconquest;
 
+import me.robertle.mcconquest.Managers.CustomItemManager;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -21,6 +22,9 @@ public class InventoryUtil {
         levelOneEnchants.add("Identify");
         levelOneEnchants.add("Starvation");
         levelOneEnchants.add("Health Boost");
+        levelOneEnchants.add("Thunder God");
+        levelOneEnchants.add("Dying Rage");
+        levelOneEnchants.add("Trap");
     }
 
     public static ItemStack[] loadItemStackList(String path, int size) {
@@ -51,8 +55,12 @@ public class InventoryUtil {
             for (ItemStack itemStack : player.getInventory().getArmorContents()) {
                 if (ItemHelper.hasLore(itemStack)) {
                     List<String> lores = ItemHelper.getLore(itemStack);
-                    if (lores.size() > 3 && lores.get(3).contains(enchantment)) {
-                        return true;
+                    if (lores.size() > 3) {
+                        for (String lore : lores) {
+                            if (lore.contains(enchantment)) {
+                                return true;
+                            }
+                        }
                     }
                 }
             }
@@ -100,9 +108,13 @@ public class InventoryUtil {
             for (ItemStack itemStack : player.getInventory().getArmorContents()) {
                 if (ItemHelper.hasLore(itemStack)) {
                     List<String> lores = ItemHelper.getLore(itemStack);
-                    if (lores.size() > 3 && lores.get(3).contains(enchantment)) {
-                        if (Integer.parseInt(lores.get(3).substring(lores.get(3).length() - 1)) > level)
-                            level = Integer.parseInt(lores.get(3).substring(lores.get(3).length() - 1));
+                    if (lores.size() > 3) {
+                        for (String lore : lores) {
+                            if (lore.contains(enchantment)) {
+                                if (Integer.parseInt(lore.substring(lore.length() - 1)) > level)
+                                    level = Integer.parseInt(lore.substring(lore.length() - 1));
+                            }
+                        }
                     }
                 }
             }
@@ -110,34 +122,16 @@ public class InventoryUtil {
         return level;
     }
 
-    public static ItemStack increaseArmorEnchantLevel(ItemStack itemStack) {
-        if (ItemHelper.hasLore(itemStack)) {
-            List<String> lores = ItemHelper.getLore(itemStack);
-            if (lores.size() > 3 && !lores.get(3).isEmpty()) {
-                int currentLevel = Integer.parseInt(lores.get(3).substring(lores.get(3).length() - 1));
-                ItemBuilder newItem = new ItemBuilder(itemStack);
-                if (!checkMaxArmorLevel(newItem.asItemStack())) {
-                    int newLevel = currentLevel + 1;
-                    String levelLore = lores.get(3).replaceAll(String.valueOf(currentLevel), String.valueOf(newLevel));
-                    lores.set(3, levelLore);
-                }
-                newItem.lore(lores);
-                return newItem.asItemStack();
-            }
-        }
-        return null;
-    }
-
-    public static ItemStack increaseSwordEnchantLevel(ItemStack itemStack, String enchant) {
+    public static ItemStack increaseArmorEnchantLevel(ItemStack itemStack, String enchant) {
         if (ItemHelper.hasLore(itemStack)) {
             List<String> lores = ItemHelper.getLore(itemStack);
             if (lores.size() > 3) {
-                int currentLevel = 0;
+                int currentLevel;
                 ItemBuilder newItem = new ItemBuilder(itemStack);
                 for (int i = 0; i < lores.size(); i++) {
                     if (lores.get(i).contains(enchant)) {
                         currentLevel = Integer.parseInt(lores.get(i).substring(lores.get(i).length() - 1));
-                        if (!levelOneEnchants.contains(enchant) && currentLevel < 3) {
+                        if (!checkMaxArmorLevel(itemStack, enchant)) {
                             int newLevel = currentLevel + 1;
                             String levelLore = lores.get(i).replaceAll(String.valueOf(currentLevel), String.valueOf(newLevel));
                             lores.set(i, levelLore);
@@ -151,15 +145,104 @@ public class InventoryUtil {
         return null;
     }
 
-    public static boolean checkMaxArmorLevel(ItemStack itemStack) {
+    public static ItemStack increaseSwordEnchantLevel(ItemStack itemStack, String enchant) {
+        if (ItemHelper.hasLore(itemStack)) {
+            List<String> lores = ItemHelper.getLore(itemStack);
+            if (lores.size() > 3) {
+                int currentLevel;
+                ItemBuilder newItem = new ItemBuilder(itemStack);
+                for (int i = 0; i < lores.size(); i++) {
+                    if (lores.get(i).contains(enchant)) {
+                        currentLevel = Integer.parseInt(lores.get(i).substring(lores.get(i).length() - 1));
+                        if (!checkMaxSwordLevel(itemStack, enchant)) {
+                            int newLevel = currentLevel + 1;
+                            String levelLore = lores.get(i).replaceAll(String.valueOf(currentLevel), String.valueOf(newLevel));
+                            lores.set(i, levelLore);
+                        }
+                    }
+                }
+                newItem.lore(lores);
+                return newItem.asItemStack();
+            }
+        }
+        return null;
+    }
+
+    public static ItemStack addEnchant(ItemStack keepItem, ItemStack addItem) {
+        if (ItemHelper.hasLore(keepItem) && ItemHelper.hasLore(addItem)) {
+            ItemBuilder newItem = new ItemBuilder(new ItemStack(keepItem));
+            List<String> keepLore = ItemHelper.getLore(keepItem);
+            List<String> addLore = ItemHelper.getLore(addItem);
+            for (int i = 0; i < 3; i++) {
+                addLore.remove(0);
+            }
+            for (String s : addLore) keepLore.add(s);
+            newItem.lore(keepLore);
+            return newItem.asItemStack();
+        }
+        return keepItem;
+    }
+
+    public static boolean isFullWeaponEnchant(ItemStack itemStack) {
+        if (ItemHelper.hasLore(itemStack)) {
+            if (ItemHelper.getLore(itemStack).size() > 9) {
+                return true;
+            } else
+                return false;
+        }
+        return false;
+    }
+
+    public static boolean isFullArmorEnchant(ItemStack itemStack) {
+        if (ItemHelper.hasLore(itemStack)) {
+            if (ItemHelper.getLore(itemStack).size() > 7) {
+                return true;
+            } else
+                return false;
+        }
+        return false;
+    }
+
+    public static boolean isSameTier(ItemStack item1, ItemStack item2) {
+        if (ItemHelper.hasLore(item1) && ItemHelper.hasLore(item2)) {
+            if (ItemHelper.getLore(item1).get(0).equalsIgnoreCase(ItemHelper.getLore(item2).get(0))) return true;
+        }
+        return false;
+    }
+
+    public static boolean checkMaxArmorLevel(ItemStack itemStack, String enchant) {
         if (ItemHelper.hasLore(itemStack)) {
             List<String> lores = ItemHelper.getLore(itemStack);
             if (lores.size() > 3 && !lores.get(3).isEmpty()) {
-                int currentLevel = Integer.parseInt(lores.get(3).substring(lores.get(3).length() - 1));
-                for (String enchants : levelOneEnchants) {
-                    if (ItemHelper.getLore(itemStack).get(3).contains(enchants)) return true;
+                int currentLevel;
+                for (int i = 0; i < lores.size(); i++) {
+                    if (lores.get(i).contains(enchant)) {
+                        for (String enchants : levelOneEnchants) {
+                            if (ItemHelper.getLore(itemStack).get(i).contains(enchants)) return true;
+                        }
+                        currentLevel = Integer.parseInt(lores.get(i).substring(lores.get(i).length() - 1));
+                        if (currentLevel < 3) return false;
+                    }
                 }
-                if (currentLevel < 3) return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean checkMaxSwordLevel(ItemStack itemStack, String enchant) {
+        if (ItemHelper.hasLore(itemStack)) {
+            List<String> lores = ItemHelper.getLore(itemStack);
+            if (lores.size() > 3 && !lores.get(3).isEmpty()) {
+                int currentLevel;
+                for (int i = 0; i < lores.size(); i++) {
+                    if (lores.get(i).contains(enchant)) {
+                        for (String enchants : levelOneEnchants) {
+                            if (ItemHelper.getLore(itemStack).get(i).contains(enchants)) return true;
+                        }
+                        currentLevel = Integer.parseInt(lores.get(i).substring(lores.get(i).length() - 1));
+                        if (currentLevel < 3) return false;
+                    }
+                }
             }
         }
         return true;

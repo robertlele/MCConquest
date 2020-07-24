@@ -1,5 +1,7 @@
 package me.robertle.mcconquest;
 
+import me.robertle.mcconquest.Managers.CustomHeadManager;
+import me.robertle.mcconquest.Managers.CustomItemManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -51,7 +53,6 @@ public class Generator {
                         if (player.getInventory().containsAtLeast(CustomItemManager.getIngot(false, 1), 150)) {
                             InventoryUtil.removeItems(player, CustomItemManager.getIngot(false, 150), 150);
                             generator.level++;
-                            generator.produced = 0;
                             return true;
                         } else
                             return false;
@@ -59,7 +60,6 @@ public class Generator {
                         if (player.getInventory().containsAtLeast(CustomItemManager.getIngot(false, 1), 250)) {
                             InventoryUtil.removeItems(player, CustomItemManager.getIngot(false, 250), 250);
                             generator.level++;
-                            generator.produced = 0;
                             return true;
                         } else
                             return false;
@@ -67,7 +67,6 @@ public class Generator {
                         if (player.getInventory().containsAtLeast(CustomItemManager.getIngot(true, 1), 150)) {
                             InventoryUtil.removeItems(player, CustomItemManager.getIngot(true, 150), 150);
                             generator.level++;
-                            generator.produced = 0;
                             return true;
                         } else
                             return false;
@@ -75,7 +74,6 @@ public class Generator {
                         if (player.getInventory().containsAtLeast(CustomItemManager.getIngot(true, 1), 250)) {
                             InventoryUtil.removeItems(player, CustomItemManager.getIngot(true, 250), 250);
                             generator.level++;
-                            generator.produced = 0;
                             return true;
                         } else
                             return false;
@@ -161,6 +159,12 @@ public class Generator {
         return false;
     }
 
+    public static void deleteGenerator(Player player, int index) {
+        if (MCCPlayer.playerGenerators.containsKey(player.getUniqueId())) {
+            MCCPlayer.playerGenerators.get(player.getUniqueId()).remove(index);
+        }
+    }
+
     public static void collectGenerators(Player player) {
         if (MCCPlayer.playerGenerators.containsKey(player.getUniqueId())) {
             for (Generator generator : MCCPlayer.playerGenerators.get(player.getUniqueId())) {
@@ -206,57 +210,57 @@ public class Generator {
                 item = new ItemBuilder(CustomHeadManager.heads.get("moneyprinter")).displayName("§a§lMoney Generator");
                 switch (generator.level) {
                     case 1:
-                        item.lore("§6§n§lGenerator Info", "", "§eLevel: §f" + generator.level, "§eProduced: §f$" + (int) generator.produced, "§eUpgrade Cost: §f150 Iron Ingot -> $15k/hour", "", "§eLeft click to upgrade");
+                        item.lore("§6§n§lGenerator Info", "", "§eLevel: §f" + generator.level, "§eProduced: §f$" + (int) generator.produced, "§eUpgrade Cost: §f150 Iron Ingot -> $15k/hour", "", "§eLeft click to upgrade", "§eShift-Right click to destroy");
                         return item.asItemStack();
                     case 2:
-                        item.lore("§6§n§lGenerator Info", "", "§eLevel: §f" + generator.level, "§eProduced: §f$" + (int) generator.produced, "§eUpgrade Cost: §f250 Iron Ingot -> $20k/hour", "", "§eLeft click to upgrade");
+                        item.lore("§6§n§lGenerator Info", "", "§eLevel: §f" + generator.level, "§eProduced: §f$" + (int) generator.produced, "§eUpgrade Cost: §f250 Iron Ingot -> $20k/hour", "", "§eLeft click to upgrade", "§eShift-Right click to destroy");
                         return item.asItemStack();
                     case 3:
-                        item.lore("§6§n§lGenerator Info", "", "§eLevel: §f" + generator.level, "§eProduced: §f$" + (int) generator.produced, "§eUpgrade Cost: §f150 Gold Ingot -> $30k/hour", "", "§eLeft click to upgrade");
+                        item.lore("§6§n§lGenerator Info", "", "§eLevel: §f" + generator.level, "§eProduced: §f$" + (int) generator.produced, "§eUpgrade Cost: §f150 Gold Ingot -> $30k/hour", "", "§eLeft click to upgrade", "§eShift-Right click to destroy");
                         return item.asItemStack();
                     case 4:
-                        item.lore("§6§n§lGenerator Info", "", "§eLevel: §f" + generator.level, "§eProduced: §f$" + (int) generator.produced, "§eUpgrade Cost: §f250 Gold Ingot -> $40k/hour", "", "§eLeft click to upgrade");
+                        item.lore("§6§n§lGenerator Info", "", "§eLevel: §f" + generator.level, "§eProduced: §f$" + (int) generator.produced, "§eUpgrade Cost: §f250 Gold Ingot -> $40k/hour", "", "§eLeft click to upgrade", "§eShift-Right click to destroy");
                         return item.asItemStack();
                     case 5:
-                        item.lore("§6§n§lGenerator Info", "", "§eLevel: §f" + generator.level, "§eProduced: §f$" + (int) generator.produced, "§eUpgrade Cost: §f§lMAX", "", "");
+                        item.lore("§6§n§lGenerator Info", "", "§eLevel: §f" + generator.level, "§eProduced: §f$" + (int) generator.produced, "§eUpgrade Cost: §f§lMAX $40k/hour", "", "", "§eShift-Right click to destroy");
                         return item.asItemStack();
                 }
             } else if (generator.type == GeneratorType.INGOT) {
                 item = new ItemBuilder(CustomHeadManager.heads.get("minecartchest")).displayName("§a§lIngot Generator");
                 switch (generator.level) {
                     case 1:
-                        item.lore("§6§n§lGenerator Info", "", "§eLevel: §f" + generator.level, "§eProduced: §f" + (int) generator.produced + " Iron Ingot", "§eUpgrade Cost: §f100 Essence -> 40 Iron Ingot/hour", "", "§eLeft click to upgrade");
+                        item.lore("§6§n§lGenerator Info", "", "§eLevel: §f" + generator.level, "§eProduced: §f" + (int) generator.produced + " Iron Ingot", "§eUpgrade Cost: §f100 Essence -> 40 Iron Ingot/hour", "", "§eLeft click to upgrade", "§eShift-Right click to destroy");
                         return item.asItemStack();
                     case 2:
-                        item.lore("§6§n§lGenerator Info", "", "§eLevel: §f" + generator.level, "§eProduced: §f" + (int) generator.produced + " Iron Ingot", "§eUpgrade Cost: §f200 Essence -> 60 Iron Ingot/hour", "", "§eLeft click to upgrade");
+                        item.lore("§6§n§lGenerator Info", "", "§eLevel: §f" + generator.level, "§eProduced: §f" + (int) generator.produced + " Iron Ingot", "§eUpgrade Cost: §f200 Essence -> 60 Iron Ingot/hour", "", "§eLeft click to upgrade", "§eShift-Right click to destroy");
                         return item.asItemStack();
                     case 3:
-                        item.lore("§6§n§lGenerator Info", "", "§eLevel: §f" + generator.level, "§eProduced: §f" + (int) generator.produced + " Iron Ingot", "§eUpgrade Cost: §f100 Rare Essence -> 30 Gold Ingot/hour", "", "§eLeft click to upgrade");
+                        item.lore("§6§n§lGenerator Info", "", "§eLevel: §f" + generator.level, "§eProduced: §f" + (int) generator.produced + " Iron Ingot", "§eUpgrade Cost: §f100 Rare Essence -> 40 Gold Ingot/hour", "", "§eLeft click to upgrade", "§eShift-Right click to destroy");
                         return item.asItemStack();
                     case 4:
-                        item.lore("§6§n§lGenerator Info", "", "§eLevel: §f" + generator.level, "§eProduced: §f" + (int) generator.produced + " Gold Ingot", "§eUpgrade Cost: §f200 Rare Essence -> 40 Gold Ingot/hour", "", "§eLeft click to upgrade");
+                        item.lore("§6§n§lGenerator Info", "", "§eLevel: §f" + generator.level, "§eProduced: §f" + (int) generator.produced + " Gold Ingot", "§eUpgrade Cost: §f200 Rare Essence -> 60 Gold Ingot/hour", "", "§eLeft click to upgrade", "§eShift-Right click to destroy");
                         return item.asItemStack();
                     case 5:
-                        item.lore("§6§n§lGenerator Info", "", "§eLevel: §f" + generator.level, "§eProduced: §f" + (int) generator.produced + " Gold Ingot", "§eUpgrade Cost: §f§lMAX", "", "");
+                        item.lore("§6§n§lGenerator Info", "", "§eLevel: §f" + generator.level, "§eProduced: §f" + (int) generator.produced + " Gold Ingot", "§eUpgrade Cost: §f§lMAX 60 Gold Ingot/hour", "", "", "§eShift-Right click to destroy");
                         return item.asItemStack();
                 }
             } else if (generator.type == GeneratorType.ESSENCE) {
                 item = new ItemBuilder(CustomHeadManager.heads.get("mobspawner")).displayName("§a§lEssence Generator");
                 switch (generator.level) {
                     case 1:
-                        item.lore("§6§n§lGenerator Info", "", "§eLevel: §f" + generator.level, "§eProduced: §f" + (int) generator.produced + " Essence", "§eUpgrade Cost: §f$50k -> 30 Essence/hour", "", "§eLeft click to upgrade");
+                        item.lore("§6§n§lGenerator Info", "", "§eLevel: §f" + generator.level, "§eProduced: §f" + (int) generator.produced + " Essence", "§eUpgrade Cost: §f$50k -> 30 Essence/hour", "", "§eLeft click to upgrade", "§eShift-Right click to destroy");
                         return item.asItemStack();
                     case 2:
-                        item.lore("§6§n§lGenerator Info", "", "§eLevel: §f" + generator.level, "§eProduced: §f" + (int) generator.produced + " Essence", "§eUpgrade Cost: §f$100k -> 50 Essence/hour", "", "§eLeft click to upgrade");
+                        item.lore("§6§n§lGenerator Info", "", "§eLevel: §f" + generator.level, "§eProduced: §f" + (int) generator.produced + " Essence", "§eUpgrade Cost: §f$100k -> 50 Essence/hour", "", "§eLeft click to upgrade", "§eShift-Right click to destroy");
                         return item.asItemStack();
                     case 3:
-                        item.lore("§6§n§lGenerator Info", "", "§eLevel: §f" + generator.level, "§eProduced: §f" + (int) generator.produced + " Essence", "§eUpgrade Cost: §f$150k -> 20 Rare Essence/hour", "", "§eLeft click to upgrade");
+                        item.lore("§6§n§lGenerator Info", "", "§eLevel: §f" + generator.level, "§eProduced: §f" + (int) generator.produced + " Essence", "§eUpgrade Cost: §f$150k -> 30 Rare Essence/hour", "", "§eLeft click to upgrade", "§eShift-Right click to destroy");
                         return item.asItemStack();
                     case 4:
-                        item.lore("§6§n§lGenerator Info", "", "§eLevel: §f" + generator.level, "§eProduced: §f" + (int) generator.produced + " Rare Essence", "§eUpgrade Cost: §f$250k -> 30 Rare Essence/hour", "", "§eLeft click to upgrade");
+                        item.lore("§6§n§lGenerator Info", "", "§eLevel: §f" + generator.level, "§eProduced: §f" + (int) generator.produced + " Rare Essence", "§eUpgrade Cost: §f$250k -> 50 Rare Essence/hour", "", "§eLeft click to upgrade", "§eShift-Right click to destroy");
                         return item.asItemStack();
                     case 5:
-                        item.lore("§6§n§lGenerator Info", "", "§eLevel: §f" + generator.level, "§eProduced: §f" + (int) generator.produced + " Rare Essence", "§eUpgrade Cost: §f§lMAX", "", "");
+                        item.lore("§6§n§lGenerator Info", "", "§eLevel: §f" + generator.level, "§eProduced: §f" + (int) generator.produced + " Rare Essence", "§eUpgrade Cost: §f§lMAX 50 Rare Essence/hour", "", "", "§eShift-Right click to destroy");
                         return item.asItemStack();
                 }
             }
@@ -300,10 +304,10 @@ public class Generator {
                                         gen.produced += .0833;
                                         break;
                                     case 4:
-                                        gen.produced += .0417;
+                                        gen.produced += .0556;
                                         break;
                                     case 5:
-                                        gen.produced += .0556;
+                                        gen.produced += .0833;
                                         break;
                                 }
                             } else if (gen.type == GeneratorType.ESSENCE) {
@@ -318,10 +322,10 @@ public class Generator {
                                         gen.produced += .0694;
                                         break;
                                     case 4:
-                                        gen.produced += .0278;
+                                        gen.produced += .0417;
                                         break;
                                     case 5:
-                                        gen.produced += .0417;
+                                        gen.produced += .0694;
                                         break;
                                 }
                             }

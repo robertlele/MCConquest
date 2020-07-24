@@ -1,5 +1,6 @@
 package me.robertle.mcconquest;
 
+import me.robertle.mcconquest.Managers.InventoryManager;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -32,7 +33,7 @@ public class ClanCommands implements CommandExecutor {
                     message += args[i] + " ";
                 }
                 for (Player p : clan.getOnlinePlayers()) {
-                    p.sendMessage("§e[Clan Chat] " + p.getName() + "§f: " + message);
+                    p.sendMessage("§e[Clan Chat] " + player.getName() + "§f: " + message);
                 }
             } else {
                 player.sendMessage("You aren't in a clan.");
@@ -50,7 +51,7 @@ public class ClanCommands implements CommandExecutor {
                 player.sendMessage("§f/clan join §eJoin a clan that you've been invited to.");
                 player.sendMessage("§f/clan leave §eLeave a clan.");
                 player.sendMessage("§f/clan list <page> §eView all clans.");
-                player.sendMessage("§f/cc <message> §eSend a message to your clan members.");
+                player.sendMessage("§f/clan top <event|battle> §eView top 10 clans.");
                 player.sendMessage("§f/clan invite <player> §eInvite a player to the clan. (Co-Leaders+)");
                 player.sendMessage("§f/clan kick <player> §eKick a player from the clan. (Co-Leaders+)");
                 player.sendMessage("§f/clan logs <page> §eView the clan logs. (Co-Leaders+)");
@@ -63,6 +64,7 @@ public class ClanCommands implements CommandExecutor {
                 player.sendMessage("§f/clan challenge <player> §eChallenge another clan to a clan battle. (Co-Leaders+)");
                 player.sendMessage("§f/clan accept §eAccept a challenge. (Co-Leaders+)");
                 player.sendMessage("§f/clan decline §eDecline a challenge. (Co-Leaders+)");
+                player.sendMessage("§f/cc <message> §eSend a message to your clan members.");
                 StringUtil.sendCenteredMessage(player, "§f§m────────────────────────");
                 return false;
             }
@@ -85,7 +87,7 @@ public class ClanCommands implements CommandExecutor {
                 if (Clan.getPlayerClan(player).equalsIgnoreCase("None")) {
                     if (Core.econ.getBalance(player) >= 50000) {
                         if (!Clan.clanExist(args[1])) {
-                            if (Core.isAlpha(args[1]) && args[1].length() <= 16) {
+                            if (Core.isAlpha(args[1]) && args[1].length() <= 16 && !args[1].equalsIgnoreCase("None")) {
                                 Clan.createClan(args[1], player);
                                 Core.econ.withdrawPlayer(player, 50000);
                                 player.sendMessage(prefix + "§aYour clan has been created.");
@@ -112,6 +114,10 @@ public class ClanCommands implements CommandExecutor {
                     if (clan.clanMembers.get(player.getUniqueId()) == ClanRole.COLEADER || clan.clanMembers.get(player.getUniqueId()) == ClanRole.LEADER) {
                         if (Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(args[1]))) {
                             Player invitee = Bukkit.getPlayer(args[1]);
+                            if (clan.clanMembers.size() >= 8) {
+                                player.sendMessage(prefix + "§cYour clan is already full.");
+                                return false;
+                            }
                             if (Clan.getPlayerClan(invitee).equalsIgnoreCase("None")) {
                                 clan.invitePlayer(player, invitee);
                                 player.sendMessage(prefix + "§aYour invite has been sent.");
@@ -134,7 +140,13 @@ public class ClanCommands implements CommandExecutor {
             } else if (args[0].equalsIgnoreCase("join") || args[0].equalsIgnoreCase("j")) {
                 if (Clan.getPlayerClan(player).equalsIgnoreCase("None")) {
                     if (Clan.clanInvites.containsKey(player.getUniqueId())) {
+                        if (Clan.clans.get(Clan.clanInvites.get(player.getUniqueId())).clanMembers.size() >= 8) {
+                            player.sendMessage(prefix + "§cThe clan is already full.");
+                            Clan.clanInvites.remove(player.getUniqueId());
+                            return false;
+                        }
                         Clan.clans.get(Clan.clanInvites.get(player.getUniqueId())).addPlayer(player);
+                        Clan.clanInvites.remove(player.getUniqueId());
                         player.sendMessage(prefix + "§aYou've joined the clan.");
                     } else {
                         player.sendMessage(prefix + "§cYou don't have any pending invites.");
@@ -196,13 +208,13 @@ public class ClanCommands implements CommandExecutor {
                     String list = "";
                     for (int i = 10 * (page - 1); i < 10 * (page); i++) {
                         if (i < clans.size()) {
-                            TextComponent text = new TextComponent("§f" + clans.get(i).clanName + " §7> §e" + clans.get(i).getOnlinePlayers().size() + "/8 Online");
+                            TextComponent text = new TextComponent("§f" + clans.get(i).clanName + " §7> §e" + clans.get(i).getOnlinePlayers().size() + "/" + clans.get(i).clanMembers.size() + " Online");
                             text.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/clan show " + clans.get(i).clanName));
                             player.sendMessage(text);
                         }
                     }
                     StringUtil.sendCenteredMessage(player, "§f§m────────────────────────");
-                    return false;
+                    return true;
                 }
                 int page;
                 try {
@@ -221,12 +233,43 @@ public class ClanCommands implements CommandExecutor {
                 String list = "";
                 for (int i = 10 * (page - 1); i < 10 * (page); i++) {
                     if (i < clans.size()) {
-                        TextComponent text = new TextComponent("§f" + clans.get(i).clanName + " §7> §e" + clans.get(i).getOnlinePlayers().size() + "/8 Online");
+                        TextComponent text = new TextComponent("§f" + clans.get(i).clanName + " §7> §e" + clans.get(i).getOnlinePlayers().size() + "/" + clans.get(i).clanMembers.size() + " Online");
                         text.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/clan show " + clans.get(i).clanName));
                         player.sendMessage(text);
                     }
                 }
                 StringUtil.sendCenteredMessage(player, "§f§m───────────────────────");
+                return true;
+            } else if (args[0].equalsIgnoreCase("top")) {
+                if (args.length == 2) {
+                    if (args[1].equalsIgnoreCase("event")) {
+                        StringUtil.sendCenteredMessage(player, "§f§m────────§r §aTop Clans | Event Wins §f§m────────");
+                        int i = 1;
+                        for (Clan clan : Clan.sortTopEventClans()) {
+                            TextComponent text = new TextComponent("§6§l" + i + ". §r" + clan.clanName + " §7> §e" + clan.eventWins + " Wins");
+                            text.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/clan show " + clan.clanName));
+                            player.sendMessage(text);
+                            i++;
+                        }
+                        StringUtil.sendCenteredMessage(player, "§f§m───────────────────────");
+                    } else if (args[1].equalsIgnoreCase("battle")) {
+                        StringUtil.sendCenteredMessage(player, "§f§m────────§r §aTop Clans | Battle Wins §f§m────────");
+                        int i = 1;
+                        for (Clan clan : Clan.sortTopBattleClans()) {
+                            TextComponent text = new TextComponent("§6§l" + i + ". §r" + clan.clanName + " §7> §e" + clan.battleWins + " Wins");
+                            text.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/clan show " + clan.clanName));
+                            player.sendMessage(text);
+                            i++;
+                        }
+                        StringUtil.sendCenteredMessage(player, "§f§m───────────────────────");
+                    } else {
+                        player.sendMessage(prefix + "§cUsage: /clan top <event|battle>");
+                        return false;
+                    }
+                } else {
+                    player.sendMessage(prefix + "§cUsage: /clan top <event|battle>");
+                    return false;
+                }
             } else if (args[0].equalsIgnoreCase("help")) {
                 StringUtil.sendCenteredMessage(player, "§f§m───────────§r §aClans Help §f§m───────────");
                 player.sendMessage("§f/clan create <clan> §eCreate a clan for $50k.");
@@ -234,7 +277,7 @@ public class ClanCommands implements CommandExecutor {
                 player.sendMessage("§f/clan join §eJoin a clan that you've been invited to.");
                 player.sendMessage("§f/clan leave §eLeave a clan.");
                 player.sendMessage("§f/clan list <page> §eView all clans.");
-                player.sendMessage("§f/cc <message> §eSend a message to your clan members.");
+                player.sendMessage("§f/clan top <event|battle> §eView top 10 clans.");
                 player.sendMessage("§f/clan invite <player> §eInvite a player to the clan. (Co-Leaders+)");
                 player.sendMessage("§f/clan kick <player> §eKick a player from the clan. (Co-Leaders+)");
                 player.sendMessage("§f/clan logs <page> §eView the clan logs. (Co-Leaders+)");
@@ -244,9 +287,10 @@ public class ClanCommands implements CommandExecutor {
                 player.sendMessage("§f/clan deposit <amount> §eDeposit money to your clan to purchase clan perks.");
                 player.sendMessage("§f/clan storage §eOpen up the clan's storage. (Officers+)");
                 player.sendMessage("§f/clan perks §eView your clan's perks.");
-                player.sendMessage("§f/clan challenge <player> §eChallenge another clan to a clan battle. (Co-Leaders+)");
+                player.sendMessage("§f/clan challenge <player> <participants> §eChallenge another clan to a clan battle. (Co-Leaders+)");
                 player.sendMessage("§f/clan accept §eAccept a challenge. (Co-Leaders+)");
                 player.sendMessage("§f/clan decline §eDecline a challenge. (Co-Leaders+)");
+                player.sendMessage("§f/cc <message> §eSend a message to your clan members.");
                 StringUtil.sendCenteredMessage(player, "§f§m───────────────────────");
             } else if (args[0].equalsIgnoreCase("deposit") || args[0].equalsIgnoreCase("d")) {
                 if (args.length != 2) {
@@ -304,7 +348,7 @@ public class ClanCommands implements CommandExecutor {
                 if (args.length == 2) {
                     if (Clan.clanExist(args[1])) {
                         Clan clan = Clan.getClan(args[1]);
-                        player.sendMessage("§f§m────────§r §6" + clan.clanName + " §f§m────────");
+                        StringUtil.sendCenteredMessage(player, "§f§m────────§r §6" + clan.clanName + " §f§m────────");
                         player.sendMessage("§eClan Perk Progress: §f" + clan.clanPerk + "/10");
                         player.sendMessage("§eClan Balance: §f$" + clan.clanBalance);
                         player.sendMessage("§eEvent Wins: §f" + clan.eventWins);
@@ -498,8 +542,8 @@ public class ClanCommands implements CommandExecutor {
                     player.sendMessage(prefix + "§cYou aren't in a clan.");
                 }
             } else if (args[0].equalsIgnoreCase("challenge")) {
-                if (args.length != 2) {
-                    player.sendMessage(prefix + "§cUsage: /clan challenge <player>");
+                if (args.length != 3) {
+                    player.sendMessage(prefix + "§cUsage: /clan challenge <player> <participants>");
                     return false;
                 }
                 if (!Clan.getPlayerClan(player).equalsIgnoreCase("None")) {
@@ -509,7 +553,18 @@ public class ClanCommands implements CommandExecutor {
                         return false;
                     }
                     if (Challenge.challengeCooldown.contains(clan.clanName)) {
-                        player.sendMessage(prefix + "§cYour clan cannot do another clan battle until next server restart.");
+                        player.sendMessage(prefix + "§cYour clan cannot do another clan battle until next server reboot.");
+                        return false;
+                    }
+                    int participants;
+                    try {
+                        participants = Integer.parseInt(args[2]);
+                        if (participants > 8 || participants < 1) {
+                            player.sendMessage(prefix + "§cThe participants must be between 1-8.");
+                            return false;
+                        }
+                    } catch (Exception e) {
+                        player.sendMessage(prefix + "§cThe participants must be between 1-8.");
                         return false;
                     }
                     if (clan.clanMembers.get(player.getUniqueId()) == ClanRole.COLEADER || clan.clanMembers.get(player.getUniqueId()) == ClanRole.LEADER) {
@@ -526,17 +581,21 @@ public class ClanCommands implements CommandExecutor {
                                     return false;
                                 }
                                 if (Challenge.challengeCooldown.contains(otherClan.clanName)) {
-                                    player.sendMessage(prefix + "§cThat clan cannot do another clan battle until next server restart.");
+                                    player.sendMessage(prefix + "§cThat clan cannot do another clan battle until next server reboot.");
+                                    return false;
+                                }
+                                if (clan.clanName.equalsIgnoreCase(otherClan.clanName)) {
+                                    player.sendMessage(prefix + "§cYou cannot challenge your own clan.");
                                     return false;
                                 }
                                 if (otherClan.clanMembers.get(challenged.getUniqueId()) == ClanRole.COLEADER || otherClan.clanMembers.get(challenged.getUniqueId()) == ClanRole.LEADER) {
                                     if (!Challenge.pendingChallenges.containsKey(otherClan) && !Challenge.pendingChallenges.containsKey(clan)) {
                                         player.sendMessage(prefix + "§aYour challenge has been sent.");
-                                        challenged.sendMessage(prefix + "§6§lCLAN CHALLENGE: §aYou have a clan challenge request from §6" + clan.clanName);
-                                        TextComponent acceptMessage = new TextComponent(prefix + "§aClick here or do §f/clan accept §ato accept the challenge.");
+                                        challenged.sendMessage(prefix + "§6§lCLAN BATTLE: §fYou have a clan battle request from §6" + clan.clanName + " §ffor a §c" + participants + " §fvs §c" + participants);
+                                        TextComponent acceptMessage = new TextComponent(prefix + "§aClick here to accept the challenge.");
                                         acceptMessage.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/clan accept"));
                                         challenged.sendMessage(acceptMessage);
-                                        Challenge challenge = new Challenge(clan, otherClan, player, challenged);
+                                        Challenge challenge = new Challenge(clan, otherClan, player, challenged, participants);
                                         Challenge.pendingChallenges.put(clan, challenge);
                                         Challenge.pendingChallenges.put(otherClan, challenge);
                                         new BukkitRunnable() {
@@ -609,7 +668,7 @@ public class ClanCommands implements CommandExecutor {
                 player.sendMessage("§f/clan join §eJoin a clan that you've been invited to.");
                 player.sendMessage("§f/clan leave §eLeave a clan.");
                 player.sendMessage("§f/clan list <page> §eView all clans.");
-                player.sendMessage("§f/cc <message> §eSend a message to your clan members.");
+                player.sendMessage("§f/clan top <event|battle> §eView top 10 clans.");
                 player.sendMessage("§f/clan invite <player> §eInvite a player to the clan. (Co-Leaders+)");
                 player.sendMessage("§f/clan kick <player> §eKick a player from the clan. (Co-Leaders+)");
                 player.sendMessage("§f/clan logs <page> §eView the clan logs. (Co-Leaders+)");
@@ -619,9 +678,10 @@ public class ClanCommands implements CommandExecutor {
                 player.sendMessage("§f/clan deposit <amount> §eDeposit money to your clan to purchase clan perks.");
                 player.sendMessage("§f/clan storage §eOpen up the clan's storage. (Officers+)");
                 player.sendMessage("§f/clan perks §eView your clan's perks.");
-                player.sendMessage("§f/clan challenge <player> §eChallenge another clan to a clan battle. (Co-Leaders+)");
+                player.sendMessage("§f/clan challenge <player> <participants> §eChallenge another clan to a clan battle. (Co-Leaders+)");
                 player.sendMessage("§f/clan accept §eAccept a challenge. (Co-Leaders+)");
                 player.sendMessage("§f/clan decline §eDecline a challenge. (Co-Leaders+)");
+                player.sendMessage("§f/cc <message> §eSend a message to your clan members.");
                 StringUtil.sendCenteredMessage(player, "§f§m───────────────────────");
             }
         }

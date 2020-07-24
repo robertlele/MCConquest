@@ -132,12 +132,9 @@ public class ItemBuilder {
     }
 
     public ItemBuilder removeEnchants() {
-        ItemMeta var1 = this.itemStack.getItemMeta();
-        Map var2 = var1.getEnchants();
-        var2.keySet().forEach((var1x) -> {
-            Integer var10000 = (Integer) var2.remove(var1x);
-        });
-        this.itemStack.setItemMeta(var1);
+        for (Enchantment e : this.itemStack.getEnchantments().keySet()) {
+            this.itemStack.removeEnchantment(e);
+        }
         return this;
     }
 

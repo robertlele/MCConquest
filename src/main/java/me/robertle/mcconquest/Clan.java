@@ -1,5 +1,6 @@
 package me.robertle.mcconquest;
 
+import me.robertle.mcconquest.Managers.CustomItemManager;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -303,11 +304,11 @@ public class Clan {
     public boolean buyNextPerk() {
         switch (this.clanPerk) {
             case 0:
-                if (this.clanBalance >= 400000) {
-                    this.clanBalance -= 400000;
+                if (this.clanBalance >= 200000) {
+                    this.clanBalance -= 200000;
                     this.clanPerk++;
-                    this.clanStorageSize = 9;
-                    clanStorage = Bukkit.createInventory(null, 9, "§e" + this.clanName + "'s Clan Storage");
+                    this.clanStorageSize = 18;
+                    clanStorage = Bukkit.createInventory(null, 18, "§e" + this.clanName + "'s Clan Storage");
                     return true;
                 }
                 return false;
@@ -315,8 +316,8 @@ public class Clan {
                 if (this.clanBalance >= 200000) {
                     this.clanBalance -= 200000;
                     this.clanPerk++;
-                    for (UUID uuid : this.clanMembers.keySet()) {
-                        this.clanStorage.addItem(CustomItemManager.getArmorVoucher(false));
+                    for (int i = 0; i < 4; i++) {
+                        this.clanStorage.addItem(CustomItemManager.getArmorVoucher());
                     }
                     return true;
                 }
@@ -325,8 +326,8 @@ public class Clan {
                 if (this.clanBalance >= 200000) {
                     this.clanBalance -= 200000;
                     this.clanPerk++;
-                    this.clanStorageSize = 27;
-                    Inventory newStorage = Bukkit.createInventory(null, 27, "§e" + this.clanName + "'s Clan Storage");
+                    this.clanStorageSize = 36;
+                    Inventory newStorage = Bukkit.createInventory(null, 36, "§e" + this.clanName + "'s Clan Storage");
                     for (ItemStack i : clanStorage.getContents())
                         if (i != null) newStorage.addItem(i);
                     clanStorage = newStorage;
@@ -337,18 +338,18 @@ public class Clan {
                 if (this.clanBalance >= 400000) {
                     this.clanBalance -= 400000;
                     this.clanPerk++;
-                    for (UUID uuid : this.clanMembers.keySet()) {
-                        this.clanStorage.addItem(CustomItemManager.getWeaponVoucher(false));
+                    for (int i = 0; i < 4; i++) {
+                        this.clanStorage.addItem(CustomItemManager.getWeaponVoucher());
                     }
                     return true;
                 }
                 return false;
             case 4:
-                if (this.clanBalance >= 1200000) {
-                    this.clanBalance -= 1200000;
+                if (this.clanBalance >= 400000) {
+                    this.clanBalance -= 400000;
                     this.clanPerk++;
-                    this.clanStorageSize = 36;
-                    Inventory newStorage = Bukkit.createInventory(null, 36, "§e" + this.clanName + "'s Clan Storage");
+                    this.clanStorageSize = 54;
+                    Inventory newStorage = Bukkit.createInventory(null, 54, "§e" + this.clanName + "'s Clan Storage");
                     for (ItemStack i : clanStorage.getContents())
                         if (i != null) newStorage.addItem(i);
                     clanStorage = newStorage;
@@ -359,47 +360,47 @@ public class Clan {
                 if (this.clanBalance >= 800000) {
                     this.clanBalance -= 800000;
                     this.clanPerk++;
-                    for (UUID uuid : this.clanMembers.keySet()) {
-                        this.clanStorage.addItem(CustomItemManager.getArtifactVoucher());
+                    for (int i = 0; i < 8; i++) {
+                        this.clanStorage.addItem(CustomItemManager.getCrate(Crate.SUPER_CRATE));
                     }
                     return true;
                 }
                 return false;
             case 6:
-                if (this.clanBalance >= 800000) {
-                    this.clanBalance -= 800000;
+                if (this.clanBalance >= 400000) {
+                    this.clanBalance -= 400000;
                     this.clanPerk++;
-                    for (UUID uuid : this.clanMembers.keySet()) {
-                        this.clanStorage.addItem(CustomItemManager.getArmorVoucher(true));
+                    for (int i = 0; i < 8; i++) {
+                        this.clanStorage.addItem(CustomItemManager.getArmorVoucher());
                     }
                     return true;
                 }
                 return false;
             case 7:
-                if (this.clanBalance >= 800000) {
-                    this.clanBalance -= 800000;
+                if (this.clanBalance >= 400000) {
+                    this.clanBalance -= 400000;
                     this.clanPerk++;
-                    for (UUID uuid : this.clanMembers.keySet()) {
-                        this.clanStorage.addItem(CustomItemManager.getWeaponVoucher(true));
+                    for (int i = 0; i < 8; i++) {
+                        this.clanStorage.addItem(CustomItemManager.getWeaponVoucher());
                     }
                     return true;
                 }
                 return false;
             case 8:
-                if (this.clanBalance >= 1200000) {
-                    this.clanBalance -= 1200000;
+                if (this.clanBalance >= 800000) {
+                    this.clanBalance -= 800000;
                     this.clanPerk++;
-                    for (UUID uuid : this.clanMembers.keySet()) {
+                    for (int i = 0; i < 8; i++) {
                         this.clanStorage.addItem(CustomItemManager.getCrate(Crate.SUPER_CRATE));
                     }
                     return true;
                 }
                 return false;
             case 9:
-                if (this.clanBalance >= 1600000) {
-                    this.clanBalance -= 1600000;
+                if (this.clanBalance >= 1200000) {
+                    this.clanBalance -= 1200000;
                     this.clanPerk++;
-                    for (UUID uuid : this.clanMembers.keySet()) {
+                    for (int i = 0; i < 8; i++) {
                         this.clanStorage.addItem(CustomItemManager.getCrate(Crate.ULTRA_CRATE));
                     }
                     return true;

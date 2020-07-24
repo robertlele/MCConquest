@@ -11,7 +11,7 @@ public class JoinFull implements Listener {
     public void joinFull(PlayerJoinEvent e) {
         if (Bukkit.getOnlinePlayers().size() > 120) {
             if (!e.getPlayer().hasPermission("mcc.joinfull")) {
-                e.getPlayer().kickPlayer("§cThe server is full.\n§fPurchase a rank at §ashop.mcconquest.com §ffor a reserved slot.");
+                e.getPlayer().kickPlayer("§cThe server is full.\n§fPurchase a rank at §abuy.mcconquest.com §ffor a reserved slot.");
             }
         }
     }

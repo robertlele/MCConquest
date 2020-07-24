@@ -1,5 +1,6 @@
-package me.robertle.mcconquest;
+package me.robertle.mcconquest.Managers;
 
+import me.robertle.mcconquest.*;
 import net.splodgebox.elitelootbox.EliteLootbox;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -7,6 +8,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CustomItemManager {
@@ -15,32 +17,10 @@ public class CustomItemManager {
 
     public static ItemStack getRandomArmor() {
         List<MCCArmor> bag = new ArrayList<>();
-        for (int i = 0; i < 55; i++) {
-            if (i < 5) {
-                for (MCCArmor armor : MCCArmor.values()) {
-                    if (armor.getTier() == 'S') bag.add(armor);
-                }
-            }
-            if (i < 40) {
-                for (MCCArmor armor : MCCArmor.values()) {
-                    if (armor.getTier() == 'A') bag.add(armor);
-                }
-            }
-            if (i < 55) {
-                for (MCCArmor armor : MCCArmor.values()) {
-                    if (armor.getTier() == 'B') bag.add(armor);
-                }
-            }
-        }
-        return getArmorPiece(bag.get(Core.generateNumber(0, bag.size() - 1)));
-    }
-
-    public static ItemStack getSpecialRandomArmor() {
-        List<MCCArmor> bag = new ArrayList<>();
         for (int i = 0; i < 60; i++) {
-            if (i < 10) {
+            if (i < 20) {
                 for (MCCArmor armor : MCCArmor.values()) {
-                    if (armor.getTier() == 'S') bag.add(armor);
+                    if (armor.getTier() == 'S' && !armor.limited) bag.add(armor);
                 }
             }
             if (i < 60) {
@@ -48,43 +28,22 @@ public class CustomItemManager {
                     if (armor.getTier() == 'A') bag.add(armor);
                 }
             }
-            if (i < 30) {
+            if (i < 20) {
                 for (MCCArmor armor : MCCArmor.values()) {
                     if (armor.getTier() == 'B') bag.add(armor);
                 }
             }
         }
+        Collections.shuffle(bag);
         return getArmorPiece(bag.get(Core.generateNumber(0, bag.size() - 1)));
     }
 
     public static ItemStack getRandomWeapon() {
         List<MCCWeapon> bag = new ArrayList<>();
         for (int i = 0; i < 60; i++) {
-            if (i < 10) {
+            if (i < 20) {
                 for (MCCWeapon weapon : MCCWeapon.values()) {
-                    if (weapon.getTier() == 'S') bag.add(weapon);
-                }
-            }
-            if (i < 35) {
-                for (MCCWeapon weapon : MCCWeapon.values()) {
-                    if (weapon.getTier() == 'A') bag.add(weapon);
-                }
-            }
-            if (i < 55) {
-                for (MCCWeapon weapon : MCCWeapon.values()) {
-                    if (weapon.getTier() == 'B') bag.add(weapon);
-                }
-            }
-        }
-        return getWeapon(bag.get(Core.generateNumber(0, bag.size() - 1)));
-    }
-
-    public static ItemStack getSpecialRandomWeapon() {
-        List<MCCWeapon> bag = new ArrayList<>();
-        for (int i = 0; i < 60; i++) {
-            if (i < 15) {
-                for (MCCWeapon weapon : MCCWeapon.values()) {
-                    if (weapon.getTier() == 'S') bag.add(weapon);
+                    if (weapon.getTier() == 'S' && !weapon.limited) bag.add(weapon);
                 }
             }
             if (i < 60) {
@@ -92,30 +51,96 @@ public class CustomItemManager {
                     if (weapon.getTier() == 'A') bag.add(weapon);
                 }
             }
-            if (i < 25) {
+            if (i < 20) {
                 for (MCCWeapon weapon : MCCWeapon.values()) {
                     if (weapon.getTier() == 'B') bag.add(weapon);
                 }
             }
         }
+        Collections.shuffle(bag);
         return getWeapon(bag.get(Core.generateNumber(0, bag.size() - 1)));
     }
 
-    public static ItemStack getRandomArtifact() {
-        List<MCCArtifact> bag = new ArrayList<>();
-        for (int i = 0; i < 60; i++) {
-            if (i < 15) {
-                for (MCCArtifact artifact : MCCArtifact.values()) {
-                    if (artifact.getTier() == 'S') bag.add(artifact);
-                }
-            }
-            if (i < 85) {
-                for (MCCArtifact artifact : MCCArtifact.values()) {
-                    if (artifact.getTier() == 'A') bag.add(artifact);
-                }
+    public static ItemStack getRandomSword() {
+        List<MCCWeapon> bag = new ArrayList<>();
+        for (MCCWeapon weapon : MCCWeapon.values()) {
+            if (weapon.toString().contains("SWORD") && (weapon.getTier() == 'S' || weapon.getTier() == 'A')) {
+                bag.add(weapon);
+                if (!weapon.limited) bag.add(weapon);
             }
         }
-        return getArtifact(bag.get(Core.generateNumber(0, bag.size() - 1)));
+        Collections.shuffle(bag);
+        return getWeapon(bag.get(Core.generateNumber(0, bag.size() - 1)));
+    }
+
+    public static ItemStack getRandomAxe() {
+        List<MCCWeapon> bag = new ArrayList<>();
+        for (MCCWeapon weapon : MCCWeapon.values()) {
+            if (weapon.toString().contains("AXE") && (weapon.getTier() == 'S' || weapon.getTier() == 'A')) {
+                bag.add(weapon);
+                if (!weapon.limited) bag.add(weapon);
+            }
+        }
+        Collections.shuffle(bag);
+        return getWeapon(bag.get(Core.generateNumber(0, bag.size() - 1)));
+    }
+
+    public static ItemStack getRandomSArmor() {
+        List<MCCArmor> bag = new ArrayList<>();
+        for (MCCArmor armor : MCCArmor.values()) {
+            if (armor.getTier() == 'S') {
+                bag.add(armor);
+                if (!armor.limited) bag.add(armor);
+            }
+        }
+        Collections.shuffle(bag);
+        return getArmorPiece(bag.get(Core.generateNumber(0, bag.size() - 1)));
+    }
+
+    public static ItemStack getRandomKit() {
+        List<MCCKit> bag = new ArrayList<>();
+        for (MCCKit kit : MCCKit.values()) {
+            if (kit != MCCKit.OMEGA && kit != MCCKit.ALPHA && kit != MCCKit.GAMMA && kit != MCCKit.DELTA && kit != MCCKit.ETA)
+                bag.add(kit);
+        }
+        Collections.shuffle(bag);
+        return getKitVoucher(bag.get(Core.generateNumber(0, bag.size() - 1)));
+    }
+
+    public static ItemStack getRandomZeusArmor() {
+        List<MCCArmor> bag = new ArrayList<>();
+        for (MCCArmor armor : MCCArmor.values()) {
+            if (armor.name().contains("ZEUS")) bag.add(armor);
+        }
+        Collections.shuffle(bag);
+        return getArmorPiece(bag.get(Core.generateNumber(0, bag.size() - 1)));
+    }
+
+    public static ItemStack getRandomHadesArmor() {
+        List<MCCArmor> bag = new ArrayList<>();
+        for (MCCArmor armor : MCCArmor.values()) {
+            if (armor.name().contains("HADES")) bag.add(armor);
+        }
+        Collections.shuffle(bag);
+        return getArmorPiece(bag.get(Core.generateNumber(0, bag.size() - 1)));
+    }
+
+    public static ItemStack getRandomZeusWeapon() {
+        List<MCCWeapon> bag = new ArrayList<>();
+        for (MCCWeapon weapon : MCCWeapon.values()) {
+            if (weapon.name().contains("ZEUS")) bag.add(weapon);
+        }
+        Collections.shuffle(bag);
+        return getWeapon(bag.get(Core.generateNumber(0, bag.size() - 1)));
+    }
+
+    public static ItemStack getRandomHadesWeapon() {
+        List<MCCWeapon> bag = new ArrayList<>();
+        for (MCCWeapon weapon : MCCWeapon.values()) {
+            if (weapon.name().contains("HADES")) bag.add(weapon);
+        }
+        Collections.shuffle(bag);
+        return getWeapon(bag.get(Core.generateNumber(0, bag.size() - 1)));
     }
 
     //Add to which tier
@@ -125,13 +150,19 @@ public class CustomItemManager {
         if (r == 0) {
             List<MCCArmor> bag = new ArrayList<>();
             for (MCCArmor armor : MCCArmor.values()) {
-                if (armor.getTier() == 'S') bag.add(armor);
+                if (armor.getTier() == 'S') {
+                    bag.add(armor);
+                    if (!armor.limited) bag.add(armor);
+                }
             }
             return getArmorPiece(bag.get(Core.generateNumber(0, bag.size() - 1)));
         } else if (r == 1) {
             List<MCCWeapon> bag = new ArrayList<>();
             for (MCCWeapon weapon : MCCWeapon.values()) {
-                if (weapon.getTier() == 'S') bag.add(weapon);
+                if (weapon.getTier() == 'S') {
+                    bag.add(weapon);
+                    if (!weapon.limited) bag.add(weapon);
+                }
             }
             return getWeapon(bag.get(Core.generateNumber(0, bag.size() - 1)));
         } else if (r == 2) {
@@ -145,7 +176,7 @@ public class CustomItemManager {
     }
 
     public static ItemStack getRandomATier() {
-        int r = Core.generateNumber(0, 2);
+        int r = Core.generateNumber(0, 1);
         if (r == 0) {
             List<MCCArmor> bag = new ArrayList<>();
             for (MCCArmor armor : MCCArmor.values()) {
@@ -182,7 +213,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Immunity " + Core.generateNumber(1, 3), "§7Chance for debuffs not to be applied");
             } else if (r == 2) {
-                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.DRAGON_CHESTPLATE) {
@@ -196,7 +227,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Immunity " + Core.generateNumber(1, 3), "§7Chance for debuffs not to be applied");
             } else if (r == 2) {
-                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.DRAGON_LEGGINGS) {
@@ -210,7 +241,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Immunity " + Core.generateNumber(1, 3), "§7Chance for debuffs not to be applied");
             } else if (r == 2) {
-                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.DRAGON_BOOTS) {
@@ -224,7 +255,119 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Immunity " + Core.generateNumber(1, 3), "§7Chance for debuffs not to be applied");
             } else if (r == 2) {
-                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
+            }
+            return item.asItemStack();
+        } else if (armor == MCCArmor.ZEUS_HELMET) {
+            ItemBuilder item = new ItemBuilder(Material.DIAMOND_HELMET, 1);
+            item.displayName("§6§lZeus Helmet");
+            item.unsafeEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 4);
+            item.unbreakable(true);
+            int r = Core.generateNumber(0, 2);
+            if (r == 0) {
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Lightning Rod " + Core.generateNumber(1, 3), "§7Chance to smite nearby enemies");
+            } else if (r == 1) {
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Thunder God 1", "§7When blinded, gain strength 1 & speed 2");
+            } else if (r == 2) {
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
+            }
+            return item.asItemStack();
+        } else if (armor == MCCArmor.ZEUS_CHESTPLATE) {
+            ItemBuilder item = new ItemBuilder(Material.DIAMOND_CHESTPLATE, 1);
+            item.displayName("§6§lZeus Chestplate");
+            item.unsafeEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 4);
+            item.unbreakable(true);
+            int r = Core.generateNumber(0, 2);
+            if (r == 0) {
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Lightning Rod " + Core.generateNumber(1, 3), "§7Chance to smite nearby enemies");
+            } else if (r == 1) {
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Thunder God 1", "§7When blinded, gain strength 1 & speed 2");
+            } else if (r == 2) {
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
+            }
+            return item.asItemStack();
+        } else if (armor == MCCArmor.ZEUS_LEGGINGS) {
+            ItemBuilder item = new ItemBuilder(Material.DIAMOND_LEGGINGS, 1);
+            item.displayName("§6§lZeus Leggings");
+            item.unsafeEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 4);
+            item.unbreakable(true);
+            int r = Core.generateNumber(0, 2);
+            if (r == 0) {
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Lightning Rod " + Core.generateNumber(1, 3), "§7Chance to smite nearby enemies");
+            } else if (r == 1) {
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Thunder God 1", "§7When blinded, gain strength 1 & speed 2");
+            } else if (r == 2) {
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
+            }
+            return item.asItemStack();
+        } else if (armor == MCCArmor.ZEUS_BOOTS) {
+            ItemBuilder item = new ItemBuilder(Material.DIAMOND_BOOTS, 1);
+            item.displayName("§6§lZeus Boots");
+            item.unsafeEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 4);
+            item.unbreakable(true);
+            int r = Core.generateNumber(0, 2);
+            if (r == 0) {
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Lightning Rod " + Core.generateNumber(1, 3), "§7Chance to smite nearby enemies");
+            } else if (r == 1) {
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Thunder God 1", "§7When blinded, gain strength 1 & speed 2");
+            } else if (r == 2) {
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
+            }
+            return item.asItemStack();
+        } else if (armor == MCCArmor.HADES_HELMET) {
+            ItemBuilder item = new ItemBuilder(Material.DIAMOND_HELMET, 1);
+            item.displayName("§4§lHades Helmet");
+            item.unsafeEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 4);
+            item.unbreakable(true);
+            int r = Core.generateNumber(0, 2);
+            if (r == 0) {
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Undead " + Core.generateNumber(1, 3), "§7Chance to apply weakness when hit");
+            } else if (r == 1) {
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Dying Rage 1", "§7When stunned, gain strength 2");
+            } else if (r == 2) {
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
+            }
+            return item.asItemStack();
+        } else if (armor == MCCArmor.HADES_CHESTPLATE) {
+            ItemBuilder item = new ItemBuilder(Material.DIAMOND_CHESTPLATE, 1);
+            item.displayName("§4§lHades Chestplate");
+            item.unsafeEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 4);
+            item.unbreakable(true);
+            int r = Core.generateNumber(0, 2);
+            if (r == 0) {
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Undead " + Core.generateNumber(1, 3), "§7Chance to apply weakness when hit");
+            } else if (r == 1) {
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Dying Rage 1", "§7When stunned, gain strength 2");
+            } else if (r == 2) {
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
+            }
+            return item.asItemStack();
+        } else if (armor == MCCArmor.HADES_LEGGINGS) {
+            ItemBuilder item = new ItemBuilder(Material.DIAMOND_LEGGINGS, 1);
+            item.displayName("§4§lHades Leggings");
+            item.unsafeEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 4);
+            item.unbreakable(true);
+            int r = Core.generateNumber(0, 2);
+            if (r == 0) {
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Undead " + Core.generateNumber(1, 3), "§7Chance to apply weakness when hit");
+            } else if (r == 1) {
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Dying Rage 1", "§7When stunned, gain strength 2");
+            } else if (r == 2) {
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
+            }
+            return item.asItemStack();
+        } else if (armor == MCCArmor.HADES_BOOTS) {
+            ItemBuilder item = new ItemBuilder(Material.DIAMOND_BOOTS, 1);
+            item.displayName("§4§lHades Boots");
+            item.unsafeEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 4);
+            item.unbreakable(true);
+            int r = Core.generateNumber(0, 2);
+            if (r == 0) {
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Undead " + Core.generateNumber(1, 3), "§7Chance to apply weakness when hit");
+            } else if (r == 1) {
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Dying Rage 1", "§7When stunned, gain strength 2");
+            } else if (r == 2) {
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.GIANT_HELMET) {
@@ -238,7 +381,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Juggernaut " + Core.generateNumber(1, 3), "§7Chance to gain resistance 1 for a short time");
             } else if (r == 2) {
-                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.GIANT_CHESTPLATE) {
@@ -252,7 +395,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Juggernaut " + Core.generateNumber(1, 3), "§7Chance to gain resistance 1 for a short time");
             } else if (r == 2) {
-                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.GIANT_LEGGINGS) {
@@ -266,7 +409,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Juggernaut " + Core.generateNumber(1, 3), "§7Chance to gain resistance 1 for a short time");
             } else if (r == 2) {
-                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.GIANT_BOOTS) {
@@ -280,7 +423,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Juggernaut " + Core.generateNumber(1, 3), "§7Chance to gain resistance for a short time");
             } else if (r == 2) {
-                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.MOOSHROOM_HELMET) {
@@ -294,7 +437,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Spores " + Core.generateNumber(1, 3), "§7Chance to apply random debuff to nearby enemies");
             } else if (r == 2) {
-                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.MOOSHROOM_CHESTPLATE) {
@@ -304,11 +447,11 @@ public class CustomItemManager {
             item.unbreakable(true);
             int r = Core.generateNumber(0, 2);
             if (r == 0) {
-                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "§6Health Boost 1 ", "§7Gain permanent health boost 2");
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Health Boost 1 ", "§7Gain permanent health boost 2");
             } else if (r == 1) {
                 item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Spores " + Core.generateNumber(1, 3), "§7Chance to apply random debuff to nearby enemies");
             } else if (r == 2) {
-                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.MOOSHROOM_LEGGINGS) {
@@ -318,11 +461,11 @@ public class CustomItemManager {
             item.unbreakable(true);
             int r = Core.generateNumber(0, 2);
             if (r == 0) {
-                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "§6Health Boost 1 ", "§7Gain permanent health boost 2");
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Health Boost 1 ", "§7Gain permanent health boost 2");
             } else if (r == 1) {
                 item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Spores " + Core.generateNumber(1, 3), "§7Chance to apply random debuff to nearby enemies");
             } else if (r == 2) {
-                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.MOOSHROOM_BOOTS) {
@@ -332,11 +475,11 @@ public class CustomItemManager {
             item.unbreakable(true);
             int r = Core.generateNumber(0, 2);
             if (r == 0) {
-                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "§6Health Boost 1 ", "§7Gain permanent health boost 2");
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Health Boost 1 ", "§7Gain permanent health boost 2");
             } else if (r == 1) {
                 item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Spores " + Core.generateNumber(1, 3), "§7Chance to apply random debuff to nearby enemies");
             } else if (r == 2) {
-                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.BLAZE_HELMET) {
@@ -350,7 +493,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Molten Armor " + Core.generateNumber(1, 3), "§7Chance to set enemy on fire when hit");
             } else if (r == 2) {
-                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.BLAZE_CHESTPLATE) {
@@ -364,7 +507,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Molten Armor " + Core.generateNumber(1, 3), "§7Chance to set enemy on fire when hit");
             } else if (r == 2) {
-                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.BLAZE_LEGGINGS) {
@@ -378,7 +521,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Molten Armor " + Core.generateNumber(1, 3), "§7Chance to set enemy on fire when hit");
             } else if (r == 2) {
-                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.BLAZE_BOOTS) {
@@ -392,7 +535,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Molten Armor " + Core.generateNumber(1, 3), "§7Chance to set enemy on fire when hit");
             } else if (r == 2) {
-                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.PIGMAN_HELMET) {
@@ -406,7 +549,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Molten Armor " + Core.generateNumber(1, 3), "§7Chance to set enemy on fire when hit");
             } else if (r == 2) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.PIGMAN_CHESTPLATE) {
@@ -420,7 +563,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Molten Armor " + Core.generateNumber(1, 3), "§7Chance to set enemy on fire when hit");
             } else if (r == 2) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.PIGMAN_LEGGINGS) {
@@ -434,7 +577,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Molten Armor " + Core.generateNumber(1, 3), "§7Chance to set enemy on fire when hit");
             } else if (r == 2) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.PIGMAN_BOOTS) {
@@ -448,7 +591,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Molten Armor " + Core.generateNumber(1, 3), "§7Chance to set enemy on fire when hit");
             } else if (r == 2) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.POLAR_BEAR_HELMET) {
@@ -458,12 +601,11 @@ public class CustomItemManager {
             item.unbreakable(true);
             int r = Core.generateNumber(0, 2);
             if (r == 0) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Frost Walker 1", "§7Gain permanent frost walker 1");
-                item.unsafeEnchant(Enchantment.FROST_WALKER, 1);
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Sticky Armor " + Core.generateNumber(1, 3), "§7Chance to inflict slowness 1 when hit");
             } else if (r == 1) {
                 item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Berserk " + Core.generateNumber(1, 3), "§7Gain strength 1 when low");
             } else if (r == 2) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.POLAR_BEAR_CHESTPLATE) {
@@ -473,12 +615,11 @@ public class CustomItemManager {
             item.unbreakable(true);
             int r = Core.generateNumber(0, 2);
             if (r == 0) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Frost Walker 1", "§7Gain permanent frost walker 1");
-                item.unsafeEnchant(Enchantment.FROST_WALKER, 1);
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Sticky Armor " + Core.generateNumber(1, 3), "§7Chance to inflict slowness 1 when hit");
             } else if (r == 1) {
                 item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Berserk " + Core.generateNumber(1, 3), "§7Gain strength 1 when low");
             } else if (r == 2) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.POLAR_BEAR_LEGGINGS) {
@@ -488,12 +629,11 @@ public class CustomItemManager {
             item.unbreakable(true);
             int r = Core.generateNumber(0, 2);
             if (r == 0) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Frost Walker 1", "§7Gain permanent frost walker 1");
-                item.unsafeEnchant(Enchantment.FROST_WALKER, 1);
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Sticky Armor " + Core.generateNumber(1, 3), "§7Chance to inflict slowness 1 when hit");
             } else if (r == 1) {
                 item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Berserk " + Core.generateNumber(1, 3), "§7Gain strength 1 when low");
             } else if (r == 2) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.POLAR_BEAR_BOOTS) {
@@ -508,7 +648,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Berserk " + Core.generateNumber(1, 3), "§7Gain strength 1 when low");
             } else if (r == 2) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.ENDERMAN_HELMET) {
@@ -522,7 +662,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Toxic Shield " + Core.generateNumber(1, 3), "§7Heal from poison and wither effects");
             } else if (r == 2) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.ENDERMAN_CHESTPLATE) {
@@ -536,7 +676,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Toxic Shield " + Core.generateNumber(1, 3), "§7Heal from poison and wither effects");
             } else if (r == 2) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.ENDERMAN_LEGGINGS) {
@@ -550,7 +690,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Toxic Shield " + Core.generateNumber(1, 3), "§7Heal from poison and wither effects");
             } else if (r == 2) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.ENDERMAN_BOOTS) {
@@ -564,7 +704,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Toxic Shield " + Core.generateNumber(1, 3), "§7Heal from poison and wither effects");
             } else if (r == 2) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.BAT_HELMET) {
@@ -578,7 +718,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Keen Eye 1 ", "§7Immune to blindness");
             } else if (r == 2) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.BAT_CHESTPLATE) {
@@ -592,7 +732,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Keen Eye 1 ", "§7Immune to blindness");
             } else if (r == 2) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.BAT_LEGGINGS) {
@@ -606,7 +746,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Keen Eye 1 ", "§7Immune to blindness");
             } else if (r == 2) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.BAT_BOOTS) {
@@ -620,7 +760,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Keen Eye 1 ", "§7Immune to blindness");
             } else if (r == 2) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.SLIME_HELMET) {
@@ -634,7 +774,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Reflect " + Core.generateNumber(1, 3), "§7Chance to reflect damage when hit");
             } else if (r == 2) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.SLIME_CHESTPLATE) {
@@ -648,7 +788,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Reflect " + Core.generateNumber(1, 3), "§7Chance to reflect damage when hit");
             } else if (r == 2) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.SLIME_LEGGINGS) {
@@ -662,7 +802,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Reflect " + Core.generateNumber(1, 3), "§7Chance to reflect damage when hit");
             } else if (r == 2) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.SLIME_BOOTS) {
@@ -676,7 +816,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Reflect " + Core.generateNumber(1, 3), "§7Chance to reflect damage when hit");
             } else if (r == 2) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.SQUID_HELMET) {
@@ -688,11 +828,9 @@ public class CustomItemManager {
             if (r == 0) {
                 item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Molten Shield 1", "§7Immune to fire");
             } else if (r == 1) {
-                int depth = Core.generateNumber(1, 3);
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Depth Strider " + depth, "§7Gain speed when in water");
-                item.unsafeEnchant(Enchantment.DEPTH_STRIDER, depth);
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Keen Eye 1 ", "§7Immune to blindness");
             } else if (r == 2) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.SQUID_CHESTPLATE) {
@@ -704,11 +842,9 @@ public class CustomItemManager {
             if (r == 0) {
                 item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Molten Shield 1", "§7Immune to fire");
             } else if (r == 1) {
-                int depth = Core.generateNumber(1, 3);
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Depth Strider " + depth, "§7Gain speed when in water");
-                item.unsafeEnchant(Enchantment.DEPTH_STRIDER, depth);
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Keen Eye 1 ", "§7Immune to blindness");
             } else if (r == 2) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.SQUID_LEGGINGS) {
@@ -720,11 +856,9 @@ public class CustomItemManager {
             if (r == 0) {
                 item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Molten Shield 1", "§7Immune to fire");
             } else if (r == 1) {
-                int depth = Core.generateNumber(1, 3);
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Depth Strider " + depth, "§7Gain speed when in water");
-                item.unsafeEnchant(Enchantment.DEPTH_STRIDER, depth);
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Keen Eye 1 ", "§7Immune to blindness");
             } else if (r == 2) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.SQUID_BOOTS) {
@@ -734,13 +868,13 @@ public class CustomItemManager {
             item.unbreakable(true);
             int r = Core.generateNumber(0, 2);
             if (r == 0) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Molten Shield 1", "§7Immune to fire");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Keen Eye 1 ", "§7Immune to blindness");
             } else if (r == 1) {
                 int depth = Core.generateNumber(1, 3);
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Depth Strider " + depth, "§7Gain speed when in water");
                 item.unsafeEnchant(Enchantment.DEPTH_STRIDER, depth);
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Depth Strider " + depth, "§7Gain speed when in water");
             } else if (r == 2) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.GOLEM_HELMET) {
@@ -754,7 +888,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Reflect " + Core.generateNumber(1, 3), "§7Chance to reflect damage back when hit");
             } else if (r == 2) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.GOLEM_CHESTPLATE) {
@@ -768,7 +902,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Reflect " + Core.generateNumber(1, 3), "§7Chance to reflect damage back when hit");
             } else if (r == 2) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.GOLEM_LEGGINGS) {
@@ -782,7 +916,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Reflect " + Core.generateNumber(1, 3), "§7Chance to reflect damage back when hit");
             } else if (r == 2) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.GOLEM_BOOTS) {
@@ -796,7 +930,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§6Reflect " + Core.generateNumber(1, 3), "§7Chance to reflect damage back when hit");
             } else if (r == 2) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.SKELETON_HELMET) {
@@ -810,7 +944,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "§6Kite " + Core.generateNumber(1, 3), "§7Chance to gain jump boost when hit");
             } else if (r == 2) {
-                item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "");
+                item.lore("§a§l✸B-TIER", "§a§l3 Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.SKELETON_CHESTPLATE) {
@@ -824,7 +958,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "§6Kite " + Core.generateNumber(1, 3), "§7Chance to gain jump boost when hit");
             } else if (r == 2) {
-                item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "");
+                item.lore("§a§l✸B-TIER", "§a§l3 Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.SKELETON_LEGGINGS) {
@@ -838,7 +972,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "§6Kite " + Core.generateNumber(1, 3), "§7Chance to gain jump boost when hit");
             } else if (r == 2) {
-                item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "");
+                item.lore("§a§l✸B-TIER", "§a§l3 Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.SKELETON_BOOTS) {
@@ -852,7 +986,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "§6Kite " + Core.generateNumber(1, 3), "§7Chance to gain jump boost when hit");
             } else if (r == 2) {
-                item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "");
+                item.lore("§a§l✸B-TIER", "§a§l3 Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.PIG_HELMET) {
@@ -866,7 +1000,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "§6Scatter " + Core.generateNumber(1, 3), "§7Chance to gain speed 2 when hit");
             } else if (r == 2) {
-                item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "");
+                item.lore("§a§l✸B-TIER", "§a§l3 Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.PIG_CHESTPLATE) {
@@ -880,7 +1014,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "§6Scatter " + Core.generateNumber(1, 3), "§7Chance to gain speed 2 when hit");
             } else if (r == 2) {
-                item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "");
+                item.lore("§a§l✸B-TIER", "§a§l3 Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.PIG_LEGGINGS) {
@@ -894,7 +1028,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "§6Scatter " + Core.generateNumber(1, 3), "§7Chance to gain speed 2 when hit");
             } else if (r == 2) {
-                item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "");
+                item.lore("§a§l✸B-TIER", "§a§l3 Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.PIG_BOOTS) {
@@ -908,7 +1042,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "§6Scatter " + Core.generateNumber(1, 3), "§7Chance to gain speed 2 when hit");
             } else if (r == 2) {
-                item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "");
+                item.lore("§a§l✸B-TIER", "§a§l3 Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.ZOMBIE_HELMET) {
@@ -918,11 +1052,11 @@ public class CustomItemManager {
             item.unbreakable(true);
             int r = Core.generateNumber(0, 2);
             if (r == 0) {
-                item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "§6Starvation  1", "§7Gain permanent saturation 2");
+                item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "§6Starvation  1", "§7Lose no hunger");
             } else if (r == 1) {
                 item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "§6Undead " + Core.generateNumber(1, 3), "§7Chance to apply weakness when hit");
             } else if (r == 2) {
-                item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "");
+                item.lore("§a§l✸B-TIER", "§a§l3 Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.ZOMBIE_CHESTPLATE) {
@@ -932,11 +1066,11 @@ public class CustomItemManager {
             item.unbreakable(true);
             int r = Core.generateNumber(0, 2);
             if (r == 0) {
-                item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "§6Starvation  1", "§7Gain permanent saturation 2");
+                item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "§6Starvation  1", "§7Lose no hunger");
             } else if (r == 1) {
                 item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "§6Undead " + Core.generateNumber(1, 3), "§7Chance to apply weakness when hit");
             } else if (r == 2) {
-                item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "");
+                item.lore("§a§l✸B-TIER", "§a§l3 Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.ZOMBIE_LEGGINGS) {
@@ -946,11 +1080,11 @@ public class CustomItemManager {
             item.unbreakable(true);
             int r = Core.generateNumber(0, 2);
             if (r == 0) {
-                item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "§6Starvation  1", "§7Gain permanent saturation 2");
+                item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "§6Starvation  1", "§7Lose no hunger");
             } else if (r == 1) {
                 item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "§6Undead " + Core.generateNumber(1, 3), "§7Chance to apply weakness when hit");
             } else if (r == 2) {
-                item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "");
+                item.lore("§a§l✸B-TIER", "§a§l3 Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.ZOMBIE_BOOTS) {
@@ -960,11 +1094,11 @@ public class CustomItemManager {
             item.unbreakable(true);
             int r = Core.generateNumber(0, 2);
             if (r == 0) {
-                item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "§6Starvation  1", "§7Gain permanent saturation 2");
+                item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "§6Starvation  1", "§7Lose no hunger");
             } else if (r == 1) {
                 item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "§6Undead " + Core.generateNumber(1, 3), "§7Chance to apply weakness when hit");
             } else if (r == 2) {
-                item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "");
+                item.lore("§a§l✸B-TIER", "§a§l3 Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.SILVERFISH_HELMET) {
@@ -978,7 +1112,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "§6Dodge " + Core.generateNumber(1, 3), "§7Chance to dodge attacks");
             } else if (r == 2) {
-                item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "");
+                item.lore("§a§l✸B-TIER", "§a§l3 Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.SILVERFISH_CHESTPLATE) {
@@ -992,7 +1126,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "§6Dodge " + Core.generateNumber(1, 3), "§7Chance to dodge attacks");
             } else if (r == 2) {
-                item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "");
+                item.lore("§a§l✸B-TIER", "§a§l3 Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.SILVERFISH_LEGGINGS) {
@@ -1006,7 +1140,7 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "§6Dodge " + Core.generateNumber(1, 3), "§7Chance to dodge attacks");
             } else if (r == 2) {
-                item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "");
+                item.lore("§a§l✸B-TIER", "§a§l3 Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.SILVERFISH_BOOTS) {
@@ -1020,32 +1154,32 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "§6Dodge " + Core.generateNumber(1, 3), "§7Chance to dodge attacks");
             } else if (r == 2) {
-                item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "");
+                item.lore("§a§l✸B-TIER", "§a§l3 Lives", "");
             }
             return item.asItemStack();
         } else if (armor == MCCArmor.DIAMOND_HELMET) {
             ItemBuilder item = new ItemBuilder(Material.DIAMOND_HELMET, 1);
             item.displayName("§b§lDiamond Helmet");
             item.unbreakable(true);
-            item.lore("§a§l✸B-TIER", "§a§l5 Lives", "", "");
+            item.lore("§a§l✸B-TIER", "§a§l5 Lives", "");
             return item.asItemStack();
         } else if (armor == MCCArmor.DIAMOND_CHESTPLATE) {
             ItemBuilder item = new ItemBuilder(Material.DIAMOND_CHESTPLATE, 1);
             item.displayName("§b§lDiamond Chestplate");
             item.unbreakable(true);
-            item.lore("§a§l✸B-TIER", "§a§l5 Lives", "", "");
+            item.lore("§a§l✸B-TIER", "§a§l5 Lives", "");
             return item.asItemStack();
         } else if (armor == MCCArmor.DIAMOND_LEGGINGS) {
             ItemBuilder item = new ItemBuilder(Material.DIAMOND_LEGGINGS, 1);
             item.displayName("§b§lDiamond Leggings");
             item.unbreakable(true);
-            item.lore("§a§l✸B-TIER", "§a§l5 Lives", "", "");
+            item.lore("§a§l✸B-TIER", "§a§l5 Lives", "");
             return item.asItemStack();
         } else if (armor == MCCArmor.DIAMOND_BOOTS) {
             ItemBuilder item = new ItemBuilder(Material.DIAMOND_BOOTS, 1);
             item.displayName("§b§lDiamond Boots");
             item.unbreakable(true);
-            item.lore("§a§l✸B-TIER", "§a§l5 Lives", "", "");
+            item.lore("§a§l✸B-TIER", "§a§l5 Lives", "");
             return item.asItemStack();
         }
         return null;
@@ -1059,12 +1193,68 @@ public class CustomItemManager {
             item.unbreakable(true);
             int r = Core.generateNumber(0, 2);
             if (r == 0) {
-                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "§6Glare " + Core.generateNumber(1, 3), "§7Chance to paralyze enemies");
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "", "§6Glare " + Core.generateNumber(1, 3), "§7Chance to paralyze enemies");
             } else if (r == 1) {
-                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "§6Dragon Wrath " + Core.generateNumber(1, 3), "§7Chance to deal more damage");
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "", "§6Dragon Wrath " + Core.generateNumber(1, 3), "§7Chance to deal more damage");
             } else if (r == 2) {
-                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "");
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "");
             }
+            return item.asItemStack();
+        } else if (weapon == MCCWeapon.ZEUS_SWORD) {
+            ItemBuilder item = new ItemBuilder(Material.DIAMOND_SWORD, 1);
+            item.displayName("§6§lZeus Sword");
+            item.enchant(Enchantment.DAMAGE_ALL, 2);
+            item.unbreakable(true);
+            int r = Core.generateNumber(0, 2);
+            if (r == 0) {
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "", "§6Glare " + Core.generateNumber(1, 3), "§7Chance to paralyze enemies");
+            } else if (r == 1) {
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "", "§6Nullify " + Core.generateNumber(1, 3), "§7Chance to prevent enemy from gaining buffs");
+            } else if (r == 2) {
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "");
+            }
+            return item.asItemStack();
+        } else if (weapon == MCCWeapon.ZEUS_BOW) {
+            ItemBuilder item = new ItemBuilder(Material.BOW, 1);
+            item.displayName("§6§lZeus Bow");
+            item.enchant(Enchantment.ARROW_DAMAGE, 4);
+            int r = Core.generateNumber(0, 2);
+            if (r == 0) {
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "", "§6Thunder " + Core.generateNumber(1, 3), "§7Initial shot consecutively smites the target");
+            } else if (r == 1) {
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "", "§6Piercing " + Core.generateNumber(1, 3), "§7Chance to deal true damage");
+            } else if (r == 2) {
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "");
+            }
+            item.unbreakable(true);
+            return item.asItemStack();
+        } else if (weapon == MCCWeapon.HADES_AXE) {
+            ItemBuilder item = new ItemBuilder(Material.DIAMOND_AXE, 1);
+            item.displayName("§4§lHades Axe");
+            item.unsafeEnchant(Enchantment.DAMAGE_ALL, 3);
+            item.unbreakable(true);
+            int r = Core.generateNumber(0, 2);
+            if (r == 0) {
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "", "§6Blinding Strike " + Core.generateNumber(1, 3), "§7Chance to blind enemies");
+            } else if (r == 1) {
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "", "§6Nullify " + Core.generateNumber(1, 3), "§7Chance to prevent enemy from gaining buffs");
+            } else if (r == 2) {
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "");
+            }
+            return item.asItemStack();
+        } else if (weapon == MCCWeapon.HADES_BOW) {
+            ItemBuilder item = new ItemBuilder(Material.BOW, 1);
+            item.displayName("§4§lHades Bow");
+            item.enchant(Enchantment.ARROW_DAMAGE, 4);
+            int r = Core.generateNumber(0, 2);
+            if (r == 0) {
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "", "§6Trap 1", "§7Initial shot prevents target from enderpearling");
+            } else if (r == 1) {
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "", "§6Piercing " + Core.generateNumber(1, 3), "§7Chance to deal true damage");
+            } else if (r == 2) {
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "");
+            }
+            item.unbreakable(true);
             return item.asItemStack();
         } else if (weapon == MCCWeapon.DRAGON_BOW) {
             ItemBuilder item = new ItemBuilder(Material.BOW, 1);
@@ -1072,11 +1262,11 @@ public class CustomItemManager {
             item.enchant(Enchantment.ARROW_DAMAGE, 4);
             int r = Core.generateNumber(0, 2);
             if (r == 0) {
-                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "§6Wither " + Core.generateNumber(1, 3), "§7Chance to apply wither to enemies");
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "", "§6Wither " + Core.generateNumber(1, 3), "§7Chance to apply wither to enemies");
             } else if (r == 1) {
-                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "§6Smite " + Core.generateNumber(1, 3), "§7Chance to smite enemies");
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "", "§6Smite " + Core.generateNumber(1, 3), "§7Chance to smite enemies");
             } else if (r == 2) {
-                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "");
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "");
             }
             item.unbreakable(true);
             return item.asItemStack();
@@ -1087,11 +1277,11 @@ public class CustomItemManager {
             item.unbreakable(true);
             int r = Core.generateNumber(0, 2);
             if (r == 0) {
-                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "§6Fire Aspect " + Core.generateNumber(1, 3), "§7Deal more damage to enemies on fire");
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "", "§6Fire Aspect " + Core.generateNumber(1, 3), "§7Deal more damage to enemies on fire");
             } else if (r == 1) {
-                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "§6Ignite " + Core.generateNumber(1, 3), "§7Chance to remove fire resistance and ignite enemy");
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "", "§6Ignite " + Core.generateNumber(1, 3), "§7Chance to remove fire resistance and ignite enemy");
             } else if (r == 2) {
-                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "");
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (weapon == MCCWeapon.BLAZE_BOW) {
@@ -1100,12 +1290,12 @@ public class CustomItemManager {
             item.enchant(Enchantment.ARROW_DAMAGE, 4);
             int r = Core.generateNumber(0, 2);
             if (r == 0) {
-                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "§6Flame 1", "§7Set enemies hit on fire");
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "", "§6Flame 1", "§7Set enemies hit on fire");
                 item.enchant(Enchantment.ARROW_FIRE, 1);
             } else if (r == 1) {
-                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "§6Multishot " + Core.generateNumber(1, 3), "§7Chance to fire multiple arrows");
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "", "§6Multishot " + Core.generateNumber(1, 3), "§7Chance to fire multiple arrows");
             } else if (r == 2) {
-                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "");
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "");
             }
             item.unbreakable(true);
             return item.asItemStack();
@@ -1116,11 +1306,11 @@ public class CustomItemManager {
             item.unbreakable(true);
             int r = Core.generateNumber(0, 2);
             if (r == 0) {
-                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "§6Strip " + Core.generateNumber(1, 3), "§7Chance to take off an armor piece");
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "", "§6Strip " + Core.generateNumber(1, 3), "§7Chance to take off an armor piece");
             } else if (r == 1) {
-                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "§6Demolish " + Core.generateNumber(1, 3), "§7Your initial hit stuns the enemy");
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "", "§6Demolish " + Core.generateNumber(1, 3), "§7Your initial hit stuns the enemy");
             } else if (r == 2) {
-                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "");
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (weapon == MCCWeapon.GIANT_BOW) {
@@ -1128,7 +1318,7 @@ public class CustomItemManager {
             item.displayName("§2§lGiant Bow");
             item.enchant(Enchantment.ARROW_KNOCKBACK, 2);
             item.enchant(Enchantment.ARROW_INFINITE, 1);
-            item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "");
+            item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "");
             item.unbreakable(true);
             return item.asItemStack();
         } else if (weapon == MCCWeapon.MOOSHROOM_AXE) {
@@ -1138,11 +1328,11 @@ public class CustomItemManager {
             item.unbreakable(true);
             int r = Core.generateNumber(0, 2);
             if (r == 0) {
-                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "§6Rivalry " + Core.generateNumber(1, 3), "§7Deal increased damage to sword users");
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "", "§6Rivalry " + Core.generateNumber(1, 3), "§7Deal increased damage to sword users");
             } else if (r == 1) {
-                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "§6Lifesteal " + Core.generateNumber(1, 3), "§7Chance to steal health");
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "", "§6Lifesteal " + Core.generateNumber(1, 3), "§7Chance to steal health");
             } else if (r == 2) {
-                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "");
+                item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (weapon == MCCWeapon.SQUID_SWORD) {
@@ -1151,11 +1341,11 @@ public class CustomItemManager {
             item.unbreakable(true);
             int r = Core.generateNumber(0, 2);
             if (r == 0) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "§6Blinding Strike " + Core.generateNumber(1, 3), "§7Chance to blind enemies");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "", "§6Blinding Strike " + Core.generateNumber(1, 3), "§7Chance to blind enemies");
             } else if (r == 1) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "§6Torrent " + Core.generateNumber(1, 3), "§7Deal increased damage in water");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "", "§6Torrent " + Core.generateNumber(1, 3), "§7Deal increased damage in water");
             } else if (r == 2) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (weapon == MCCWeapon.PIGMAN_SWORD) {
@@ -1164,24 +1354,25 @@ public class CustomItemManager {
             item.unbreakable(true);
             int r = Core.generateNumber(0, 2);
             if (r == 0) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "§6Double Hit " + Core.generateNumber(1, 3), "§7Chance to deal double damage");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "", "§6Double Hit " + Core.generateNumber(1, 3), "§7Chance to strike twice");
             } else if (r == 1) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "§6Disarm " + Core.generateNumber(1, 3), "§7Chance to remove enemy's weapon");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "", "§6Disarm " + Core.generateNumber(1, 3), "§7Chance to disarm enemy's weapon");
             } else if (r == 2) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "");
             }
             return item.asItemStack();
-        } else if (weapon == MCCWeapon.ENDERMAN_SWORD) {
-            ItemBuilder item = new ItemBuilder(Material.DIAMOND_SWORD, 1);
-            item.displayName("§5§lEnderman Sword");
+        } else if (weapon == MCCWeapon.ENDERMAN_AXE) {
+            ItemBuilder item = new ItemBuilder(Material.DIAMOND_AXE, 1);
+            item.displayName("§5§lEnderman Axe");
             item.unbreakable(true);
+            item.unsafeEnchant(Enchantment.DAMAGE_ALL, 1);
             int r = Core.generateNumber(0, 2);
             if (r == 0) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "§6Blinding Strike " + Core.generateNumber(1, 3), "§7Chance to blind enemies");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "", "§6Blinding Strike " + Core.generateNumber(1, 3), "§7Chance to blind enemies");
             } else if (r == 1) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "§6Knockup " + Core.generateNumber(1, 3), "§7Chance to knockup enemies");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "", "§6Knockup " + Core.generateNumber(1, 3), "§7Chance to knockup enemies");
             } else if (r == 2) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (weapon == MCCWeapon.ENDERMAN_BOW) {
@@ -1191,11 +1382,11 @@ public class CustomItemManager {
             item.enchant(Enchantment.ARROW_DAMAGE, 3);
             int r = Core.generateNumber(0, 2);
             if (r == 0) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "§6Identify 1", "§7Apply glow to enemies hit");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "", "§6Identify 1", "§7Apply glow to enemies hit");
             } else if (r == 1) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "§6Paralyze " + Core.generateNumber(1, 3), "§7Chance to stun enemies hit");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "", "§6Paralyze " + Core.generateNumber(1, 3), "§7Chance to stun enemies hit");
             } else if (r == 2) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (weapon == MCCWeapon.BAT_SWORD) {
@@ -1204,11 +1395,11 @@ public class CustomItemManager {
             item.unbreakable(true);
             int r = Core.generateNumber(0, 2);
             if (r == 0) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "§6Nausea " + Core.generateNumber(1, 3), "§7Chance to confuse enemies");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "", "§6Nausea " + Core.generateNumber(1, 3), "§7Chance to confuse enemies");
             } else if (r == 1) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "§6Famine " + Core.generateNumber(1, 3), "§7Chance to starve enemies");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "", "§6Famine " + Core.generateNumber(1, 3), "§7Chance to starve enemies");
             } else if (r == 2) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (weapon == MCCWeapon.SLIME_SWORD) {
@@ -1217,11 +1408,11 @@ public class CustomItemManager {
             item.unbreakable(true);
             int r = Core.generateNumber(0, 2);
             if (r == 0) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "§6Lifesteal " + Core.generateNumber(1, 3), "§7Chance to steal health");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "", "§6Lifesteal " + Core.generateNumber(1, 3), "§7Chance to steal health");
             } else if (r == 1) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "§6Knockup " + Core.generateNumber(1, 3), "§7Chance to knockup enemies");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "", "§6Knockup " + Core.generateNumber(1, 3), "§7Chance to knockup enemies");
             } else if (r == 2) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (weapon == MCCWeapon.GOLEM_AXE) {
@@ -1231,11 +1422,11 @@ public class CustomItemManager {
             item.unbreakable(true);
             int r = Core.generateNumber(0, 2);
             if (r == 0) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "§6Ice Aspect " + Core.generateNumber(1, 3), "§7Chance to slow enemies");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "", "§6Ice Aspect " + Core.generateNumber(1, 3), "§7Chance to slow enemies");
             } else if (r == 1) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "§6Rivalry " + Core.generateNumber(1, 3), "§7Deal increased damage to sword users");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "", "§6Rivalry " + Core.generateNumber(1, 3), "§7Deal increased damage to sword users");
             } else if (r == 2) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (weapon == MCCWeapon.POLAR_BEAR_AXE) {
@@ -1245,11 +1436,11 @@ public class CustomItemManager {
             item.unbreakable(true);
             int r = Core.generateNumber(0, 2);
             if (r == 0) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "§6Ice Aspect " + Core.generateNumber(1, 3), "§7Chance to slow enemies");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "", "§6Ice Aspect " + Core.generateNumber(1, 3), "§7Chance to slow enemies");
             } else if (r == 1) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "§6Frozen " + Core.generateNumber(1, 3), "§7Chance to freeze enemies");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "", "§6Frozen " + Core.generateNumber(1, 3), "§7Chance to freeze enemies");
             } else if (r == 2) {
-                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 4) + " Lives", "", "");
+                item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(2, 3) + " Lives", "");
             }
             return item.asItemStack();
         } else if (weapon == MCCWeapon.GOLEM_BOW) {
@@ -1258,39 +1449,38 @@ public class CustomItemManager {
             item.unbreakable(true);
             item.enchant(Enchantment.ARROW_KNOCKBACK, 1);
             item.enchant(Enchantment.ARROW_INFINITE, 1);
-            item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "");
+            item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "");
             return item.asItemStack();
         } else if (weapon == MCCWeapon.SKELETON_BOW) {
             ItemBuilder item = new ItemBuilder(Material.BOW, 1);
             item.displayName("§f§lSkeleton Bow");
             item.unbreakable(true);
             item.enchant(Enchantment.ARROW_DAMAGE, 3);
-            item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "");
+            item.lore("§a§l✸B-TIER", "§a§l3 Lives", "");
             return item.asItemStack();
         } else if (weapon == MCCWeapon.PIG_SWORD) {
-            ItemBuilder item = new ItemBuilder(Material.IRON_SWORD, 1);
+            ItemBuilder item = new ItemBuilder(Material.DIAMOND_SWORD, 1);
             item.displayName("§d§lPig Sword");
             item.unbreakable(true);
-            item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "");
+            item.lore("§a§l✸B-TIER", "§a§l3 Lives", "");
             return item.asItemStack();
         } else if (weapon == MCCWeapon.ZOMBIE_SWORD) {
-            ItemBuilder item = new ItemBuilder(Material.IRON_SWORD, 1);
+            ItemBuilder item = new ItemBuilder(Material.DIAMOND_SWORD, 1);
             item.displayName("§2§lZombie Sword");
             item.unbreakable(true);
-            item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "");
+            item.lore("§a§l✸B-TIER", "§a§l3 Lives", "");
             return item.asItemStack();
         } else if (weapon == MCCWeapon.SILVERFISH_AXE) {
-            ItemBuilder item = new ItemBuilder(Material.IRON_AXE, 1);
+            ItemBuilder item = new ItemBuilder(Material.DIAMOND_AXE, 1);
             item.displayName("§7§lSilverfish Axe");
             item.unbreakable(true);
-            item.unsafeEnchant(Enchantment.DAMAGE_ALL, 1);
-            item.lore("§a§l✸B-TIER", "§a§l3 Lives", "", "");
+            item.lore("§a§l✸B-TIER", "§a§l3 Lives", "");
             return item.asItemStack();
-        } else if (weapon == MCCWeapon.IRON_SWORD) {
-            ItemBuilder item = new ItemBuilder(Material.IRON_SWORD, 1);
-            item.displayName("§7§lIron Sword");
+        } else if (weapon == MCCWeapon.DIAMOND_SWORD) {
+            ItemBuilder item = new ItemBuilder(Material.DIAMOND_SWORD, 1);
+            item.displayName("§b§lDiamond Sword");
             item.unbreakable(true);
-            item.lore("§a§l✸B-TIER", "§a§l5 Lives", "", "");
+            item.lore("§a§l✸B-TIER", "§a§l5 Lives", "");
             return item.asItemStack();
         }
         return null;
@@ -1315,33 +1505,36 @@ public class CustomItemManager {
             } else if (r == 1) {
                 item.unsafeEnchant(Enchantment.DURABILITY, 1);
             }
+            item.unsafeEnchant(Enchantment.DIG_SPEED, 1);
             item.lore("§4§l✸S-TIER", "", "§eIncreases ingots when mining");
             return item.asItemStack();
         } else if (artifact == MCCArtifact.GIANT_GRINDER) {
             ItemBuilder item = new ItemBuilder(Material.IRON_SWORD, 1);
             item.displayName("§2Giant Grinder");
-            item.unsafeEnchant(Enchantment.DAMAGE_UNDEAD, 3);
-            int r = Core.generateNumber(0, 1);
-            if (r == 0) {
-                item.unsafeEnchant(Enchantment.DURABILITY, 2);
-            } else {
-                item.unsafeEnchant(Enchantment.DURABILITY, 1);
-            }
+            item.unsafeEnchant(Enchantment.DAMAGE_UNDEAD, 4);
+            item.unsafeEnchant(Enchantment.DURABILITY, 2);
             item.lore("§4§l✸S-TIER", "", "§eIncreases essence gained from mobs");
+            return item.asItemStack();
+        } else if (artifact == MCCArtifact.GOD_SLAYER) {
+            ItemBuilder item = new ItemBuilder(Material.DIAMOND_SWORD, 1);
+            item.displayName("§4God Slayer");
+            item.unsafeEnchant(Enchantment.DAMAGE_UNDEAD, 4);
+            item.unsafeEnchant(Enchantment.DAMAGE_ALL, 1);
+            item.lore("§4§l✸S-TIER", "", "§eDeal more damage to bosses");
             return item.asItemStack();
         } else if (artifact == MCCArtifact.EXTREME_KNOCKBACK_STICK) {
             ItemBuilder item = new ItemBuilder(Material.STICK, 1);
             item.displayName("§4§lExtreme Knockback Stick");
             item.enchant(Enchantment.KNOCKBACK, 2);
             item.flag(ItemFlag.HIDE_ENCHANTS);
-            item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§eDeal extreme knockback with this stick");
+            item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 2) + " Lives", "", "§eDeal extreme knockback with this stick");
             return item.asItemStack();
         } else if (artifact == MCCArtifact.CRYSTAL_BEATER) {
             ItemBuilder item = new ItemBuilder(Material.GOLDEN_SWORD, 1);
             item.displayName("§d§lCrystal Beater");
             item.setGlowing(true);
             item.unbreakable(true);
-            item.lore("§4§l✸S-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§eDeal extra damage to crystals");
+            item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 2) + " Lives", "", "§eDeal extra damage to crystals");
             return item.asItemStack();
         } else if (artifact == MCCArtifact.SQUID_ROD) {
             ItemBuilder item = new ItemBuilder(Material.FISHING_ROD, 1);
@@ -1351,30 +1544,32 @@ public class CustomItemManager {
         } else if (artifact == MCCArtifact.PIGMAN_PICKAXE) {
             ItemBuilder item = new ItemBuilder(Material.IRON_PICKAXE, 1);
             item.displayName("§cPigman Pickaxe");
+            item.unsafeEnchant(Enchantment.DIG_SPEED, 1);
             item.lore("§e§l✸A-TIER", "", "§eIncreases ingots when mining");
             return item.asItemStack();
         } else if (artifact == MCCArtifact.ZOMBIE_GRINDER) {
             ItemBuilder item = new ItemBuilder(Material.IRON_SWORD, 1);
             item.displayName("§2Zombie Grinder");
             item.unsafeEnchant(Enchantment.DAMAGE_UNDEAD, 3);
+            item.unsafeEnchant(Enchantment.DURABILITY, 1);
             item.lore("§e§l✸A-TIER", "", "§eIncreases essence gained from mobs");
             return item.asItemStack();
         } else if (artifact == MCCArtifact.FISHING_ROD) {
             ItemBuilder item = new ItemBuilder(Material.FISHING_ROD, 1);
             item.displayName("§eFishing Rod");
-            item.lore("§a§l✸B-TIER", "", "");
+            item.lore("§a§l✸B-TIER", "");
             return item.asItemStack();
         } else if (artifact == MCCArtifact.IRON_PICKAXE) {
             ItemBuilder item = new ItemBuilder(Material.IRON_PICKAXE, 1);
             item.displayName("§7Iron Pickaxe");
-            item.lore("§a§l✸B-TIER", "", "");
+            item.lore("§a§l✸B-TIER", "");
             return item.asItemStack();
         } else if (artifact == MCCArtifact.KNOCKBACK_STICK) {
             ItemBuilder item = new ItemBuilder(Material.STICK, 1);
             item.displayName("§c§lKnockback Stick");
             item.enchant(Enchantment.KNOCKBACK, 1);
             item.flag(ItemFlag.HIDE_ENCHANTS);
-            item.lore("§a§l✸A-TIER", "§a§l" + Core.generateNumber(1, 3) + " Lives", "", "§eDeal knockback with this stick");
+            item.lore("§e§l✸A-TIER", "§a§l" + Core.generateNumber(1, 2) + " Lives", "", "§eDeal knockback with this stick");
             return item.asItemStack();
         }
         return null;
@@ -1411,7 +1606,7 @@ public class CustomItemManager {
             case MOOSHROOM:
                 item = new ItemBuilder(CustomHeadManager.getHead(pet));
                 item.displayName("§9Mooshroom Pet");
-                item.lore("§f§lABILITY: §eSmall chance to gain regeneration 2 when hit", "", "§eRight click to claim this pet.");
+                item.lore("§f§lABILITY: §eSmall chance to gain regeneration 4 when hit", "", "§eRight click to claim this pet.");
                 return item.asItemStack();
             case SQUID:
                 item = new ItemBuilder(CustomHeadManager.getHead(pet));
@@ -1426,7 +1621,7 @@ public class CustomItemManager {
             case BLAZE:
                 item = new ItemBuilder(CustomHeadManager.getHead(pet));
                 item.displayName("§9Blaze Pet");
-                item.lore("§f§lABILITY: §eGain permanent fire resistance 1", "", "§eRight click to claim this pet.");
+                item.lore("§f§lABILITY: §eGain immunity to fire", "", "§eRight click to claim this pet.");
                 return item.asItemStack();
             case POLAR_BEAR:
                 item = new ItemBuilder(CustomHeadManager.getHead(pet));
@@ -1481,7 +1676,7 @@ public class CustomItemManager {
             case CHICKEN:
                 item = new ItemBuilder(CustomHeadManager.getHead(pet));
                 item.displayName("§9Chicken Pet");
-                item.lore("§f§lABILITY: §eGain permanent slow falling 1", "", "§eRight click to claim this pet.");
+                item.lore("§f§lABILITY: §eSmall chance to dodge attacks", "", "§eRight click to claim this pet.");
                 return item.asItemStack();
             case WOLF:
                 item = new ItemBuilder(CustomHeadManager.getHead(pet));
@@ -1516,49 +1711,49 @@ public class CustomItemManager {
             case ZOMBIE:
                 item = new ItemBuilder(CustomHeadManager.getHead(pet));
                 item.displayName("§9Zombie Pet");
-                item.lore("§f§lABILITY: §eGain permanent saturation 1", "", "§eRight click to claim this pet.");
+                item.lore("§f§lABILITY: §eLose no hunger", "", "§eRight click to claim this pet.");
                 return item.asItemStack();
 
         }
         return null;
     }
 
-    public static ItemStack getArmorVoucher(boolean special) {
-        if (special) {
-            ItemBuilder item = new ItemBuilder(Material.BOOK, 1);
-            item.displayName("§6§lSpecial Armor Voucher");
-            item.lore("§eRight click to get a random armor.");
-            item.setGlowing(true);
-            return item.asItemStack();
-        } else {
-            ItemBuilder item = new ItemBuilder(Material.BOOK, 1);
-            item.displayName("§6§lArmor Voucher");
-            item.lore("§eRight click to get a random armor.");
-            item.setGlowing(true);
-            return item.asItemStack();
-        }
-    }
-
-    public static ItemStack getWeaponVoucher(boolean special) {
-        if (special) {
-            ItemBuilder item = new ItemBuilder(Material.BOOK, 1);
-            item.displayName("§6§lSpecial Weapon Voucher");
-            item.lore("§eRight click to get a random weapon.");
-            item.setGlowing(true);
-            return item.asItemStack();
-        } else {
-            ItemBuilder item = new ItemBuilder(Material.BOOK, 1);
-            item.displayName("§6§lWeapon Voucher");
-            item.lore("§eRight click to get a random weapon.");
-            item.setGlowing(true);
-            return item.asItemStack();
-        }
-    }
-
-    public static ItemStack getArtifactVoucher() {
+    public static ItemStack getArmorVoucher() {
         ItemBuilder item = new ItemBuilder(Material.BOOK, 1);
-        item.displayName("§6§lArtifact Voucher");
-        item.lore("§eRight click to get a random artifact.");
+        item.displayName("§6§lArmor Voucher");
+        item.lore("§eRight click to get a random armor.");
+        item.setGlowing(true);
+        return item.asItemStack();
+    }
+
+    public static ItemStack getWeaponVoucher() {
+        ItemBuilder item = new ItemBuilder(Material.BOOK, 1);
+        item.displayName("§6§lWeapon Voucher");
+        item.lore("§eRight click to get a random weapon.");
+        item.setGlowing(true);
+        return item.asItemStack();
+    }
+
+    public static ItemStack getSwordVoucher() {
+        ItemBuilder item = new ItemBuilder(Material.BOOK, 1);
+        item.displayName("§6§lSword Voucher");
+        item.lore("§eRight click to get a random S/A Tier sword.");
+        item.setGlowing(true);
+        return item.asItemStack();
+    }
+
+    public static ItemStack getAxeVoucher() {
+        ItemBuilder item = new ItemBuilder(Material.BOOK, 1);
+        item.displayName("§6§lAxe Voucher");
+        item.lore("§eRight click to get a random S/A Tier axe.");
+        item.setGlowing(true);
+        return item.asItemStack();
+    }
+
+    public static ItemStack getSTierArmorVoucher() {
+        ItemBuilder item = new ItemBuilder(Material.BOOK, 1);
+        item.displayName("§4§lS-Tier §6§lArmor Voucher");
+        item.lore("§eRight click to get a random S Tier armor.");
         item.setGlowing(true);
         return item.asItemStack();
     }
@@ -1587,15 +1782,25 @@ public class CustomItemManager {
         return item.asItemStack();
     }
 
+    public static ItemStack getKitVoucher(MCCKit kit) {
+        ItemBuilder item = new ItemBuilder(Material.DIAMOND);
+        item.displayName("§a§l" + kit.name() + " Kit");
+        item.lore("§eRight click to get a random generator.");
+        item.setGlowing(true);
+        return item.asItemStack();
+    }
+
     public static ItemStack getEssence(boolean rare, int amount) {
         if (!rare) {
             ItemBuilder item = new ItemBuilder(Material.PRISMARINE_CRYSTALS, 1);
             item.displayName("§3Essence");
+            item.lore("§eUse this to trade with merchants.");
             item.amount(amount);
             return item.asItemStack();
         } else {
             ItemBuilder item = new ItemBuilder(Material.PRISMARINE_SHARD, 1);
             item.displayName("§3Rare Essence");
+            item.lore("§eUse this to trade with merchants.");
             item.amount(amount);
             return item.asItemStack();
         }
@@ -1605,11 +1810,13 @@ public class CustomItemManager {
         if (!rare) {
             ItemBuilder item = new ItemBuilder(Material.IRON_INGOT, 1);
             item.displayName("§7Iron Ingot");
+            item.lore("§eUse this to trade with merchants.");
             item.amount(amount);
             return item.asItemStack();
         } else {
             ItemBuilder item = new ItemBuilder(Material.GOLD_INGOT, 1);
             item.displayName("§eGold Ingot");
+            item.lore("§eUse this to trade with merchants.");
             item.amount(amount);
             return item.asItemStack();
         }
@@ -1629,8 +1836,34 @@ public class CustomItemManager {
                 return EliteLootbox.getLootboxes().get("godly").getItemStack();
             case PET_CRATE:
                 return EliteLootbox.getLootboxes().get("pet").getItemStack();
+            case SEASON_CRATE:
+                return new ItemStack(Material.END_PORTAL_FRAME);
         }
         return null;
+    }
+
+    public static ItemStack getBossEgg(MCCBoss boss) {
+        if (boss == MCCBoss.ZEUS) {
+            ItemBuilder item = new ItemBuilder(Material.DANDELION, 1);
+            item.displayName("§6§lZeus Summoner");
+            item.lore("§eRight click a block to summon Zeus", "", "§4This boss can only be summoned in the PvP Zone.");
+            item.setGlowing(true);
+            return item.asItemStack();
+        } else if (boss == MCCBoss.HADES) {
+            ItemBuilder item = new ItemBuilder(Material.WITHER_ROSE, 1);
+            item.displayName("§4§lHades Summoner");
+            item.lore("§eRight click a block to summon Hades", "", "§4This boss can only be summoned in the PvP Zone.");
+            item.setGlowing(true);
+            return item.asItemStack();
+        }
+        return null;
+    }
+
+    public static ItemStack getRankVoucher(String rank) {
+        ItemBuilder item = new ItemBuilder(Material.EMERALD, 1);
+        item.displayName("§f§l" + rank + " Rank Gem");
+        item.lore("§eRight click to claim this rank", "", "§4Once claimed, the rank can not be unclaimed!");
+        return item.asItemStack();
     }
 
     public static ItemStack getRandomMoneyNote(int min, int max) {
@@ -1640,6 +1873,22 @@ public class CustomItemManager {
         item.lore("§6Value: §a$" + value, "", "§eRight click to redeem the note");
         item.setGlowing(true);
         return item.asItemStack();
+    }
+
+    public static ItemStack getMergerDust(boolean WeaponOrArmor) {
+        if (WeaponOrArmor) {
+            ItemBuilder item = new ItemBuilder(Material.GLOWSTONE_DUST, 1);
+            item.displayName("§c§lWeapon Dust");
+            item.lore("§eTrade this in to merge weapons.");
+            item.setGlowing(true);
+            return item.asItemStack();
+        } else {
+            ItemBuilder item = new ItemBuilder(Material.GUNPOWDER, 1);
+            item.displayName("§c§lArmor Dust");
+            item.lore("§eTrade this in to merge armor.");
+            item.setGlowing(true);
+            return item.asItemStack();
+        }
     }
 
     public static ItemStack getBlacksmithsCoal() {
@@ -1667,7 +1916,7 @@ public class CustomItemManager {
     }
 
     public static ItemStack getBlacksmithsLifeOrb() {
-        ItemBuilder item = new ItemBuilder(Material.HEART_OF_THE_SEA, 1);
+        ItemBuilder item = new ItemBuilder(Material.SLIME_BALL, 1);
         item.displayName("§d§lBlacksmith's Life Orb");
         item.lore("§eForge this to increase an item's lives.");
         item.setGlowing(true);

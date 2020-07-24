@@ -7,6 +7,8 @@ public enum MCCArmor {
     GIANT_HELMET('S'), GIANT_CHESTPLATE('S'), GIANT_LEGGINGS('S'), GIANT_BOOTS('S'),
     MOOSHROOM_HELMET('S'), MOOSHROOM_CHESTPLATE('S'), MOOSHROOM_LEGGINGS('S'), MOOSHROOM_BOOTS('S'),
     BLAZE_HELMET('S'), BLAZE_CHESTPLATE('S'), BLAZE_LEGGINGS('S'), BLAZE_BOOTS('S'),
+    ZEUS_HELMET('S', true), ZEUS_CHESTPLATE('S', true), ZEUS_LEGGINGS('S', true), ZEUS_BOOTS('S', true),
+    HADES_HELMET('S', true), HADES_CHESTPLATE('S', true), HADES_LEGGINGS('S', true), HADES_BOOTS('S', true),
     PIGMAN_HELMET('A'), PIGMAN_CHESTPLATE('A'), PIGMAN_LEGGINGS('A'), PIGMAN_BOOTS('A'),
     POLAR_BEAR_HELMET('A'), POLAR_BEAR_CHESTPLATE('A'), POLAR_BEAR_LEGGINGS('A'), POLAR_BEAR_BOOTS('A'),
     ENDERMAN_HELMET('A'), ENDERMAN_CHESTPLATE('A'), ENDERMAN_LEGGINGS('A'), ENDERMAN_BOOTS('A'),
@@ -34,8 +36,17 @@ public enum MCCArmor {
 
     private char tier;
 
+    public boolean limited;
+
     MCCArmor(char tier) {
         this.tier = tier;
+        this.limited = false;
     }
+
+    MCCArmor(char tier, boolean limited) {
+        this.tier = tier;
+        this.limited = limited;
+    }
+
 
 }
